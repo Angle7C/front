@@ -17,31 +17,38 @@
 				url:'http://localhost:8080/GameShop/register.html',
 				type:'POST',
 				dataType:'json',
-				contentType:'application/json;charset=UTF-8',
+				/*contentType:'application/json;charset=UTF-8',
+				xhrFields: {                               //保存session在跨域访问中不会丢失！！！
+					withCredentials: true
+				},*/
+				contentType:'application/json',
+			/*	crossDomain: true,*/
 				data:JSON.stringify(
 						{
-						userId:0,
-						userName:myname,
-						userPwd:mypwd,
-						email:myemail,
-						role:0
-					}),
-				// dataType: "json",
+							userId:0,
+							userName:myname,
+							userPwd:mypwd,
+							email:myemail,
+							role:0
+						}),
+
 				async:false,
 				success: function(data){
-					console(data);
-					if(data.success) {
-						value = 'success';
+					console.log(data.message);
+					if(data.message=="Success") {
 						alert("sucess");
-						// $("#table").bootstrapTable('refresh');
-					} else {
+
+					} else if(data.message=="Failed"){
 						alert("faild");
 					}
-					// showAlertFrame(value, data.message);
+
 				},
 				error: function (e) {
+					console.log(e);
+					alert("error");
 				}
 			});
+
 		}
 	</script>
 </head>
