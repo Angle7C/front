@@ -68,7 +68,7 @@
                         if(data.message) {
                             alert("注册成功");
                         } else if(data.message){
-                            alert("验证码错误");
+                            alert(data.data);
                         }
                     },
                     error: function (e) {
