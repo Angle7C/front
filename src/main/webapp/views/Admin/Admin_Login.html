@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html class="login-bg">
+<head>
+	<title>Detail Admin - Login</title>
+    
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+    <!-- bootstrap -->
+    <link href="../css/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="../css/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="../css/bootstrap/bootstrap-overrides.css" type="text/css" rel="stylesheet" />
+
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" href="../css/layout2.css" />
+    <link rel="stylesheet" type="text/css" href="../css/elements.css" />
+    <link rel="stylesheet" type="text/css" href="../css/icons.css" />
+
+    <!-- libraries -->
+    <link rel="stylesheet" type="text/css" href="../css/lib/font-awesome.css" />
+    
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="../css/compiled/signup.css" type="text/css" media="screen" />
+
+    <!-- open sans font -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css' />
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+
+
+
+
+<script>
+
+
+    function  mylogin() {
+
+        //获取用户输入的登录名字和密码
+        var myname = $("#myname").val();
+        var mypwd = $("#mypwd").val();
+      var flag=0;
+        $.ajax({
+            url: "http://localhost:8080/GameShop/login.html",
+            dataType: "json",
+            data: {
+                userId:0,
+                userName: myname,
+                userPwd: mypwd,
+                role:0,
+                email:0,
+                money:0
+            },
+            type: "post",
+            xhrFields: {                               //保存session在跨域访问中不会丢失！！！
+                withCredentials: true
+            },
+            contextType:'application/json',
+            crossDomain: true,
+            success: function (result) {
+                if (result.message) {
+                    //登录成功
+                    if(result.data==1)
+                        alert(result.data);
+                    //跳转到index.html
+                    location.href = "Admin_UserInfo.html";
+                }  else {
+                    alert(result.data);
+                }
+            }
+        });
+
+
+    }
+
+</script>
+
+
+
+
+<body>
+    <div class="header">
+        <a href="index.html">
+            <img src="../img/logo.png" class="logo" />
+        </a>
+    </div>
+    <div class="row-fluid login-wrapper">
+        <div class="box">
+            <div class="content-wrap">
+                <h6>admin登 录</h6>
+                <input class="span12" type="text" id="myname" placeholder="账号" />
+                <input class="span12" type="password" id="mypwd" placeholder="密码" />
+                <div class="action">
+                    <a class="btn-glow primary signup" onclick="mylogin()" >Login</a>
+                </div>                
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- scripts -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/theme.js"></script>
+<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
+</body>
+</html>
