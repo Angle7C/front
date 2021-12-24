@@ -48,6 +48,8 @@
                 $.ajax({
                 url:'http://localhost:8080/GameShop/register.html',
                 type:'POST',
+                xhrFields:{withCredentials:true},
+                crossDomain: true,
                 dataType:'json',
                 data:JSON.stringify(
                     {
@@ -66,7 +68,7 @@
                         if(data.message) {
                             alert("注册成功");
                         } else if(data.message){
-                            alert("注册失败");
+                            alert("验证码错误");
                         }
 
                     },
@@ -93,10 +95,11 @@
                 contentType: 'application/json',
                 async: false,
                 success: function (data) {
-
+                    alert("")
+                    //location.href="";
                 },
                 error: function (e) {
-
+                    alert("注册失败");
                 }
             });
         }
