@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="css/style.css">
     <script type="text/javascript" src="js/jquery.js"></script>>
     <script type="text/javascript">
+        var number;
         function myregister() {
            // var myname=$("#r_username").val();
            // var mypwd=$("#r_password").val();
@@ -18,15 +19,16 @@
                 dataType:'json',
                     data:JSON.stringify(
                     {
-                        email:myemail,
+                        email:myemail
                     }),
-
                 contentType:'application/json',
                 async:false,
                 success: function(data){
                     console.log(data.message);
+                    console.log(data.data);
                     if(data.message=="Success") {
                         alert("请从邮箱中接收验证码");
+                        number=data.data;
                     } else if(data.message=="Failed"){
                        alert("邮箱已使用");
                     }
@@ -51,14 +53,19 @@
                 xhrFields:{withCredentials:true},
                 crossDomain: true,
                 dataType:'json',
+                xhrFields:{withCredentials:true},
+                crossDomain: true,
                 data:JSON.stringify(
                     {
-                        userName:username,
-                        userPwd:pwd,
-                        userId:0,
-                        number:checkcode,
-                        role:0,
-                        email:myemail
+                        first:
+                            {
+                                userName:username,
+                                userPwd:pwd,
+                                userId:0,
+                                role:0,
+                                email:myemail
+                            },
+                        second:checkcode,
                     }),
                 dataType: "json",
                 contentType:'application/json',

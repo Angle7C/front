@@ -28,7 +28,7 @@
 
 
         $(document).ready(function() {
-            mypage("1","8");
+            mypage("1",8);
         })
 
 
@@ -43,10 +43,10 @@
                 dataType:"json",
                 data:(
                     {
-                        first:page,
-                        second:size
+                        size: size
                     }),
-                type:"POST",
+                type:"get",
+                // contentType:"application/json",
                 xhrFields:{
                     withCredentials:true
                 },
@@ -165,15 +165,16 @@
             $.ajax({
                 url:"http://localhost:8080/GameShop/gamepage.html",
                 dataType:"json",
-                data:(
+                data:JSON.stringify(
                     {
 
-                            "currentPage": page.currentPage,
-                            "totalPages": page.totalPages,
-                           "pageSize": page.pageSize
+                            currentPage: page.currentPage,
+                            totalPages: page.totalPages,
+                            pageSize: page.pageSize
 
                     }),
                 type:"POST",
+                contentType:"application/json",
                 xhrFields:{
                     withCredentials:true
                 },
