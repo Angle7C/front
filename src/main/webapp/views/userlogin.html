@@ -55,13 +55,16 @@
                 dataType:'json',
                 data:JSON.stringify(
                     {
-                        userName:username,
-                        userPwd:pwd,
-                        userId:0,
-                        number:checkcode,
-                        role:0,
-                        email:myemail,
-                        money:0
+                        first:{
+                            userName:username,
+                            userPwd:pwd,
+                            userId:0,
+
+                            role:0,
+                            email:myemail,
+                            money:0
+                        },
+                        second:checkcode,
                     }),
                 dataType: "json",
                 contentType:'application/json',
