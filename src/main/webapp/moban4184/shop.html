@@ -28,31 +28,38 @@
 
 
         $(document).ready(function() {
-            mypage(1,8);
+            mypage("1","8");
         })
+
+
+
     </script>
     <script>
         //page 当前页数
         //size 页数大小
         function mypage(page,size){
             $.ajax({
-                url:"http://localhost:8080/GameShop/gamepaging.html",
+                url:"http://localhost:8080/GameShop/gamepagesize.html",
                 dataType:"json",
-                data:{first:page, second:size},
-                type:"post",
+                data:(
+                    {
+                        first:page,
+                        second:size
+                    }),
+                type:"POST",
                 xhrFields:{
                     withCredentials:true
                 },
                 crossDomain:true,
                 success:function(result){
+                    if(result.message){
+                        mypage1(result.data);
+                    }
                     globalPage=result.data.currentPage;
                     globalSize=result.data.pageSize;
                     globalCount=result.data.totalPages;
-                if (result.flag==0){
-                    //没有数据
-                    $("#gamelist").html("暂无数据")
+                if (result.message){
 
-                }else{
                     //取出数据
                     var mydata=result.data.data;
                     var str="";
@@ -141,6 +148,10 @@
                     var str4='<li><a href="#" onclick="mypage('+globalPage+1+','+globalSize+')" class="page-number">下一页</a></li>'
                     var str5='<li><a href="#" onclick="mypage('+globalCount+','+globalSize+')" class="page-number">尾页</a></li>'
                     $("#pagelist").html(str2+str3+str4+str5);
+
+                }else{
+                    //没有数据
+                    $("#gamelist").html("暂无数据")
                 }
 
                 },
@@ -149,6 +160,30 @@
                 }
             });
         }
+
+        function mypage1(page){
+            $.ajax({
+                url:"http://localhost:8080/GameShop/gamepage.html",
+                dataType:"json",
+                data:(
+                    {
+
+                            "currentPage": page.currentPage,
+                            "totalPages": page.totalPages,
+                           "pageSize": page.pageSize
+
+                    }),
+                type:"POST",
+                xhrFields:{
+                    withCredentials:true
+                },
+                crossDomain:true,
+                success:function(result){
+
+                }
+            })
+        }
+
     </script>
 </head>
 
