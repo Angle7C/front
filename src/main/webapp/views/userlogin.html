@@ -5,29 +5,31 @@
 <meta charset="utf-8">
 <title>HTML注册登录页面模板</title>
 <link rel="stylesheet" href="css/style.css">
-    <script type="text/javascript" src="js/jquery.js"></script>>
+    <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript">
         function myregister() {
            // var myname=$("#r_username").val();
            // var mypwd=$("#r_password").val();
             var myemail=$("#r_email").val();
             $.ajax({
-
+                xhrFields:{withCredentials:true},
+                crossDomain: true,
                 url:'http://localhost:8080/GameShop/registerEmail.html',
                 type:'POST',
                 dataType:'json',
                 data:JSON.stringify(
                     {
                         email:myemail,
+
                     }),
 
                 contentType:'application/json',
                 async:false,
                 success: function(data){
                     console.log(data.message);
-                    if(data.message=="Success") {
+                    if(data.message) {
                         alert("请从邮箱中接收验证码");
-                    } else if(data.message=="Failed"){
+                    } else if(data.message){
                        alert("邮箱已使用");
                     }
 
@@ -53,12 +55,16 @@
                 dataType:'json',
                 data:JSON.stringify(
                     {
-                        userName:username,
-                        userPwd:pwd,
-                        userId:0,
-                        number:checkcode,
-                        role:0,
-                        email:myemail
+                        first:{
+                            userName:username,
+                            userPwd:pwd,
+                            userId:0,
+
+                            role:0,
+                            email:myemail,
+                            money:0
+                        },
+                        second:checkcode,
                     }),
                 dataType: "json",
                 contentType:'application/json',
@@ -82,7 +88,7 @@
             var pwd = $("#l_password").val();
             var email = $("#l_email").val();
             $.ajax({
-                url: '',
+                url: 'http://localhost:8080/GameShop/login.html',
                 type: 'POST',
                 dataType: 'json',
                 data: JSON.stringify(
@@ -94,8 +100,11 @@
                 contentType: 'application/json',
                 async: false,
                 success: function (data) {
-                    alert("")
-                    //location.href="";
+                    if(data.message){
+                        alert("success");
+                    }else{
+                        alert("fail");
+                    }
                 },
                 error: function (e) {
                     alert("注册失败");
