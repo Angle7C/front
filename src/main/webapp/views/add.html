@@ -11,11 +11,11 @@
 <script src="js/jquery.js"></script>
 <script src="js/pintuer.js"></script>
   <script type="text/javascript">
-      function addgame() {
+     /* function addgame() {
         var gamename = $("#gamename").val();
         var gametype = $("#gametype").val();
         var message = $("#message").val();
-        var auther = $("#author").val();
+        // var auther = $("#author").val();
 
         $.ajax({
           url:'http://localhost:8080/GameShop/',
@@ -45,7 +45,7 @@
             alert("error");
           }
         });
-      }
+      }*/
   </script>
 </head>
 <body>
@@ -83,14 +83,11 @@
           <div class="field">
             <select name="description" class="input w50" id="gametype">
               <option value="">请选择分类</option>
-              <option value="">RPG</option>
-              <option value="">ATC</option>
-              <option value="">AVG</option>
-              <option value="">SLG</option>
-              <option value="">FTG</option>
-              <option value="">PZL</option>
-              <option value="">CAG</option>
-              <option value="">TAB</option>
+              <option value="">动作</option>
+              <option value="">冒险</option>
+              <option value="">模拟</option>
+              <option value="">角色扮演</option>
+              <option value="">休闲</option>
               <option value="">其他</option>
             </select>
             <div class="tips"></div>
@@ -123,7 +120,7 @@
           <label></label>
         </div>
         <div class="field">
-          <button class="button bg-main icon-check-square-o" type="submit" onclick="addGame()"> 提交</button>
+          <button class="button bg-main icon-check-square-o" type="submit" > 提交</button>
 <!--         <button class="button bg-main icon-edit" type="button" onclick="changeGame()"> 修改</button>-->
         </div>
 

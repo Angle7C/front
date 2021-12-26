@@ -39,10 +39,11 @@
                         $("#logininfo").html("欢迎您,"+result.data+'<a href="#" onclick="loginout('+result.data+')">注销</a>') ;
                     }else{
                         //还未登录
-                        $("#logininfo").html('<a href="/front/views/userlogin.html" class="toolbar-btn">\n' +
-                            '                                        <span>Login</span>\n' +
-                            '                                    </a>')
+                        $("#logininfo").html('<a href="/front/views/userlogin.html" class="toolbar-btn">\n' + '<span>Login</span>\n' + '</a>')
                     }
+                },
+                error: function (e) {
+                    alert("fail");
                 }
             })
         })

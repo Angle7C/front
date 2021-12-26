@@ -10,14 +10,43 @@
     <meta name="description" content="简单实用网站后台管理系统网站模板下载。" /> 
     <link rel="stylesheet" href="css/pintuer.css">
     <link rel="stylesheet" href="css/admin.css">
-    <script src="js/jquery.js"></script>   
+    <script src="js/jquery.js"></script>
+    <script>
+        //文档加载后执行
+        $(document).ready(function() {
+            $.ajax({
+                url: "http://localhost:8080/GameShop/islogin.html",
+                dataType: "json",
+                type: "POST",
+                xhrFields: {
+                    withCredentials: true
+                },
+                contentType:'application/json',
+                crossDomain: true,
+                success: function (result) {
+                    if(result.message){
+                        //说明已经登录
+                        $("#logininfo").text('欢迎您,'+ result.data.userName);
+                    }else{
+                        //还未登录
+                        alert("未登录");
+                        location.href="userlogin.html";
+                        // $("#logininfo").html('<a href="/front/views/userlogin.html" class="toolbar-btn">\n' + '<span>Login</span>\n' + '</a>')
+                    }
+                },
+                error: function (e) {
+                    alert("fail");
+                }
+            })
+        })
+    </script>
 </head>
 <body style="background-color:#f2f9fd;">
 <div class="header bg-main">
-  <div class="logo margin-big-left fadein-top">
-    <h1><img src="images/y.jpg" class="radius-circle rotate-hover" height="50" alt="" />个人中心</h1>
+  <div class="logo margin-big-left fadein-top"><img src="images/y.jpg" class="radius-circle rotate-hover" height="50" alt="" />
+    <h1 id="logininfo" style="display: inline"></h1>
   </div>
-  <div class="head-l"><a class="button button-little bg-green" href="" target="_blank"><span class="icon-home"></span> 前台首页</a> &nbsp;&nbsp;<!--<a href="##" class="button button-little bg-blue"><span class="icon-wrench"></span> 清除缓存</a>--> &nbsp;&nbsp;<a class="button button-little bg-red" href="login.html"><span class="icon-power-off"></span> 退出登录</a> </div>
+  <div class="head-l"><a class="button button-little bg-green" href="../moban4184/index.html" target="_blank"><span class="icon-home"></span> 前台首页</a> &nbsp;<a class="button button-little bg-red" href="userlogin.html"><span class="icon-power-off"></span> 退出登录</a> </div>
 </div>
 <div class="leftnav">
   <div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
