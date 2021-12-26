@@ -40,23 +40,22 @@
         //获取用户输入的登录名字和密码
         var myname = $("#myname").val();
         var mypwd = $("#mypwd").val();
-      var flag=0;
         $.ajax({
             url: "http://localhost:8080/GameShop/login.html",
-            dataType: "json",
-            data: {
+            dataType:'json',
+            data:JSON.stringify({
                 userId:0,
                 userName: myname,
                 userPwd: mypwd,
                 role:0,
-                email:0,
+                email:"",
                 money:0
-            },
-            type: "post",
+            }),
+            type: "POST",
             xhrFields: {                               //保存session在跨域访问中不会丢失！！！
                 withCredentials: true
             },
-            contextType:'application/json',
+            contentType:'application/json',
             crossDomain: true,
             success: function (result) {
                 if (result.message) {
