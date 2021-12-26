@@ -94,11 +94,14 @@
                 data: JSON.stringify(
                     {
                         userPwd: pwd,
-                        email: email
+                        email: email,
                     }),
+                dataType: "json",
                 contentType: 'application/json',
+
+
                 xhrFields:{
-                    withCredentials:true
+                    withCredentials:true,
                 },
                 async: false,
                 crossDomain:true,

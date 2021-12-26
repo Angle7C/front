@@ -45,10 +45,10 @@
             dataType:'json',
             data:JSON.stringify({
                 userId:0,
-                userName: myname,
+                userName: null,
                 userPwd: mypwd,
                 role:0,
-                email:"",
+                email:myname,
                 money:0
             }),
             type: "POST",
@@ -59,13 +59,12 @@
             crossDomain: true,
             success: function (result) {
                 if (result.message) {
-                    //登录成功
-                    if(result.data==1)
-                        alert(result.data);
-                    //跳转到index.html
-                    location.href = "Admin_UserInfo.html";
+                    // console.log(result.data);
+                    if(result.data.role==1)
+                        // alert(result.data);
+                    // location.href = "Admin_UserInfo.html";
                 }  else {
-                    alert(result.data);
+                        alert(result.data);
                 }
             }
         });
