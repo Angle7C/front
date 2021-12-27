@@ -59,7 +59,6 @@
                             userName:username,
                             userPwd:pwd,
                             userId:0,
-
                             role:0,
                             email:myemail,
                             money:0
@@ -98,6 +97,8 @@
                     }),
                 dataType: "json",
                 contentType: 'application/json',
+
+
                 xhrFields:{
                     withCredentials:true,
                 },
@@ -108,11 +109,11 @@
                         alert("登陆成功");
                         location.href="/front/moban4184/index.html"
                     }else{
-                        alert("fail");
+                        alert("登录失败");
                     }
                 },
                 error: function (e) {
-                    alert("登录失败");
+                    alert("fail");
                 }
             });
         }
