@@ -1,51 +1,51 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<meta name="renderer" content="webkit">
-<title></title>
-<link rel="stylesheet" href="css/pintuer.css">
-<link rel="stylesheet" href="css/admin.css">
-<script src="js/jquery.js"></script>
-<script src="js/pintuer.js"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="renderer" content="webkit">
+  <title></title>
+  <link rel="stylesheet" href="css/pintuer.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="js/jquery.js"></script>
+  <script src="js/pintuer.js"></script>
   <script type="text/javascript">
-     /* function addgame() {
-        var gamename = $("#gamename").val();
-        var gametype = $("#gametype").val();
-        var message = $("#message").val();
-        // var auther = $("#author").val();
+    /* function addgame() {
+       var gamename = $("#gamename").val();
+       var gametype = $("#gametype").val();
+       var message = $("#message").val();
+       // var auther = $("#author").val();
 
-        $.ajax({
-          url:'http://localhost:8080/GameShop/',
-          type:'POST',
-          xhrFields:{withCredentials:true},
-          crossDomain: true,
-          dataType:'json',
-          data:JSON.stringify(
-                  {u
-                    gameId:0,
-                    gameName:gamename,
-                    gameValue:"",
-                    gameType:gametype,
-                    message:message,
-                  }),
-          contentType:'application/json;charset=UTF-8',
-          async:false,
-          success: function(data){
-            console.log(data.message);
-            if(data.message) {
-              alert("sucess");
-            } else if(data.message){
-              alert("faild");
-            }
-          },
-          error: function (e) {
-            alert("error");
-          }
-        });
-      }*/
+       $.ajax({
+         url:'http://localhost:8080/GameShop/',
+         type:'POST',
+         xhrFields:{withCredentials:true},
+         crossDomain: true,
+         dataType:'json',
+         data:JSON.stringify(
+                 {u
+                   gameId:0,
+                   gameName:gamename,
+                   gameValue:"",
+                   gameType:gametype,
+                   message:message,
+                 }),
+         contentType:'application/json;charset=UTF-8',
+         async:false,
+         success: function(data){
+           console.log(data.message);
+           if(data.message) {
+             alert("sucess");
+           } else if(data.message){
+             alert("faild");
+           }
+         },
+         error: function (e) {
+           alert("error");
+         }
+       });
+     }*/
   </script>
 </head>
 <body>
@@ -67,14 +67,14 @@
           <label>图片：</label>
         </div>
         <div class="field">
-<!--          <input type="text" id="url1" name="img" class="input tips" style="width:25%; float:left;"  value=""  data-toggle="hover" data-place="right" data-image="" />-->
+          <!--          <input type="text" id="url1" name="img" class="input tips" style="width:25%; float:left;"  value=""  data-toggle="hover" data-place="right" data-image="" />-->
           <input type="file" class="button bg-blue margin-left" id="image" value="+ 浏览上传" name="myfile" style="float:left;">
           <input type="file" class="button bg-blue margin-left" id="file" value="+ 浏览上传" name="myfile" style="float:left;">
           <input type="file" class="button bg-blue margin-left" id="file2" value="+ 浏览上传" name="myfile" style="float:left;">
-<!--          <div class="tipss">图片尺寸：500*500</div>-->
+          <!--          <div class="tipss">图片尺寸：500*500</div>-->
         </div>
-      </div>     
-      
+      </div>
+
       <if condition="$iscid eq 1">
         <div class="form-group">
           <div class="label">
@@ -104,7 +104,7 @@
           <div class="tips"></div>
         </div>
       </div>
-     
+
       <div class="clear"></div>
       <div class="form-group">
         <div class="label">
@@ -121,7 +121,7 @@
         </div>
         <div class="field">
           <button class="button bg-main icon-check-square-o" type="submit" > 提交</button>
-<!--         <button class="button bg-main icon-edit" type="button" onclick="changeGame()"> 修改</button>-->
+          <!--         <button class="button bg-main icon-edit" type="button" onclick="changeGame()"> 修改</button>-->
         </div>
 
       </div>
