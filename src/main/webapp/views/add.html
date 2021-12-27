@@ -9,43 +9,23 @@
   <link rel="stylesheet" href="css/pintuer.css">
   <link rel="stylesheet" href="css/admin.css">
   <script src="js/jquery.js"></script>
+  <script src="js/jquery.form.js"></script>
   <script src="js/pintuer.js"></script>
   <script type="text/javascript">
-    /* function addgame() {
-       var gamename = $("#gamename").val();
-       var gametype = $("#gametype").val();
-       var message = $("#message").val();
-       // var auther = $("#author").val();
+    $(function () {
+      /*
+       获取form元素，调用其ajaxForm(...)方法
+       内部的function(data)的data就是后台返回的数据
+      */
+      $("#combined_tasks_form").ajaxForm(function (data) {
+        if (data.message){
+          alert(data.data);
+        } else {
+          alert(data.data);
+        }
+      });
+    });
 
-       $.ajax({
-         url:'http://localhost:8080/GameShop/',
-         type:'POST',
-         xhrFields:{withCredentials:true},
-         crossDomain: true,
-         dataType:'json',
-         data:JSON.stringify(
-                 {u
-                   gameId:0,
-                   gameName:gamename,
-                   gameValue:"",
-                   gameType:gametype,
-                   message:message,
-                 }),
-         contentType:'application/json;charset=UTF-8',
-         async:false,
-         success: function(data){
-           console.log(data.message);
-           if(data.message) {
-             alert("sucess");
-           } else if(data.message){
-             alert("faild");
-           }
-         },
-         error: function (e) {
-           alert("error");
-         }
-       });
-     }*/
   </script>
 </head>
 <body>
@@ -120,7 +100,7 @@
           <label></label>
         </div>
         <div class="field">
-          <button class="button bg-main icon-check-square-o" type="submit" > 提交</button>
+          <button class="button bg-main icon-check-square-o" type="submit" onclick="result()"> 提交</button>
           <!--         <button class="button bg-main icon-edit" type="button" onclick="changeGame()"> 修改</button>-->
         </div>
 
