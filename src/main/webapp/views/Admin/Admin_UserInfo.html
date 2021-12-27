@@ -27,14 +27,15 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css' />
 
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+
     <![endif]-->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 <script>
     var glabalsize=12;
     var glabalpage=1;
     $(document).ready(function () {
-        mypage(1,12);
+        mypage(1,1,12);
     });
 </script>
 <!--与后端交互每次交互4个数据 1。information 具体某一页的数据-->
@@ -42,72 +43,148 @@
 <!--                        3。 pagesize一共有多少页-->
 <!--                            4.交互的数据合理性 message-->
 <script>
-
-    function mypage(page,size){
+    function mypage1(role,page,dx) {
+        console.log(page);
         $.ajax({
-            url: "http://localhost:xxxxxxxxxx",
+                url: "http://localhost:8080/GameShop/userpage.html",
+                dataType: "json",
+                data: JSON.stringify(
+                    {
+                        first:role,
+                        second: {
+                            currentPage: page.currentPage + dx,
+                            totalPages: page.totalPages ,
+                            pageSize: page.pageSize
+                        }
+                    }),
+                type: "POST",
+                xhrFields: {
+                    withCredentials: true
+                },
+                contentType: 'application/json',
+                crossDomain: true,
+                success: function (result) {
+                    if(result.message){
+                        var mydata=result.data.array;
+                        // var gobalpage=result.data.pagesize;
+                        // var pagesize=reuslt.data.allsize;
+                        var pages=result.data.page;
+                        var str="";
+                        var i;
+                        for(i=0;i<mydata.length;i++){
+                            str=str+ '<tr> <td>'+mydata[i].userId+'</td> <td>'+mydata[i].userName+'</td> <td>'+mydata[i].userPwd+'</td></tr>';
+                            strx='<td>\n' +
+                                '                                        <input type="text" id="changepwd" placeholder="修改密码 " >\n' +
+                                '                                        <button onclick>确认</button>\n' +
+                                '                                    </td>';
+                            if(mydata.data.role==2){
+                                stry='<select id="" style="width: 75px" >\n' +
+                                    '    <option value=“ban”>禁用</option>\n' +
+                                    '    <option value="normal">正常</option>\n' +
+                                    '</select>';
+                            }else{
+                                stry='<select id="" style="width: 75px" >\n' +
+                                    '    <option value="normal">正常</option>\n' +
+                                    '    <option value=“ban”>禁用</option>\n' +
+                                    '</select>';
+                            }
+                        }
+
+
+                        $("#UserInfoList").html(str);
+                        var str2='  <a href="javascript:void(0)" onclick="mypage1(1,pages,-pages.currentPage+1)">首页</a>';
+                        var str4='  <a href="javascript:void(0)" onclick="mypage1(1,pages, pages.currentPage-1==0?0:-1)">上一页</a>';
+                        // strpage="";
+                        // for(i=1;i<=allsize;i++){
+                        //     if(i==pagesize){
+                        //         strpage=strpage+'<a href="javacript:mypage('+i+',12)" class="on">'+i+'</a>';
+                        //     }else{
+                        //         strpage=strpage+'<a href="javacript:mypage('+i+',12)" class="on">'+i+'</a>';
+                        //     }
+                        //
+                        // }
+                        var str5='<a href="javascript:void(0)" onclick="mypage1(1,pages,pages.currentPage+1==pages.totalPage?0:1)">下一页</a>';
+                        var str3='<a href="javascript:void(0)" onclick="mypage1(1,pages,-pages.currentPage+pages.totalPages)">尾页</a>';
+
+                        $("#mypagetool").html(str2+str4+str5+str3);
+                    }
+                }
+            }
+        )
+    }
+    function mypage(role,page,size){
+        $.ajax({
+            url: "http://localhost:8080/GameShop/userpagesize.html",
             dataType: "json",
-            data: {
-                page:page,
-                size:size
-            },
-            type: "get",
+            data:JSON.stringify({
+                first:role,
+                second:size
+            }),
+            type: "POST",
             xhrFields: {
                 withCredentials: true
             },
-            contextType:'application/json',
+            contentType:'application/json',
             crossDomain: true,
             success: function (result) {
-                if(result.data){
-
-                var mydata=result.data.information;
-                var gobalpage=result.data.pagesize;
-                var pagesize=reuslt.data.allsize;
-                var str="";
-                var i;
-                for(i=0;i<mydata.length;i++){
-                    str=str+ '<tr> <td>'+mydata[i].userid+'</td> <td>'+mydata[i].userName+'</td> <td>'+mydata[i].userPwd+'</td></tr>';
-                    strx='<td>\n' +
-                        '                                        <input type="text" id="changepwd" placeholder="修改密码 " >\n' +
-                        '                                        <button onclick>确认</button>\n' +
-                        '                                    </td>';
-                    if(mydata.data.role==2){
-                        stry='<select id="" style="width: 75px" >\n' +
-                            '    <option value=“ban”>禁用</option>\n' +
-                            '    <option value="normal">正常</option>\n' +
-                            '</select>';
-                    }else{
-                        stry='<select id="" style="width: 75px" >\n' +
-                            '    <option value="normal">正常</option>\n' +
-                            '    <option value=“ban”>禁用</option>\n' +
-                            '</select>';
-                    }
-                }
-
-
-                $("#UserInfoList").html(str+strx+stry);
-                var str2='  <a href="javascript:mypage(1,12)">首页</a>';
-                var str4='<a href="javascript:mypage('+(pagesize-1)+',12)">上一页</a>';
-                strpage="";
-                for(i=1;i<=allsize;i++){
-                    if(i==pagesize){
-                        strpage=strpage+'<a href="javacript:mypage('+i+',12)" class="on">'+i+'</a>';
-                    }else{
-                        strpage=strpage+'<a href="javacript:mypage('+i+',12)" class="on">'+i+'</a>';
-                    }
+                // console.log(result.data);
+                if(result.message){
+                    mypage1(role,result.data,0);
 
                 }
-                var str5='<a href="javascript:mypage('+(pagesize+1)+',12)">下一页</a>';
-                var str3=  '<a href="javascript:mypage('+allsize+',12)">尾页</a>';
-
-                $("#mypagetool").html(str2+str4+strpage+str5+str3);
-            }
+            //     if(result.data){
+            //     var mydata=result.data.information;
+            //     var gobalpage=result.data.pagesize;
+            //     var pagesize=reuslt.data.allsize;
+            //     var str="";
+            //     var i;
+            //     for(i=0;i<mydata.length;i++){
+            //         str=str+ '<tr> <td>'+mydata[i].userid+'</td> <td>'+mydata[i].userName+'</td> <td>'+mydata[i].userPwd+'</td></tr>';
+            //         strx='<td>\n' +
+            //             '                                        <input type="text" id="changepwd" placeholder="修改密码 " >\n' +
+            //             '                                        <button onclick>确认</button>\n' +
+            //             '                                    </td>';
+            //         if(mydata.data.role==2){
+            //             stry='<select id="" style="width: 75px" >\n' +
+            //                 '    <option value=“ban”>禁用</option>\n' +
+            //                 '    <option value="normal">正常</option>\n' +
+            //                 '</select>';
+            //         }else{
+            //             stry='<select id="" style="width: 75px" >\n' +
+            //                 '    <option value="normal">正常</option>\n' +
+            //                 '    <option value=“ban”>禁用</option>\n' +
+            //                 '</select>';
+            //         }
+            //     }
+            //
+            //
+            //     $("#UserInfoList").html(str+strx+stry);
+            //     var str2='  <a href="javascript:mypage(1,12)">首页</a>';
+            //     var str4='<a href="javascript:mypage('+(pagesize-1)+',12)">上一页</a>';
+            //     strpage="";
+            //     for(i=1;i<=allsize;i++){
+            //         if(i==pagesize){
+            //             strpage=strpage+'<a href="javacript:mypage('+i+',12)" class="on">'+i+'</a>';
+            //         }else{
+            //             strpage=strpage+'<a href="javacript:mypage('+i+',12)" class="on">'+i+'</a>';
+            //         }
+            //
+            //     }
+            //     var str5='<a href="javascript:mypage('+(pagesize+1)+',12)">下一页</a>';
+            //     var str3=  '<a href="javascript:mypage('+allsize+',12)">尾页</a>';
+            //
+            //     $("#mypagetool").html(str2+str4+strpage+str5+str3);
+            // }
             }
         });
 
     }
 </script>
 
+<script>
+
+
+</script>
 
 
 
@@ -237,19 +314,19 @@
 
                                     <tbody id="UserInfoList">
                                 <!-- row -->
-                                <tr>
-                                    <td>1</td> <td>用户名</td>  <td>密码</td>
-                                    <td>
-                                        <input type="text"  style="width: 120px;" id="changepwd" placeholder="修改密码" >
-                                        <button>确认</button>
-                                    </td>
-                                    <td>
-                                        <select id="" style="width: 75px" >
-                                            <option value=“ban”>禁用</option>
-                                            <option value="normal">正常</option>
-                                        </select>
-                                    </td>
-                                </tr>
+<!--                                <tr>-->
+<!--                                    <td>1</td> <td>用户名</td>  <td>密码</td>-->
+<!--                                    <td>-->
+<!--                                        <input type="text"  style="width: 120px;" id="changepwd" placeholder="修改密码" >-->
+<!--                                        <button>确认</button>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <select id="" style="width: 75px" >-->
+<!--                                            <option value=“ban”>禁用</option>-->
+<!--                                            <option value="normal">正常</option>-->
+<!--                                        </select>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
                                     </tbody>
                         </table>
                     </div>
