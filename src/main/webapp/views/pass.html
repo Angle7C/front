@@ -11,12 +11,41 @@
 <script src="js/jquery.js"></script>
 <script src="js/pintuer.js"></script>
   <script type="text/javascript">
+    $(document).ready(function () {
+      $.ajax({
+        url: 'http://localhost:8080/GameShop/islogin.html',
+        type: 'POST',
+        dataType: 'json',
+
+        contentType: 'application/json',
+
+
+        xhrFields:{
+          withCredentials:true
+        },
+        async: false,
+        crossDomain:true,
+        success: function (result) {
+          if(result.message){
+            $("#mname").val(result.data.userName);
+
+
+          }else{
+            alert("未登錄");
+          }
+        },
+        error: function (e) {
+          alert("登录失败");
+        }
+      })
+    })
+
     function change() {
-      var newpwd = $("#newpwd");
-      var username = $("#mname");
+      var newpwd = $("#newPwd").val();
+      var username = $("#mname").val();
       var userid=1;
       $.ajax({
-        url:"",
+        url:"http://localhost:8080/GameShop/updateuser.html",
         type:"POST",
         dataType:"JSON",
         xhrFields: {
@@ -25,9 +54,12 @@
         crossDomain: true,
         data:JSON.stringify(
                 {
-                  pwd:newpwd,
-                  username:username,
-                  userid:userid,
+                  userName:username,
+                  userPwd:newpwd,
+                  userId:0,
+                  role:0,
+                  email:"0",
+                  money:0
                 }),
         contentType:'application/json',
         async:false,
@@ -74,7 +106,7 @@
           <label>新密码：</label>
         </div>
         <div class="field">
-          <input type="password" class="input w50" name="newpass" size="50" placeholder="请输入新密码" data-validate="required:请输入新密码" />
+          <input type="password" class="input w50" name="newpass" size="50" placeholder="请输入新密码" data-validate="required:请输入新密码" id="newPwd"/>
         </div>
       </div>
       <div class="form-group">
@@ -91,7 +123,7 @@
           <label></label>
         </div>
         <div class="field">
-          <button class="button bg-main icon-check-square-o" type="submit" id="change"> 修改</button>
+          <button class="button bg-main icon-check-square-o" type="button" id="change" onclick="change()"> 修改</button>
         </div>
       </div>      
     </form>
