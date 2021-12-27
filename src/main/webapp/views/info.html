@@ -12,7 +12,7 @@
     <script src="js/pintuer.js"></script>
   <script type="text/javascript">
       $.ajax({
-        url: 'http://localhost:8080/GameShop/isLogin.html',
+        url: 'http://localhost:8080/GameShop/islogin.html',
         type: 'POST',
         dataType: 'json',
 
@@ -24,15 +24,17 @@
         },
         async: false,
         crossDomain:true,
-        success: function (data) {
-          if(data.message){
-            $("#userID").text(data.data.userId);
-              $("#userName").text(data.data.userName);
-            $("#userEmail").text(data.data.email);
-            $("#userMoney").text(data.data.money);
+        success: function (result) {
+          if(result.message){
+            alert(result.data.userId);
+
+            $("#userID").html(result.data.userId);
+            $("#userName").text(result.data.userName);
+            $("#userEmail").text(result.data.email);
+            $("#userMoney").text(result.data.money);
 
           }else{
-
+              alert("未登錄");
           }
         },
         error: function (e) {
@@ -52,7 +54,7 @@
         </div>
         <div class="field" id="userID">
           <label style="line-height:33px;">
-            admin
+
           </label>
         </div>
       </div>
