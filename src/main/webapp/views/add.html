@@ -17,11 +17,23 @@
        获取form元素，调用其ajaxForm(...)方法
        内部的function(data)的data就是后台返回的数据
       */
-      $("#combined_tasks_form").ajaxForm(function (data) {
-        if (data.message){
-          alert(data.data);
-        } else {
-          alert(data.data);
+      $("#form1").ajaxForm({
+
+              xhrFields:{
+        withCredentials:true
+      },
+      async: false,
+              crossDomain:true,
+        success:function (data) {
+          if (data.message){
+            alert(data.data);
+            location.href="add.html";
+          } else {
+            alert(data.data);
+          }},
+        error:function (e) {
+                alert("fail")
+
         }
       });
     });
@@ -30,9 +42,9 @@
 </head>
 <body>
 <div class="panel admin-panel">
-  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>增加内容</strong></div>
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>上传游戏</strong></div>
   <div class="body-content">
-    <form method="post" class="form-x" action="http://localhost:8080/GameShop/upgame.html" enctype="multipart/form-data">
+    <form method="post" class="form-x" action="http://localhost:8080/GameShop/upgame.html" enctype="multipart/form-data" id="form1">
       <div class="form-group">
         <div class="label" >
           <label>游戏名</label>
