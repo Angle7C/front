@@ -27,6 +27,7 @@
         success: function (result) {
           if(result.message){
             alert(result.data.userId);
+
             $("#userID").html(result.data.userId);
             $("#userName").text(result.data.userName);
             $("#userEmail").text(result.data.email);
