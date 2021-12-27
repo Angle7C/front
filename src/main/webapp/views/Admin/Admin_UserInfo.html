@@ -32,9 +32,18 @@
     <![endif]-->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 <script>
-    var glabalsize=12;
-    var glabalpage=1;
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+</script>
+<script>
+
     $(document).ready(function () {
+        var role=getUrlParam("role");
+        alert(role);
         mypage(1,1,12);
     });
 </script>
@@ -70,30 +79,41 @@
                         // var pagesize=reuslt.data.allsize;
                         var pages=result.data.page;
                         var str="";
+                        var strx="";
                         var i;
                         for(i=0;i<mydata.length;i++){
-                            str=str+ '<tr> <td>'+mydata[i].userId+'</td> <td>'+mydata[i].userName+'</td> <td>'+mydata[i].userPwd+'</td></tr>';
-                            strx='<td>\n' +
-                                '                                        <input type="text" id="changepwd" placeholder="修改密码 " >\n' +
-                                '                                        <button onclick>确认</button>\n' +
-                                '                                    </td>';
-                            if(mydata.data.role==2){
-                                stry='<select id="" style="width: 75px" >\n' +
-                                    '    <option value=“ban”>禁用</option>\n' +
-                                    '    <option value="normal">正常</option>\n' +
-                                    '</select>';
-                            }else{
-                                stry='<select id="" style="width: 75px" >\n' +
-                                    '    <option value="normal">正常</option>\n' +
-                                    '    <option value=“ban”>禁用</option>\n' +
-                                    '</select>';
-                            }
+                            str=str+ '<tr> <td>'+mydata[i].userId+'</td> <td>'+mydata[i].userName+'</td> <td>'+mydata[i].userPwd+'</td>';
+                            strx='<td> <input type="text"  placeholder="修改密码 " > <button onclick>确认</button> </td></tr>';
+                            str=str+strx;
+                            // if(mydata.data.role==2){
+                            //     stry='<select id="" style="width: 75px" >\n' +
+                            //         '    <option value=“ban”>禁用</option>\n' +
+                            //         '    <option value="normal">正常</option>\n' +
+                            //         '</select>';
+                            // }else{
+                            //     stry='<select id="" style="width: 75px" >\n' +
+                            //         '    <option value="normal">正常</option>\n' +
+                            //         '    <option value=“ban”>禁用</option>\n' +
+                            //         '</select>';
+                            // }       if(mydata.data.role==2){
+                            //     stry='<select id="" style="width: 75px" >\n' +
+                            //         '    <option value=“ban”>禁用</option>\n' +
+                            //         '    <option value="normal">正常</option>\n' +
+                            //         '</select>';
+                            // }else{
+                            //     stry='<select id="" style="width: 75px" >\n' +
+                            //         '    <option value="normal">正常</option>\n' +
+                            //         '    <option value=“ban”>禁用</option>\n' +
+                            //         '</select>';
+                            // }
                         }
 
 
                         $("#UserInfoList").html(str);
-                        var str2='  <a href="javascript:void(0)" onclick="mypage1(1,pages,-pages.currentPage+1)">首页</a>';
-                        var str4='  <a href="javascript:void(0)" onclick="mypage1(1,pages, pages.currentPage-1==0?0:-1)">上一页</a>';
+                        var str2='<a href="javascript:void(0);" onclick ="mypage1(1,pages,-pages.currentPage+1)" >首页</a>';
+                        // var str2='  <a href="javascript:void(0)" onclick="mypage1(1,pages,-pages.currentPage+1)">首页</a>';
+                        var str4='<a href="javascript:void(0);" onclick="mypage1(1,pages,pages.currentPage-1==0?0:-1)">上一页</a>';
+                        // var str4='  <a href="javascript:void(0)" onclick="mypage1(1,pages, pages.currentPage-1==0?0:-1)">上一页</a>';
                         // strpage="";
                         // for(i=1;i<=allsize;i++){
                         //     if(i==pagesize){
@@ -102,12 +122,14 @@
                         //         strpage=strpage+'<a href="javacript:mypage('+i+',12)" class="on">'+i+'</a>';
                         //     }
                         //
-                        // }
-                        var str5='<a href="javascript:void(0)" onclick="mypage1(1,pages,pages.currentPage+1==pages.totalPage?0:1)">下一页</a>';
+                        // };
+                        var str5='<a href="javascript:void(0);" onclick="mypage1(1,pages,pages.currentPage+1==pages.totalPages+1?0:+1)" >下一页</a>';
+
                         var str3='<a href="javascript:void(0)" onclick="mypage1(1,pages,-pages.currentPage+pages.totalPages)">尾页</a>';
 
                         $("#mypagetool").html(str2+str4+str5+str3);
                     }
+
                 }
             }
         )

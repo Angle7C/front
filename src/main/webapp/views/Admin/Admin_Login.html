@@ -60,15 +60,15 @@
             success: function (result) {
                 if (result.message) {
                     // console.log(result.data);
-                    if(result.data.role==1)
+                    if(result.data.role==1){
                         // alert(result.data);
-                    // location.href = "Admin_UserInfo.html";
+                     location.href = "Admin_UserInfo.html?role="+result.data.role;
                 }  else {
-                        alert(result.data);
+                        alert("登陆失败");
                 }
             }
-        });
-
+        }}
+        );
 
     }
 
