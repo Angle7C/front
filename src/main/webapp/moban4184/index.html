@@ -36,7 +36,7 @@
                 success: function (result) {
                     if(result.message){
                         //说明已经登录
-                        $("#logininfo").html("欢迎您,"+result.data+'<a href="#" onclick="loginout('+result.data+')">注销</a>') ;
+                        $("#logininfo").html("欢迎您,"+result.data.userName+'<a href="#" onclick="loginout('+result.data.userId+')">注销</a>') ;
                     }else{
                         //还未登录
                         $("#logininfo").html('<a href="/front/views/userlogin.html" class="toolbar-btn">\n' + '<span>Login</span>\n' + '</a>')
@@ -370,6 +370,7 @@
                                     </div>
                                     <div class="product__info--right">
                                             <span class="product__rating">
+                                                <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
