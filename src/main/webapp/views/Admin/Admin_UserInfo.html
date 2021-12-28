@@ -42,7 +42,8 @@
 <script>
 var role;
     $(document).ready(function () {
-         role=getUrlParam("role");
+        role=getUrlParam("role");
+        $("#mya").attr("href","Admin_GameInfo.html?role="+role);
         alert(role);
         mypage(role,11);
     });
@@ -215,7 +216,7 @@ var role;
                 </a>
             </li>
             <li class="active">
-                <a href="Admin_GameInfo.html">
+                <a href="Admin_GameInfo.html?role=" id="mya">
                     <div class="pointer">
                         <div class="arrow"></div>
                         <div class="arrow_border"></div>
@@ -296,20 +297,7 @@ var role;
 
 
                                     <tbody id="UserInfoList">
-                                <!-- row -->
-<!--                                <tr>-->
-<!--                                    <td>1</td> <td>用户名</td>  <td>密码</td>-->
-<!--                                    <td>-->
-<!--                                        <input type="text"  style="width: 120px;" id="changepwd" placeholder="修改密码" >-->
-<!--                                        <button>确认</button>-->
-<!--                                    </td>-->
-<!--                                    <td>-->
-<!--                                        <select id="" style="width: 75px" >-->
-<!--                                            <option value=“ban”>禁用</option>-->
-<!--                                            <option value="normal">正常</option>-->
-<!--                                        </select>-->
-<!--                                    </td>-->
-<!--                                </tr>-->
+
                                     </tbody>
                         </table>
                     </div>

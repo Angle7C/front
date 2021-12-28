@@ -40,90 +40,49 @@
     }
 </script>
 <script>
-
+    var role;
     $(document).ready(function () {
-        var role=getUrlParam("role");
+        role=getUrlParam("role");
         alert(role);
         mypage(role,11);
     });
 </script>
-<script>function change() {
-    var newpwd = $("#newPwd").val();
-    var username = $("#mname").val();
-    var userid=$("#userId").val();;
-    $.ajax({
-        url:"http://localhost:8080/GameShop/updateuser.html",
-        type:"POST",
-        dataType:"JSON",
-        xhrFields: {
-            withCredentials: true
-        },
-        crossDomain: true,
-        data:JSON.stringify(
-            {
-                userName:username,
-                userPwd:newpwd,
-                userId:userid,
-                role:0,
-                email:"0",
-                money:0
-            }),
-        contentType:'application/json',
-        async:false,
-        success: function(data){
-            console.log(data.message);
-            if(data.message) {
-                alert("修改成功");
-            } else if(data.message){
-                alert("修改失败");
-            }
+<script type="text/javascript">
+    function change() {
+        var newpwd = $("#newpwd");
+        var username = $("#mname");
+        var userid=$("#userId");
+        $.ajax({
+            url:"",
+            type:"POST",
+            dataType:"JSON",
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            data:JSON.stringify(
+                {
+                    pwd:newpwd,
+                    username:username,
+                    userid:userid,
+                }),
+            contentType:'application/json',
+            async:false,
+            success: function(data){
+                console.log(data.message);
+                if(data.message) {
+                    alert("修改成功");
+                } else if(data.message){
+                    alert("修改失败");
+                }
 
-        },
-        error: function (e) {
-            console.log(e);
-            alert("error");
-        }
-    })
-}
-</script>
-<script>function change() {
-    var newpwd = $("#newPwd").val();
-    var username = $("#mname").val();
-    var userid=$("#userId").val();;
-    $.ajax({
-        url:"http://localhost:8080/GameShop/updateuser.html",
-        type:"POST",
-        dataType:"JSON",
-        xhrFields: {
-            withCredentials: true
-        },
-        crossDomain: true,
-        data:JSON.stringify(
-            {
-                userName:username,
-                userPwd:newpwd,
-                userId:userid,
-                role:0,
-                email:"0",
-                money:0
-            }),
-        contentType:'application/json',
-        async:false,
-        success: function(data){
-            console.log(data.message);
-            if(data.message) {
-                alert("修改成功");
-            } else if(data.message){
-                alert("修改失败");
+            },
+            error: function (e) {
+                console.log(e);
+                alert("error");
             }
-
-        },
-        error: function (e) {
-            console.log(e);
-            alert("error");
-        }
-    })
-}
+        })
+    }
 </script>
 <script>
     var gPage;
@@ -155,7 +114,7 @@
     function mypage1(role,page,dx) {
         console.log(page);
         $.ajax({
-                url: "http://localhost:8080/GameShop/userpage.html",
+                url: "http://localhost:8080/GameShop/gamepage.html",
                 dataType: "json",
                 data: JSON.stringify(
                     {
@@ -181,9 +140,8 @@
                         var strx="";
                         var i;
                         for(i=0;i<mydata.length;i++){
-                            str=str+ '<tr> <td id="userId">'+mydata[i].userId+'</td> <td id="mname">'+mydata[i].userName+'</td> <td>'+mydata[i].userPwd+'</td>';
-                            strx='<td > <input type="text"  placeholder="修改密码 " id="newpwd" > <button onclick="change()" >确认</button> </td></tr>';
-                            str=str+strx;
+                            str=str+ '<tr> <td>'+mydata[i].gameId+'</td> <td>'+mydata[i].gameName+'</td> <td>'+mydata[i].gameValue+'</td> <td>'+mydata[i].Value+'</td>';
+                            str=str;
                         }
 
 
@@ -192,7 +150,7 @@
 
                         var str4='<a href="javascript:void(0);" onclick="mypage1(role,gPage,gPage.currentPage-1==0?0:-1)">上一页</a>';
 
-                        var str5='<a href="javascript:void(0);" onclick="mypage1(role,gPage,gPage.currentPage==gPage.totalPages?0:+1)" >下一页</a>';
+                        var str5='<a href="javascript:void(0);" onclick="mypage1(role,gPage,gPage.currentPage>=gPage.totalPages?0:+1)" >下一页</a>';
 
                         var str3='<a href="javascript:void(0)" onclick="mypage1(role,gPage,-gPage.currentPage+gPage.totalPages)">尾页</a>';
 
@@ -290,7 +248,7 @@
             <div class="table-wrapper products-table section">
                 <div class="row-fluid head">
                     <div class="span12">
-                        <h4>用户数据</h4>
+                        <h4>游戏数据</h4>
                     </div>
                 </div>
 
