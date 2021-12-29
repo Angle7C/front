@@ -44,7 +44,7 @@
     $(document).ready(function () {
         role=getUrlParam("role");
         alert(role);
-        mypage(role,11);
+        mypage(role,4);
     });
 </script>
 <script type="text/javascript">
@@ -89,13 +89,13 @@
 
     function mypage(role,size){
         $.ajax({
-            url: "http://localhost:8080/GameShop/userpagesize.html",
+            url: "http://localhost:8080/GameShop/gamepagesize.html",
             dataType: "json",
-            data:JSON.stringify({
-                first:role,
-                second:size
-            }),
-            type: "POST",
+            data:{
+
+                size:size,
+            },
+            type: "get",
             xhrFields: {
                 withCredentials: true
             },
@@ -118,12 +118,9 @@
                 dataType: "json",
                 data: JSON.stringify(
                     {
-                        first:role,
-                        second: {
                             currentPage: page.currentPage + dx,
                             totalPages: page.totalPages ,
                             pageSize: page.pageSize
-                        }
                     }),
                 type: "POST",
                 xhrFields: {
