@@ -13,7 +13,7 @@
   <script>
     $(document).ready(function () {
       $.ajax({
-        url: 'http://localhost:8080/GameShop/islogin.html',
+        url: 'http://localhost:8080/GameShop/indentpage.html',
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
@@ -23,59 +23,82 @@
         async: false,
         crossDomain:true,
         success: function (result) {
-          if(result.message){
+          if(result.message&&result.data!=""){
             var str = '';
-            for(var i=0;i<=result.data.length ;i++){
-              str+= "<tr>\n" +
-                      "          <td style=\"text-align:left; padding-left:20px;\"><input type=\"checkbox\" name=\"id[]\" value=\"\" />"+result.data.gameid+"</td>\n" +
-                      "          <td>"+result.data.gamename+"</td>\n" +
+            for(var i=0;i<result.data.length ;i++){
+              str+="<tr>"+
+                      "          <td style=\"text-align:left; padding-left:20px;\">"+result.data[i].second.gameId+"</td>\n" +
+                      "          <td>"+result.data[i].second.gameName+"</td>\n" +
                       "          <td width=\"10%\"><img src=\"images/11.jpg\" alt=\"\" width=\"70\" height=\"50\" /></td>\n" +
-                      "          <td><font color=\"#00CC99\">result.data.message</font></td>\n" +
-                      "          <td>result.data.gametype</td>\n" +
-                      "          <td><div class=\"button-group\">  <div class=\"button border-main\" onclick=\"tuikuang()\"><span class=\"icon-edit\">退款</span> </div></div></td>\n" +
-                      "        </tr>"
+                      "          <td><font color=\"#00CC99\">"+result.data[i].second.gameValue+"</font></td>\n" +
+                      "          <td>"+result.data[i].second.gameType+"</td>\n" +
+                      "          <td><div class=\"button-group\">  <div class=\"button border-main\" onclick=\"tuikuang("+result.data[i].first+")\"><span class=\"icon-edit\">退款</span> </div></div></td>\n"
+                +"</tr>"
             }
-            $("#vo").html(str);
+            $("#data").html(str);
 
           }else{
-            alert("未登錄");
+
           }
         },
         error: function (e) {
-          alert("登录失败");
+          alert("fail");
         }
       })
     })
     
-    function tuikuang() {
-      alert("111");
+    function tuikuang(orderID) {
+
+      $.ajax({
+        url: 'http://localhost:8080/GameShop/cancelindent.html',
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json',
+        xhrFields:{
+          withCredentials:true
+        },
+        data:{
+          orderId:orderID
+        },
+        async: false,
+        crossDomain:true,
+        success: function (result) {
+          if(result.message){
+              alert("退款成功");
+              location.reload();
+          }else{
+            alert("超过退款时间")
+          }
+        },
+        error: function (e) {
+          alert("fail");
+        }
+      })
     }
   </script>
 </head>
 <body>
 <form method="post" action="" id="listform">
   <div class="panel admin-panel">
-    <div class="panel-head"><strong class="icon-reorder"> 内容列表</strong></div>
+    <div class="panel-head"><strong class="icon-reorder"> 内容列表</strong>
+    </div>
     <table class="table table-hover text-center">
+      <thead>
       <tr>
+
         <th width="100" style="text-align:left; padding-left:20px;">游戏ID</th>
         <th width="10%">游戏名</th>
         <th></th>
-        <th>简介</th>
+        <th>价格</th>
         <th>游戏分类</th>
         <th width="310">操作</th>
       </tr>
-      <volist name="list" id="vo">
-        <tr>
-          <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />1</td>
-          <td>默认名字</td>
-          <td width="10%"><img src="images/11.jpg" alt="" width="70" height="50" /></td>
-          <td><font color="#00CC99"></font></td>
-          <td></td>
-          <td><div class="button-group"> <div class="button border-main" onclick="tuikuang()"><span class="icon-edit">退款</span> </div>  </div></td>
-        </tr>
-      </volist>
+      </thead>
+      <tbody id="data">
+
+      </tbody>
     </table>
+
   </div>
 </form>
 
