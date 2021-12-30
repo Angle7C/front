@@ -32,7 +32,7 @@
             alert(data.data);
           }},
         error:function (e) {
-                alert("fail")
+                alert("请输入完整");
 
         }
       });
@@ -74,7 +74,6 @@
           </div>
           <div class="field">
             <select name="description" class="input w50" id="gametype">
-              <option >请选择分类</option>
               <option value="动作">动作</option>
               <option value="冒险">冒险</option>
               <option value="模拟">模拟</option>
@@ -86,7 +85,7 @@
           </div>
         </div>
       </if>
-      <div class="form-group">
+     <!-- <div class="form-group">
         <div class="label">
           <label>描述：</label>
         </div>
@@ -94,15 +93,24 @@
           <textarea class="input" name="description" style=" height:90px;" id="message"></textarea>
           <div class="tips"></div>
         </div>
-      </div>
-
-      <div class="clear"></div>
+      </div>-->
       <div class="form-group">
         <div class="label">
           <label>价格：</label>
         </div>
         <div class="field">
           <input type="text" class="input w50" name="description" value="" id="price" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="clear"></div>
+
+      <div class="form-group">
+        <div class="label">
+          <label>描述：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" name="description" style=" height:90px;" id="message"></textarea>
           <div class="tips"></div>
         </div>
       </div>

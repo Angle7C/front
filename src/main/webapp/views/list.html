@@ -26,15 +26,24 @@
           if(result.message&&result.data!=""){
             var str = '';
             for(var i=0;i<result.data.length ;i++){
+              var index = result.data[i].second.path.lastIndexOf("GameShop");
+              var ind = result.data[i].second.path.lastIndexOf("\\");
+
+              path = "http://localhost:8080/"+(result.data[i].second.path).substring(index,ind)+"\\1.png";
+
               str+="<tr>"+
                       "          <td style=\"text-align:left; padding-left:20px;\">"+result.data[i].second.gameId+"</td>\n" +
                       "          <td>"+result.data[i].second.gameName+"</td>\n" +
-                      "          <td width=\"10%\"><img src=\"images/11.jpg\" alt=\"\" width=\"70\" height=\"50\" /></td>\n" +
+                      "          <td width=\"10%\"><img id=\""+"image"+result.data[i].first+"\"  src=\""+path+"\" alt=\"\" width=\"70\" height=\"50\" /></td>\n" +
                       "          <td><font color=\"#00CC99\">"+result.data[i].second.gameValue+"</font></td>\n" +
                       "          <td>"+result.data[i].second.gameType+"</td>\n" +
-                      "          <td><div class=\"button-group\">  <div class=\"button border-main\" onclick=\"tuikuang("+result.data[i].first+")\"><span class=\"icon-edit\">退款</span> </div></div></td>\n"
+                      "          <td><div class=\"button-group\"> <a href='http://localhost:8080/GameShop/download?gameId="+result.data[i].second.gameId+"'><div class=\"button border-green\" \"><span class=\"icon-save\">下载</span> </div></a> <div class=\"button border-main\" onclick=\"tuikuang("+result.data[i].first+")\"><span class=\"icon-reply\">退款</span> </div></div></td>"
+
                 +"</tr>"
+
+
             }
+
             $("#data").html(str);
 
           }else{
@@ -46,7 +55,41 @@
         }
       })
     })
-    
+
+    function onLoadGame(gameID) {
+
+      $.ajax({
+        url: 'http://localhost:8080/GameShop/download',
+        type: 'GET',
+        contentType: 'application/json',
+        xhrFields:{
+          withCredentials:true
+        },
+        data:{
+          gameId:gameID
+        },
+        async: false,
+        crossDomain:true,
+        success: function (result) {
+          open(result);
+          // if(result.message){
+          //   alert("开始下载");
+          //   location.reload();
+          // }else{
+          //   alert("下载失败")
+          // }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          // 状态码
+          alert(XMLHttpRequest.status);
+          // 状态
+          alert(XMLHttpRequest.readyState);
+          // 错误信息
+          alert(textStatus);
+        }
+      })
+    }
+
     function tuikuang(orderID) {
 
       $.ajax({
