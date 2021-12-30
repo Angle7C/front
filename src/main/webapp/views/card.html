@@ -42,6 +42,35 @@
         }
       })
     })
+    
+    function upmoney() {
+      var cmoney = $("#money").val();
+      alert(cmoney);
+      $.ajax({
+        url: 'http://localhost:8080/GameShop/charge.html',
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json',
+        xhrFields:{
+          withCredentials:true
+        },
+        data:{money:cmoney},
+        async: false,
+        crossDomain:true,
+        success: function (result) {
+          if(result.message){
+            alert("充值成功");
+            location.reload();
+          }else{
+            alert("充值失败");
+            location.href("userlogin.html")
+          }
+        },
+        error: function (e) {
+          alert("error");
+        }
+      })
+    }
 
   </script>
 </head>
@@ -50,36 +79,7 @@
   <div class="panel-head"><strong><span class="icon-pencil-square-o"></span> 我的信息</strong></div>
   <div class="body-content">
     <form method="post" class="form-x" action="">
-      <div class="form-group">
-        <div class="label">
-          <label >uid：</label>
-        </div>
-        <div class="field" >
-          <label style="line-height:33px;" id="userID">
 
-          </label>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="label" >
-          <label>用户名：</label>
-        </div>
-        <div class="field">
-          <label style="line-height:33px;" id="userName">
-            jiehuguo
-          </label>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="label">
-          <label>邮箱：</label>
-        </div>
-        <div class="field"  >
-          <label style="line-height:33px;" id="userEmail">
-            2056000867@qq.com
-          </label>
-        </div>
-      </div>
       <div class="form-group">
         <div class="label">
           <label>余额：</label>
@@ -89,6 +89,20 @@
 
           </label>
         </div>
+      </div>
+          <div class="form-group">
+            <div class="label">
+              <label>充值金额：</label>
+            </div>
+            <div class="field">
+              <label style="line-height:33px;"  >
+              <input type="text" class="input w50" name="description"  id="money" style="margin-right: 30px" />
+                <div class="button-group "> <div class="button border-red"  onclick="upmoney()"><span class="icon-trash-o"></span> 充值</div> </div>
+              </label>
+              <div class="tips"></div>
+            </div>
+
+
       </div>
 
     </form>

@@ -31,18 +31,19 @@
 
 
           }else{
-            alert("未登錄");
+
           }
         },
         error: function (e) {
-          alert("登录失败");
+          alert("fail");
         }
       })
     })
 
     function change() {
-      var newpwd = $("#newPwd").val();
+      var newpwd = $("#newpass").val();
       var username = $("#mname").val();
+      var pwd = $("#mpass").val();
       var userid=1;
       $.ajax({
         url:"http://localhost:8080/GameShop/updateuser.html",
@@ -58,19 +59,18 @@
                   userPwd:newpwd,
                   userId:-1,
                   role:0,
-                  email:"0",
+                  email:pwd,
                   money:0
                 }),
         contentType:'application/json',
         async:false,
         success: function(data){
-          console.log(data.message);
           if(data.message) {
             alert("修改成功");
-          } else if(data.message){
-            alert("修改失败");
+            parent.window.location.reload();
+          }else if(!data.message){
+            alert(data.data);
           }
-
         },
         error: function (e) {
           console.log(e);
@@ -106,7 +106,7 @@
           <label>新密码：</label>
         </div>
         <div class="field">
-          <input type="password" class="input w50" name="newpass" size="50" placeholder="请输入新密码" data-validate="required:请输入新密码" id="newPwd"/>
+          <input type="password" class="input w50" name="newpass" id="newpass" size="50" placeholder="请输入新密码" data-validate="required:请输入新密码" id="newPwd"/>
         </div>
       </div>
       <div class="form-group">
@@ -114,7 +114,7 @@
           <label >确认新密码：</label>
         </div>
         <div class="field">
-          <input type="password" class="input w50" name="renewpass" size="50" placeholder="请再次输入新密码" data-validate="required:请再次输入新密码,repeat#newpass:两次输入的密码不一致" />          
+          <input type="password" class="input w50" name="renewpass" id="renewpass" size="50" placeholder="请再次输入新密码" data-validate="required:请再次输入新密码,repeat#newpass:两次输入的密码不一致" />
         </div>
       </div>
       
@@ -153,15 +153,15 @@
       }
     }
     if( $(this).is('#newpass') ){
-      if( this.value=="" ){
+      if( this.value!="newpass" ){
         $parent.append('<span class="formtips onError"></span>');
       }else{
         $parent.append('<span class="formtips onSuccess"></span>');
       }
     }
     if( $(this).is('#renewpass') ){
-      if( this.value==$('#newpass').val() ){
-        $parent.append('<span class="formtips onError">error</span>');
+      if( this.value!=$('#newpass').val() ){
+        $parent.append('<span class="formtips onError"></span>');
       }else{
         $parent.append('<span class="formtips onSuccess"></span>');
       }
