@@ -78,6 +78,13 @@
                         $("#gamevalue").html(result.message.gameValue);
                         $("#gamemessage").html(result.message.message);
 
+                        var index = result.message.path.lastIndexOf("GameShop");
+                        var ind = result.message.path.lastIndexOf("\\");
+                        path = "http://localhost:8080/"+(result.message.path).substring(index,ind)+"\\1.png";
+                        $("#tupian").html("<figure class=\"product-gallery__image zoom\">\n" +
+                            "                                                        <img src=\""+path+"\" alt=\"\"   >\n" +
+                            "                                                        <span class=\"product-badge sale\">Sale</span>\n" +
+                            "                                                    </figure>")
                     }else{
                         //没有对应的id游戏
                         alert("参数异常")
@@ -224,12 +231,16 @@
         <!-- Breadcrumb area End -->
 
         <!-- Main Content Wrapper Start -->
+<!--        <div  id="tupian">-->
+
+<!--        </div>-->
         <div class="main-content-wrapper">
             <div class="page-content-inner pt--80 pt-md--60">
                 <div class="container">
                     <div class="row no-gutters mb--80 mb-md--57">
                         <div class="col-lg-7 product-main-image">
                             <div class="product-image">
+                                <div id="tupian"></div>
                                 <div class="product-gallery vertical-slide-nav">
                                     <div class="product-gallery__large-image mb-sm--30">
                                         <div class="product-gallery__wrapper">
@@ -240,62 +251,10 @@
                                                 "arrows": false, 
                                                 "asNavFor": ".nav-slider"
                                             }'>
-                                                <div class="item">
-                                                    <figure class="product-gallery__image zoom">
-                                                        <img src="assets/img/products/product-03-500x555.png"
-                                                            alt="Product">
-                                                        <span class="product-badge sale">Sale</span>
-                                                        <div class="product-gallery__actions">
-                                                            <button class="action-btn btn-zoom-popup"><i
-                                                                    class="fa fa-eye"></i></button>
-                                                            <a href="https://www.youtube.com/watch?v=Rp19QD2XIGM"
-                                                                class="action-btn video-popup"><i
-                                                                    class="fa fa-play"></i></a>
-                                                        </div>
-                                                    </figure>
-                                                </div>
-                                                <div class="item">
-                                                    <figure class="product-gallery__image zoom">
-                                                        <img src="assets/img/products/product-04-500x555.png"
-                                                            alt="Product">
-                                                        <span class="product-badge sale">Sale</span>
-                                                        <div class="product-gallery__actions">
-                                                            <button class="action-btn btn-zoom-popup"><i
-                                                                    class="fa fa-eye"></i></button>
-                                                            <a href="https://www.youtube.com/watch?v=Rp19QD2XIGM"
-                                                                class="action-btn video-popup"><i
-                                                                    class="fa fa-play"></i></a>
-                                                        </div>
-                                                    </figure>
-                                                </div>
-                                                <div class="item">
-                                                    <figure class="product-gallery__image zoom">
-                                                        <img src="assets/img/products/product-05-500x555.png"
-                                                            alt="Product">
-                                                        <span class="product-badge sale">Sale</span>
-                                                        <div class="product-gallery__actions">
-                                                            <button class="action-btn btn-zoom-popup"><i
-                                                                    class="fa fa-eye"></i></button>
-                                                            <a href="https://www.youtube.com/watch?v=Rp19QD2XIGM"
-                                                                class="action-btn video-popup"><i
-                                                                    class="fa fa-play"></i></a>
-                                                        </div>
-                                                    </figure>
-                                                </div>
-                                                <div class="item">
-                                                    <figure class="product-gallery__image zoom">
-                                                        <img src="assets/img/products/product-06-500x555.png"
-                                                            alt="Product">
-                                                        <span class="product-badge sale">Sale</span>
-                                                        <div class="product-gallery__actions">
-                                                            <button class="action-btn btn-zoom-popup"><i
-                                                                    class="fa fa-eye"></i></button>
-                                                            <a href="https://www.youtube.com/watch?v=Rp19QD2XIGM"
-                                                                class="action-btn video-popup"><i
-                                                                    class="fa fa-play"></i></a>
-                                                        </div>
-                                                    </figure>
-                                                </div>
+<!--                                                <div  id="tupian">-->
+
+<!--                                                </div>-->
+
                                             </div>
                                         </div>
                                     </div>
@@ -312,8 +271,7 @@
                                             "focusOnSelect": true,
                                             "asNavFor": ".main-slider",
                                             "arrows": true, 
-                                            "prevArrow": {"buttonClass": "slick-btn slick-prev", "iconClass": "fa fa-angle-up" },
-                                            "nextArrow": {"buttonClass": "slick-btn slick-next", "iconClass": "fa fa-angle-down" }
+
                                         }' data-slick-responsive='[
                                             {
                                                 "breakpoint":1200, 
@@ -349,30 +307,7 @@
                                                 } 
                                             }
                                         ]'>
-                                            <div class="item">
-                                                <figure class="product-gallery__nav-image--single">
-                                                    <img src="assets/img/products/product-03-270x300.jpg"
-                                                        alt="Products">
-                                                </figure>
-                                            </div>
-                                            <div class="item">
-                                                <figure class="product-gallery__nav-image--single">
-                                                    <img src="assets/img/products/product-04-270x300.jpg"
-                                                        alt="Products">
-                                                </figure>
-                                            </div>
-                                            <div class="item">
-                                                <figure class="product-gallery__nav-image--single">
-                                                    <img src="assets/img/products/product-05-270x300.jpg"
-                                                        alt="Products">
-                                                </figure>
-                                            </div>
-                                            <div class="item">
-                                                <figure class="product-gallery__nav-image--single">
-                                                    <img src="assets/img/products/product-06-270x300.jpg"
-                                                        alt="Products">
-                                                </figure>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -381,10 +316,7 @@
                         <div class="col-xl-4 offset-xl-1 col-lg-5 product-main-details mt-md--50">
                             <div class="product-summary pl-lg--30 pl-md--0">
 
-                                <div class="product-rating d-flex mb--20">
-                                    <span class="money" >5.0</span>
 
-                                </div>
                                 <h3 class="product-title mb--20" id="gamename"></h3>
                                 评分：<span id="gamestore"></span>
                                 <p class="product-short-description mb--20" id="gamemessage"></p>
