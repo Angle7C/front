@@ -27,13 +27,13 @@
                         var str = '';
                         for(var i=0;i<result.data.first.length ;i++){
                             str+="<tr>\n" +
-                                "          <td><input type=\"checkbox\" name=\"id[]\" value=\"1\" />\n" +
+                                "          <td><input type=\"checkbox\" name=\"id[]\" value=\""+result.data.first[i].buyCarId+"\" />\n" +
                                 "            "+result.data.second[i].gameId+"</td>\n" +
                                 "          <td>"+result.data.second[i].gameName+"</td>\n" +
                                 "          <td>"+result.data.second[i].gameValue+"</td>\n" +
                                 "          <td>"+result.data.second[i].gameType+"</td>  \n" +
                                 "          <td><div class=\"button-group\"   onclick=\"dele("+result.data.first[i].buyCarId+")\"> <div class=\"button border-red\"><span class=\"icon-trash-o\"></span> 删除</div> </div>\n" +
-                                "          <div class=\"button-group\"> <div class=\"button border-red\" onclick=\"buy("+result.data.first[i].buyCarId+")\"><span class=\"icon-trash-o\"></span> 购买</div> </div></td>\n" +
+                                "          <div class=\"button-group\"> <div class=\"button border-red\" onclick=\"Buy("+result.data.first[i].buyCarId+")\"><span class=\"icon-trash-o\"></span> 购买</div> </div></td>\n" +
                                 "\n" +
                                 "        </tr>"
                         }
@@ -77,7 +77,7 @@
 
         }
 
-        function dele(carID){
+        function Buy(carID) {
             $.ajax({
                 url: 'http://localhost:8080/GameShop/buyGame.html',
                 type: 'GET',
@@ -96,14 +96,102 @@
                         alert("购买成功");
                         location.reload();
                     }else{
-                        alert("购买失败")
+                        alert(result.data)
                     }
                 },
                 error: function (e) {
                     alert("fail");
                 }
             })
+        }
+        
+        
+        function DelSelect(){
+            var Checkbox=false;
+            var Checkdata=[];
+            $("input[name='id[]']").each(function(){
+                if (this.checked==true) {
+                    Checkbox=true;
+                    Checkdata.push(parseInt($(this).val()));
+                }
+            });
+            if (Checkbox){
+                var t=confirm("您确认要删除选中的内容吗？");
+                if (t==false) return false;
+                $.ajax({
+                    url: 'http://localhost:8080/GameShop/deletegamenumberlist.html',
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    xhrFields:{
+                        withCredentials:true
+                    },
+                    data: JSON.stringify({list:Checkdata})
+                    ,
+                    async: false,
+                    crossDomain:true,
+                    success: function (result) {
+                        if(result.message){
+                            alert("删除成功");
+                            location.reload();
+                        }else{
+                            alert("删除失败")
+                        }
+                    },
+                    error: function (e) {
+                        alert("fail");
+                    }
+                })
 
+            }
+            else{
+                alert("请选择您要删除的内容!");
+                return false;
+            }
+        }
+
+        function Buymore(){
+            var Checkbox=false;
+            var Checkdata=[];
+            $("input[name='id[]']").each(function(){
+                if (this.checked==true) {
+                    Checkbox=true;
+                    Checkdata.push(parseInt($(this).val()));
+                }
+            });
+            if (Checkbox){
+                var t=confirm("您确认要删除选中的内容吗？");
+                if (t==false) return false;
+                $.ajax({
+                    url: 'http://localhost:8080/GameShop/deletegamenumberlist.html',
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    xhrFields:{
+                        withCredentials:true
+                    },
+                    data: JSON.stringify({list:Checkdata})
+                    ,
+                    async: false,
+                    crossDomain:true,
+                    success: function (result) {
+                        if(result.message){
+                            alert("删除成功");
+                            location.reload();
+                        }else{
+                            alert("删除失败")
+                        }
+                    },
+                    error: function (e) {
+                        alert("fail");
+                    }
+                })
+
+            }
+            else{
+                alert("请选择您要删除的内容!");
+                return false;
+            }
         }
     </script>
 </head>
@@ -115,7 +203,7 @@
       <ul class="search">
         <li>
           <button type="button"  class="button border-green" id="checkall"><span class="icon-check"></span> 全选</button>
-          <button type="button" class="button border-red"><span class="icon-trash-o"></span> 批量删除</button>
+          <button type="button" class="button border-red"  onclick="DelSelect()"><span class="icon-trash-o"></span> 批量删除</button>
           <button type="button" class="button border-red"><span class="icon-trash-o"></span> 批量购买</button>
         </li>
       </ul>
@@ -133,53 +221,7 @@
         <tbody id="data">
 
         </tbody>
-        <!--<tr>
-          <td><input type="checkbox" name="id[]" value="1" />
-            1</td>
-          <td>XXX</td>
-          <td>XXX</td>
-          <td>XXX</td>  
-           <td>XXX</td>         
-          <td>这是一套后台UI，喜欢的朋友请多多支持谢谢。</td>
-          <td>2016-07-01</td>
-          <td><div class="button-group"> <a class="button border-red" href="javascript:void(0)" onclick="return del(1)"><span class="icon-trash-o"></span> 删除</a> </div></td>
-        </tr>
-          <tr>
-          <td><input type="checkbox" name="id[]" value="1" />
-            1</td>
-          <td>XXX</td>
-          <td>XXX</td>
-          <td>XXX</td>  
-           <td>XXX</td>         
-          <td>这是一套后台UI，喜欢的朋友请多多支持谢谢。</td>
-          <td>2016-07-01</td>
-          <td><div class="button-group"> <a class="button border-red" href="javascript:void(0)" onclick="return del(1)"><span class="icon-trash-o"></span> 删除</a> </div></td>
-        </tr>
-          <tr>
-          <td><input type="checkbox" name="id[]" value="1" />
-            1</td>
-          <td>XXX</td>
-          <td>XXX</td>
-          <td>XXX</td>  
-           <td>XXX</td>         
-          <td>这是一套后台UI，喜欢的朋友请多多支持谢谢。</td>
-          <td>2016-07-01</td>
-          <td><div class="button-group"> <a class="button border-red" href="javascript:void(0)" onclick="return del(1)"><span class="icon-trash-o"></span> 删除</a> </div></td>
-        </tr>
-          <tr>
-          <td><input type="checkbox" name="id[]" value="1" />
-            1</td>
-          <td>XXX</td>
-          <td>XXX</td>
-          <td>XXX</td>  
-           <td>XXX</td>         
-          <td>这是一套后台UI，喜欢的朋友请多多支持谢谢。</td>
-          <td>2016-07-01</td>
-          <td><div class="button-group"> <a class="button border-red" href="javascript:void(0)" onclick="return del(1)"><span class="icon-trash-o"></span> 删除</a> </div></td>
-        </tr>
-      <tr>
-        <td colspan="8"><div class="pagelist"> <a href="">上一页</a> <span class="current">1</span><a href="">2</a><a href="">3</a><a href="">下一页</a><a href="">尾页</a> </div></td>
-      </tr>-->
+
     </table>
   </div>
 </form>
@@ -202,22 +244,7 @@ $("#checkall").click(function(){
   });
 })
 
-function DelSelect(){
-	var Checkbox=false;
-	 $("input[name='id[]']").each(function(){
-	  if (this.checked==true) {		
-		Checkbox=true;	
-	  }
-	});
-	if (Checkbox){
-		var t=confirm("您确认要删除选中的内容吗？");
-		if (t==false) return false; 		
-	}
-	else{
-		alert("请选择您要删除的内容!");
-		return false;
-	}
-}
+
 
 </script>
 </body></html>
