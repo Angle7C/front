@@ -56,30 +56,32 @@
 
     <script>
         //获取地址栏参数
-        $(document).read(function(){
-            var gameid=getUrlParam("gameId");
+        $(document).ready(function(){
+            var gameid=parseInt(getUrlParam("gameId"));
             $.ajax({
-                url:"http://localhost:8080/GameShop/",
+                url:"http://localhost:8080/GameShop/findgame.html",
                 dataType:"json",
                 data:{
                     gameId:gameid
                 },
-                type:"post",
+                type:"get",
                 xhrFields:{
                     withCredentials:true
                 },
                 crossDomain:true,
+                contentType:'application/json',
                 success:function(result){
                     if(result.message){
                         //有对应的游戏
-                        $("#gamename").html(result.data.gameName);
-                        $("#gamevalue").html(result.data.gameValue);
-                        $("#gamemessage").html(result.data.message);
+                        $("#gamename").html(result.message.gameName);
+                        $("#gamestore").html(result.message.gameStore)
+                        $("#gamevalue").html(result.message.gameValue);
+                        $("#gamemessage").html(result.message.message);
 
                     }else{
                         //没有对应的id游戏
                         alert("参数异常")
-                        history.go(-1)//回退之前的页面
+                        //history.go(-1)//回退之前的页面
 
                     }
                 }
@@ -162,7 +164,7 @@
                                             </div>
                                         </li>
                                         <li class="mainmenu__item menu-item-has-children position-static">
-                                            <a href="#" class="mainmenu__link">商城</a>
+                                            <a href="shop.html" class="mainmenu__link">商城</a>
 
                                         </li>
                                         <li class="mainmenu__item menu-item-has-children position-relative">
@@ -384,9 +386,10 @@
 
                                 </div>
                                 <h3 class="product-title mb--20" id="gamename"></h3>
+                                评分：<span id="gamestore"></span>
                                 <p class="product-short-description mb--20" id="gamemessage"></p>
                                 <div class="product-price-wrapper mb--25">
-                                    <span class="money" id="gamevalue"></span>
+                                    <span class="money" id="gamevalue">￥</span>
 
                                 </div>
                                 <form action="#" class="variation-form mb--20">
