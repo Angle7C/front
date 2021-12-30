@@ -30,6 +30,19 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 
     <![endif]-->
+    <style type="text/CSS">
+        .wy{
+            background-color: #1b1e21;
+            color: white;
+            padding: 6px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 10px;
+            border-radius: 2px;
+            border: 2px solid skyblue;
+        }
+    </style>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 <script>
     //获取url中的参数
@@ -43,38 +56,31 @@
     var role;
     $(document).ready(function () {
         role=getUrlParam("role");
-        alert(role);
+        $("#mya").attr("href","Admin_GameInfo.html?role="+role);
+        $("#myu").attr("href","Admin_UserInfo.html?role="+role);
+        $("#myg").attr("href","Admin_AuditGame.html?role="+role);
         mypage(role,4);
     });
 </script>
 <script type="text/javascript">
-    function change() {
-        var newpwd = $("#newpwd");
-        var username = $("#mname");
-        var userid=$("#userId");
+    function deleteGame(i) {
+        // console.log(test);
+        var gameid=$("#"+"gameId"+i).val();
         $.ajax({
-            url:"",
-            type:"POST",
+            url:"http://localhost:8080/GameShop/deletegame.html",
+            type:"get",
             dataType:"JSON",
             xhrFields: {
                 withCredentials: true
             },
             crossDomain: true,
-            data:JSON.stringify(
-                {
-                    pwd:newpwd,
-                    username:username,
-                    userid:userid,
-                }),
-            contentType:'application/json',
+            data: {
+                    gameId:gameid
+                },
+            // contentType:'application/json',
             async:false,
             success: function(data){
-                console.log(data.message);
-                if(data.message) {
-                    alert("修改成功");
-                } else if(data.message){
-                    alert("修改失败");
-                }
+
 
             },
             error: function (e) {
@@ -114,13 +120,13 @@
     function mypage1(role,page,dx) {
         console.log(page);
         $.ajax({
-                url: "http://localhost:8080/GameShop/gamepage.html",
+                url: "http://localhost:8080/GameShop/agamepagesize.html",
                 dataType: "json",
                 data: JSON.stringify(
                     {
-                            currentPage: page.currentPage + dx,
-                            totalPages: page.totalPages ,
-                            pageSize: page.pageSize
+                        currentPage: page.currentPage + dx,
+                        totalPages: page.totalPages ,
+                        pageSize: page.pageSize
                     }),
                 type: "POST",
                 xhrFields: {
@@ -137,19 +143,20 @@
                         var strx="";
                         var i;
                         for(i=0;i<mydata.length;i++){
-                            str=str+ '<tr> <td>'+mydata[i].gameId+'</td> <td>'+mydata[i].gameName+'</td> <td>'+mydata[i].gameValue+'</td> <td>'+mydata[i].Value+'</td>';
-                            str=str;
+                            str=str+ '<tr> <td>'+mydata[i].gameId+'</td><input type="hidden" value="'+mydata[i].gameId+'" id="gameId'+i+'"> <td>'+mydata[i].gameName+'</td> <td>'+mydata[i].gameValue+'</td>';
+                            strx='<td><button onclick="deleteGame('+i+')" >删除</button></td></tr>'
+                            str=str+strx;
                         }
 
 
-                        $("#UserInfoList").html(str);
-                        var str2='<a href="javascript:void(0);" onclick ="mypage1(role,gPage,0)" >首页</a>';
+                        $("#GameInfoList").html(str);
+                        var str2='<a class="wy" href="javascript:void(0);" onclick ="mypage1(role,gPage,-gPage.currentPage+1)" >首页</a>';
 
-                        var str4='<a href="javascript:void(0);" onclick="mypage1(role,gPage,gPage.currentPage-1==0?0:-1)">上一页</a>';
+                        var str4='<a class="wy" href="javascript:void(0);" onclick="mypage1(role,gPage, gPage.currentPage==1?0:-1)">上一页</a>';
 
-                        var str5='<a href="javascript:void(0);" onclick="mypage1(role,gPage,gPage.currentPage>=gPage.totalPages?0:+1)" >下一页</a>';
+                        var str5='<a class="wy" href="javascript:void(0);" onclick="mypage1(role,gPage, gPage.currentPage>=gPage.totalPages?0:1)" >下一页</a>';
 
-                        var str3='<a href="javascript:void(0)" onclick="mypage1(role,gPage,-gPage.currentPage+gPage.totalPages)">尾页</a>';
+                        var str3='<a class="wy" href="javascript:void(0)" onclick="mypage1(role,gPage, -gPage.currentPage+gPage.totalPages)">尾页</a>';
 
                         $("#mypagetool").html(str2+str4+str5+str3);
                     }
@@ -200,7 +207,7 @@
 
 
         <li class="active">
-            <a href="Admin_UserInfo.html">
+            <a href="Admin_UserInfo.html?role=" id="myu">
                 <div class="pointer">
                     <div class="arrow"></div>
                     <div class="arrow_border"></div>
@@ -211,13 +218,23 @@
             </a>
         </li>
         <li class="active">
-            <a href="Admin_GameInfo.html">
+            <a href="Admin_GameInfo.html?role=" id="mya">
                 <div class="pointer">
                     <div class="arrow"></div>
                     <div class="arrow_border"></div>
                 </div>
                 <i class="icon-th-large"></i>
                 <span>Games</span>
+            </a>
+        </li>
+        <li class="active">
+            <a href="Admin_AuditGame.html?role=" id="myg">
+                <div class="pointer">
+                    <div class="arrow"></div>
+                    <div class="arrow_border"></div>
+                </div>
+                <i class="icon-th-large"></i>
+                <span>Audit</span>
             </a>
         </li>
     </ul>
@@ -245,15 +262,10 @@
             <div class="table-wrapper products-table section">
                 <div class="row-fluid head">
                     <div class="span12">
-                        <h4>游戏数据</h4>
+                        <h2>游戏数据</h2>
                     </div>
                 </div>
 
-                <div class="row-fluid filter-block">
-                    <div class="pull-right">
-                        <input type="text" class="search" />
-                    </div>
-                </div>
 
 
 
@@ -276,22 +288,13 @@
                                 <span class="line"></span>游戏价格
                             </th>
                             <th class="span3">
-                                <span class="line"></span>上架日期
-                            </th>
-                            <th class="span3">
                                 <span class="line"></span>操作
                             </th>
 
                         </tr>
                         </thead>
 
-
-
-
-
-
-
-                        <tbody id="UserInfoList">
+                        <tbody id="GameInfoList">
                         <!-- row -->
                         <!--                                <tr>-->
                         <!--                                    <td>1</td> <td>用户名</td>  <td>密码</td>-->
