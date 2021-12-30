@@ -42,21 +42,20 @@
 <script>
     var role;
     $(document).ready(function () {
-        role=parseInt(getUrlParam("role"));
+        role=getUrlParam("role");
         $("#mya").attr("href","Admin_GameInfo.html?role="+role);
         $("#myu").attr("href","Admin_UserInfo.html?role="+role);
+        $("#myg").attr("href","Admin_AuditGame.html?role="+role);
         alert(role);
-        mypage(role,3);
+        mypage(role,11);
     });
 </script>
 <script type="text/javascript">
-    function change(i) {
-
-
-        var newpwd = $("#"+"newPwd"+i).val();
-        var userid=$("#"+"userId"+i).val();
+    function Aduit(flag,i) {
+        // console.log(test);
+        var gameid=$("#"+"gameId"+i).val();
         $.ajax({
-            url:"http://localhost:8080/GameShop/adminupdatauser.html",
+            url:"http://localhost:8080/GameShop/cancelgameup.html",
             type:"POST",
             dataType:"JSON",
             xhrFields: {
@@ -65,22 +64,13 @@
             crossDomain: true,
             data:JSON.stringify(
                 {
-                    userId: userid,
-                    userName:null,
-                    role:0,
-                    money:1,
-                    userPwd:newpwd,
-                    email:null
+                    first:gameid,
+                    second:flag==1?true:false
                 }),
             contentType:'application/json',
             async:false,
             success: function(data){
-                console.log(data.message);
-                if(data.message) {
-                    alert("修改成功");
-                } else if(data.message){
-                    alert("修改失败");
-                }
+
 
             },
             error: function (e) {
@@ -95,13 +85,12 @@
 
     function mypage(role,size){
         $.ajax({
-            url: "http://localhost:8080/GameShop/userpagesize.html",
+            url: "http://localhost:8080/GameShop/zerogame.html",
             dataType: "json",
-            data:JSON.stringify({
-                first:role,
-                second:size
-            }),
-            type: "POST",
+            data:{
+                size:size
+            },
+            type: "GET",
             xhrFields: {
                 withCredentials: true
             },
@@ -120,18 +109,16 @@
     function mypage1(role,page,dx) {
         console.log(page);
         $.ajax({
-                url: "http://localhost:8080/GameShop/userpage.html",
+                url: "http://localhost:8080/GameShop/zerogamepage.html",
                 dataType: "json",
                 data: JSON.stringify(
                     {
-                        first:role,
-                        second: {
                             currentPage: page.currentPage + dx,
                             totalPages: page.totalPages ,
                             pageSize: page.pageSize
-                        }
+
                     }),
-                type: "POST",
+                type: "post",
                 xhrFields: {
                     withCredentials: true
                 },
@@ -140,19 +127,18 @@
                 success: function (result) {
                     if(result.message){
                         var mydata=result.data.array;
-                        var strnewpwd;
+
                         gPage=result.data.page;
                         var str="";
                         var strx="";
                         var i;
                         for(i=0;i<mydata.length;i++){
-                            str=str+ '<tr> <td >'+mydata[i].userId+'</td><input type="hidden" value="'+mydata[i].userId+'" id="userId'+i+'"> <td id="mname">'+mydata[i].userName+'</td> <td>'+mydata[i].userPwd+'</td>';
-                            strx='<td > <input type="text"  placeholder="修改密码 " id="newPwd'+i+'"  ><button onclick="change('+i+')" >确认</button> </td></tr>';
+                            str=str+ '<tr> <td >'+mydata[i].gameId+'</td><input type="hidden" value="'+mydata[i].gameId+'" id="gameId'+i+'"> <td>'+mydata[i].gamename+'</td> <td>'+mydata[i].gameprice+'</td>';
+                            strx=' <td><button onclick="Aduit(1,'+i+')">√</button><button onclick="Aduit(2,'+i+')">×</button></td></tr>';
                             str=str+strx;
                         }
 
-
-                        $("#UserInfoList").html(str);
+                        $("#AuditList").html(str);
                         var str2='<a href="javascript:void(0);" onclick ="mypage1(role,gPage,0)" >首页</a>';
 
                         var str4='<a href="javascript:void(0);" onclick="mypage1(role,gPage,gPage.currentPage-1==0?0:-1)">上一页</a>';
@@ -230,6 +216,17 @@
                 <span>Games</span>
             </a>
         </li>
+        <li class="active">
+            <a href="Admin_UserInfo.html?role=" id="myg">
+                <div class="pointer">
+                    <div class="arrow"></div>
+                    <div class="arrow_border"></div>
+                </div>
+                <i class="icon-group"></i>
+                <span>Audit</span>
+
+            </a>
+        </li>
     </ul>
 </div>
 <!-- end sidebar -->
@@ -255,7 +252,7 @@
             <div class="table-wrapper products-table section">
                 <div class="row-fluid head">
                     <div class="span12">
-                        <h4>用户数据</h4>
+                        <h4>审核游戏</h4>
                     </div>
                 </div>
 
@@ -280,16 +277,13 @@
                             </th>
                             <th class="span3">
 
-                                <span class="line"></span>用户名
+                                <span class="line"></span>游戏名
                             </th>
                             <th class="span3">
-                                <span class="line"></span>密码
+                                <span class="line"></span>游戏价格
                             </th>
                             <th class="span3">
                                 <span class="line"></span>操作
-                            </th>
-                            <th class="span3">
-                                <span class="line"></span>状态
                             </th>
 
                         </tr>
@@ -298,10 +292,8 @@
 
 
 
+                        <tbody id="AuditList">
 
-
-
-                        <tbody id="UserInfoList">
 
                         </tbody>
                     </table>
