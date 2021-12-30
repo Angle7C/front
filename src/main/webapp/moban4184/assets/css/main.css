@@ -2707,7 +2707,7 @@ a, button, .item-overlay, .global-overlay, .scroll-to-top i:before, .slick-dots 
   margin-right: 20px; }
 
 .pagination li .page-number {
-  width: 35px;
+  width: 60px;
   height: 35px;
   line-height: 35px;
   text-align: center;
