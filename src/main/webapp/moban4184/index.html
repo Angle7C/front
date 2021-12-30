@@ -48,27 +48,69 @@
             })
         })
     </script>
+
     <script>
-        //加载评分前4的游戏
-        $(document).ready(function (){
-            //myshow(4,"list")
-        });
+
     </script>
+
     <script>
-        function myshow(limit,id){
+        $(document).ready(function (){
+            myshow("8");
+        })
+
+        function myshow(size){
+
             $.ajax({
-                url:"http://localhost:8080/GameShop/",
+                url:"http://localhost:8080/GameShop/gamepage.html",
                 dataType:"json",
-                data:{limit:limit},
+                data:JSON.stringify(
+                    {
+                        type:"",
+                        size:size,
+                        Name:"",
+                    }),
+                type:"post",
+                xhrFields:{
+                    withCredentials:true
+                },
+                contentType:'application/json',
+                crossDomain:true,
+                success:function(result){
+                    if(result.message){
+
+                        myshow1(result.data);
+                    }else{
+                        alert("页面大小有误");
+                    }
+                },
+                error:function(result){
+
+                }
+            });
+        }
+
+        function myshow1(page){
+            $.ajax({
+                url:"http://localhost:8080/GameShop/gametypepage.html",
+                dataType:"json",
+                data:JSON.stringify(
+                    {
+                        type:null,
+                        currentPage:page.currentPage,
+                        pageSize:page.pageSize,
+                        totalPages:page.totalPages,
+                        Name:null,
+                    }),
                 type:"post",
                 xhrFields:{
                     withCredentials:true
                 },
                 crossDomain:true,
+                contentType:'application/json',
                 success:function(result){
                     if(result.message){
                         //有数据
-                        var mydata=result.data;
+                        var mydata=result.data.array;
                         var i=0;
                         var str="";
                         for (i;i<mydata.length;i++){
@@ -80,52 +122,32 @@
                                 '                                        </figure>\n' +
                                 '                                        <a href="product-details.html" class="product-overlay"></a>\n' +
                                 '                                        <div class="product__action">\n' +
-                                '                                            <a data-toggle="modal" data-target="#productModal" class="action-btn">\n' +
-                                '                                                <i class="fa fa-eye"></i>\n' +
-                                '                                                <span class="sr-only">Quick View</span>\n' +
-                                '                                            </a>\n' +
-                                '                                            <a href="wishlist.html" class="action-btn">\n' +
-                                '                                                <i class="fa fa-heart-o"></i>\n' +
-                                '                                                <span class="sr-only">Add to wishlist</span>\n' +
-                                '                                            </a>\n' +
-                                '                                            <a href="wishlist.html" class="action-btn">\n' +
-                                '                                                <i class="fa fa-repeat"></i>\n' +
-                                '                                                <span class="sr-only">Add To Compare</span>\n' +
-                                '                                            </a>\n' +
-                                '                                            <a href="cart.html" class="action-btn">\n' +
-                                '                                                <i class="fa fa-shopping-cart"></i>\n' +
-                                '                                                <span class="sr-only">Add To Cart</span>\n' +
-                                '                                            </a>\n' +
+
+
                                 '                                        </div>\n' +
                                 '                                    </div>\n' +
                                 '                                    <div class="product__info">\n' +
                                 '                                        <div class="product__info--left">\n' +
                                 '                                            <h3 class="product__title">\n' +
-                                '                                                <a href="product-details.html">'+mydata[i].gameName+'</a>\n' +
+                                '                                                <a href="product-details.html?gameId='+mydata[i].gameId+'">'+mydata[i].gameName+'</a>\n' +
                                 '                                            </h3>\n' +
                                 '                                            <div class="product__price">\n' +
                                 '                                                <span class="money">'+mydata[i].gameValue+'</span>\n' +
                                 '                                                <span class="sign">¥</span>\n' +
                                 '                                            </div>\n' +
                                 '                                        </div>\n' +
-                                '                                        <div class="product__info--right">\n' +
-                                '                                            <span class="product__rating">\n' +
-                                '                                                <i class="fa fa-star"></i>\n' +
-                                '                                                <i class="fa fa-star"></i>\n' +
-                                '                                                <i class="fa fa-star"></i>\n' +
-                                '                                                <i class="fa fa-star"></i>\n' +
-                                '                                                <i class="fa fa-star"></i>\n' +
-                                '                                            </span>\n' +
+                                '                                        <div class="product__info--left">\ ' +
+                                '                                         <span>'+mydata[i].gameStore+'</span>'+
                                 '                                        </div>\n' +
                                 '                                    </div>\n' +
                                 '                                </div>\n' +
                                 '                            </div>';
-                            $("#"+id).html(str);
+                            $("#gamelist").html(str);
                         }
                     }else{
 
                         //没有数据
-                        $("#"+id).html("暂无游戏")
+                        $("#gamelist").html("暂无游戏")
                     }
 
                 }
@@ -330,511 +352,19 @@
 
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb--65 mb-md--50" id="lists">
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb--65 mb-md--50">
-                        <div class="payne-product">
-                            <div class="product__inner">
-                                <div class="product__image">
-                                    <figure class="product__image--holder">
-                                        <img src="assets/img/products/product-04-270x300.jpg" alt="Product">
-                                    </figure>
-                                    <a href="product-details.html" class="product-overlay"></a>
+                <div class="row"id="gamelist">
 
-                                </div>
-                                <div class="product__info">
-                                    <div class="product__info--left">
-                                        <h3 class="product__title">
-                                            <a href="product-details.html">Lexbaro Begadi</a>
-                                        </h3>
-                                        <div class="product__price">
-                                            <span class="money">132.00</span>
-                                            <span class="sign">$</span>
-                                        </div>
-                                    </div>
-                                    <div class="product__info--right">
-                                            <span class="product__rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb--65 mb-md--50">
-                        <div class="payne-product">
-                            <div class="product__inner">
-                                <div class="product__image">
-                                    <figure class="product__image--holder">
-                                        <img src="assets/img/products/product-05-270x300.jpg" alt="Product">
-                                    </figure>
-                                    <a href="product-details.html" class="product-overlay"></a>
-                                    <div class="product__action">
-                                        <a data-toggle="modal" data-target="#productModal" class="action-btn">
-                                            <i class="fa fa-eye"></i>
-                                            <span class="sr-only">Quick View</span>
-                                        </a>
-                                        <a href="wishlist.html" class="action-btn">
-                                            <i class="fa fa-heart-o"></i>
-                                            <span class="sr-only">Add to wishlist</span>
-                                        </a>
-                                        <a href="wishlist.html" class="action-btn">
-                                            <i class="fa fa-repeat"></i>
-                                            <span class="sr-only">Add To Compare</span>
-                                        </a>
-                                        <a href="cart.html" class="action-btn">
-                                            <i class="fa fa-shopping-cart"></i>
-                                            <span class="sr-only">Add To Cart</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="product__info">
-                                    <div class="product__info--left">
-                                        <h3 class="product__title">
-                                            <a href="product-details.html">Lexbaro Begadi</a>
-                                        </h3>
-                                        <div class="product__price">
-                                            <span class="money">132.00</span>
-                                            <span class="sign">$</span>
-                                        </div>
-                                    </div>
-                                    <div class="product__info--right">
-                                            <span class="product__rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb--65 mb-md--50">
-                        <div class="payne-product">
-                            <div class="product__inner">
-                                <div class="product__image">
-                                    <figure class="product__image--holder">
-                                        <img src="assets/img/products/product-06-270x300.jpg" alt="Product">
-                                    </figure>
-                                    <a href="product-details.html" class="product-overlay"></a>
-                                    <div class="product__action">
-                                        <a data-toggle="modal" data-target="#productModal" class="action-btn">
-                                            <i class="fa fa-eye"></i>
-                                            <span class="sr-only">Quick View</span>
-                                        </a>
-                                        <a href="wishlist.html" class="action-btn">
-                                            <i class="fa fa-heart-o"></i>
-                                            <span class="sr-only">Add to wishlist</span>
-                                        </a>
-                                        <a href="wishlist.html" class="action-btn">
-                                            <i class="fa fa-repeat"></i>
-                                            <span class="sr-only">Add To Compare</span>
-                                        </a>
-                                        <a href="cart.html" class="action-btn">
-                                            <i class="fa fa-shopping-cart"></i>
-                                            <span class="sr-only">Add To Cart</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="product__info">
-                                    <div class="product__info--left">
-                                        <h3 class="product__title">
-                                            <a href="product-details.html">Lexbaro Begadi</a>
-                                        </h3>
-                                        <div class="product__price">
-                                            <span class="money">132.00</span>
-                                            <span class="sign">$</span>
-                                        </div>
-                                    </div>
-                                    <div class="product__info--right">
-                                            <span class="product__rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb--65 mb-md--50">
-                        <div class="payne-product">
-                            <div class="product__inner">
-                                <div class="product__image">
-                                    <figure class="product__image--holder">
-                                        <img src="assets/img/products/product-07-270x300.jpg" alt="Product">
-                                    </figure>
-                                    <a href="product-details.html" class="product-overlay"></a>
-                                    <div class="product__action">
-                                        <a data-toggle="modal" data-target="#productModal" class="action-btn">
-                                            <i class="fa fa-eye"></i>
-                                            <span class="sr-only">Quick View</span>
-                                        </a>
-                                        <a href="wishlist.html" class="action-btn">
-                                            <i class="fa fa-heart-o"></i>
-                                            <span class="sr-only">Add to wishlist</span>
-                                        </a>
-                                        <a href="wishlist.html" class="action-btn">
-                                            <i class="fa fa-repeat"></i>
-                                            <span class="sr-only">Add To Compare</span>
-                                        </a>
-                                        <a href="cart.html" class="action-btn">
-                                            <i class="fa fa-shopping-cart"></i>
-                                            <span class="sr-only">Add To Cart</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="product__info">
-                                    <div class="product__info--left">
-                                        <h3 class="product__title">
-                                            <a href="product-details.html">Lexbaro Begadi</a>
-                                        </h3>
-                                        <div class="product__price">
-                                            <span class="money">132.00</span>
-                                            <span class="sign">$</span>
-                                        </div>
-                                    </div>
-                                    <div class="product__info--right">
-                                            <span class="product__rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb--65 mb-md--50">
-                        <div class="payne-product">
-                            <div class="product__inner">
-                                <div class="product__image">
-                                    <figure class="product__image--holder">
-                                        <img src="assets/img/products/product-08-270x300.jpg" alt="Product">
-                                    </figure>
-                                    <a href="product-details.html" class="product-overlay"></a>
-                                    <div class="product__action">
-                                        <a data-toggle="modal" data-target="#productModal" class="action-btn">
-                                            <i class="fa fa-eye"></i>
-                                            <span class="sr-only">Quick View</span>
-                                        </a>
-                                        <a href="wishlist.html" class="action-btn">
-                                            <i class="fa fa-heart-o"></i>
-                                            <span class="sr-only">Add to wishlist</span>
-                                        </a>
-                                        <a href="wishlist.html" class="action-btn">
-                                            <i class="fa fa-repeat"></i>
-                                            <span class="sr-only">Add To Compare</span>
-                                        </a>
-                                        <a href="cart.html" class="action-btn">
-                                            <i class="fa fa-shopping-cart"></i>
-                                            <span class="sr-only">Add To Cart</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="product__info">
-                                    <div class="product__info--left">
-                                        <h3 class="product__title">
-                                            <a href="product-details.html">Lexbaro Begadi</a>
-                                        </h3>
-                                        <div class="product__price">
-                                            <span class="money">132.00</span>
-                                            <span class="sign">$</span>
-                                        </div>
-                                    </div>
-                                    <div class="product__info--right">
-                                            <span class="product__rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb--65 mb-md--50">
-                        <div class="payne-product">
-                            <div class="product__inner">
-                                <div class="product__image">
-                                    <figure class="product__image--holder">
-                                        <img src="assets/img/products/product-09-270x300.jpg" alt="Product">
-                                    </figure>
-                                    <a href="product-details.html" class="product-overlay"></a>
-                                    <div class="product__action">
-                                        <a data-toggle="modal" data-target="#productModal" class="action-btn">
-                                            <i class="fa fa-eye"></i>
-                                            <span class="sr-only">Quick View</span>
-                                        </a>
-                                        <a href="wishlist.html" class="action-btn">
-                                            <i class="fa fa-heart-o"></i>
-                                            <span class="sr-only">Add to wishlist</span>
-                                        </a>
-                                        <a href="wishlist.html" class="action-btn">
-                                            <i class="fa fa-repeat"></i>
-                                            <span class="sr-only">Add To Compare</span>
-                                        </a>
-                                        <a href="cart.html" class="action-btn">
-                                            <i class="fa fa-shopping-cart"></i>
-                                            <span class="sr-only">Add To Cart</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="product__info">
-                                    <div class="product__info--left">
-                                        <h3 class="product__title">
-                                            <a href="product-details.html">Lexbaro Begadi</a>
-                                        </h3>
-                                        <div class="product__price">
-                                            <span class="money">132.00</span>
-                                            <span class="sign">$</span>
-                                        </div>
-                                    </div>
-                                    <div class="product__info--right">
-                                            <span class="product__rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb--65 mb-md--50">
-                        <div class="payne-product">
-                            <div class="product__inner">
-                                <div class="product__image">
-                                    <figure class="product__image--holder">
-                                        <img src="assets/img/products/product-10-270x300.jpg" alt="Product">
-                                    </figure>
-                                    <a href="product-details.html" class="product-overlay"></a>
-                                    <div class="product__action">
-                                        <a data-toggle="modal" data-target="#productModal" class="action-btn">
-                                            <i class="fa fa-eye"></i>
-                                            <span class="sr-only">Quick View</span>
-                                        </a>
-                                        <a href="wishlist.html" class="action-btn">
-                                            <i class="fa fa-heart-o"></i>
-                                            <span class="sr-only">Add to wishlist</span>
-                                        </a>
-                                        <a href="wishlist.html" class="action-btn">
-                                            <i class="fa fa-repeat"></i>
-                                            <span class="sr-only">Add To Compare</span>
-                                        </a>
-                                        <a href="cart.html" class="action-btn">
-                                            <i class="fa fa-shopping-cart"></i>
-                                            <span class="sr-only">Add To Cart</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="product__info">
-                                    <div class="product__info--left">
-                                        <h3 class="product__title">
-                                            <a href="product-details.html">Lexbaro Begadi</a>
-                                        </h3>
-                                        <div class="product__price">
-                                            <span class="money">132.00</span>
-                                            <span class="sign">$</span>
-                                        </div>
-                                    </div>
-                                    <div class="product__info--right">
-                                            <span class="product__rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
         <!-- Product Area End -->
 
         <!-- Countdown Product Area Start -->
-        <div class="limited-product-area mb--11pt5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 mb-md--40 mb-sm--45">
-                        <div class="limited-product__image">
-                            <div class="limited-product__title">
-                                <h2>Backpack</h2>
-                            </div>
-                            <div class="limited-product__large-image">
-                                <div class="element-carousel main-slider" data-slick-options='{
-                                        "slidesToShow": 1,
-                                        "asNavFor": ".nav-slider"
-                                    }'>
-                                    <div class="item">
-                                        <figure>
-                                            <img src="assets/img/products/product-11-321x450.png"
-                                                 alt="Countdown Product">
-                                        </figure>
-                                    </div>
-                                    <div class="item">
-                                        <figure>
-                                            <img src="assets/img/products/product-12-321x450.png"
-                                                 alt="Countdown Product">
-                                        </figure>
-                                    </div>
-                                    <div class="item">
-                                        <figure>
-                                            <img src="assets/img/products/product-13-321x450.png"
-                                                 alt="Countdown Product">
-                                        </figure>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="limited-product__nav-image">
-                                <div class="element-carousel nav-slider" data-slick-options='{
-                                        "spaceBetween": 25,
-                                        "slidesToShow": 3,
-                                        "vertical": true,
-                                        "focusOnSelect": true,
-                                        "asNavFor": ".main-slider"
-                                    }'
-                                     data-slick-responsive='[
-                                        {"breakpoint": 576, "settings": { "vertical": false }}
-                                    ]'
-                                >
-                                    <div class="item">
-                                        <figure>
-                                            <img src="assets/img/products/product-11-123x127.jpg"
-                                                 alt="Product Nav Image">
-                                        </figure>
-                                    </div>
-                                    <div class="item">
-                                        <figure>
-                                            <img src="assets/img/products/product-12-123x127.jpg"
-                                                 alt="Product Nav Image">
-                                        </figure>
-                                    </div>
-                                    <div class="item">
-                                        <figure>
-                                            <img src="assets/img/products/product-13-123x127.jpg"
-                                                 alt="Product Nav Image">
-                                        </figure>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-5 offset-xl-1 col-lg-6">
-                        <div class="limited-product__info">
-                            <h2 class="limited-product__name">
-                                <a href="product-details.html">BLINGO BACKPACK</a>
-                            </h2>
-                            <p class="limited-product__desc">Neque porro quisquam est, qui dolorem ipsum quia dolor
-                                ipisci velit, sed quia non numquam eius modi </p>
-                            <div class="d-flex align-items-center">
-                                <div class="limited-product__price">
-                                    <span class="money">162</span>
-                                    <span class="sign">$</span>
-                                </div>
-                                <span class="limited-product__rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </span>
-                            </div>
-                            <h3 class="limited-product__subtitle">BEST DEAL, LIMITED TIME OFFER GET YOUR’S NOW!</h3>
-                            <div class="limited-product__countdown">
-                                <div class="countdown-wrap">
-                                    <div class="countdown" data-countdown="2020/10/01" data-format="short">
-                                        <div class="countdown__item">
-                                            <span class="countdown__time daysLeft"></span>
-                                            <span class="countdown__text daysText"></span>
-                                        </div>
-                                        <div class="countdown__item">
-                                            <span class="countdown__time hoursLeft"></span>
-                                            <span class="countdown__text hoursText"></span>
-                                        </div>
-                                        <div class="countdown__item">
-                                            <span class="countdown__time minsLeft"></span>
-                                            <span class="countdown__text minsText"></span>
-                                        </div>
-                                        <div class="countdown__item">
-                                            <span class="countdown__time secsLeft"></span>
-                                            <span class="countdown__text secsText"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="shop.html" class="btn-link">Shop Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <!-- Countdown Product Area End -->
 
         <!-- Featured Product Area Start -->
-        <section class="featured-product-area mb--11pt5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <h2 class="sr-only">Featured Product</h2>
-                    </div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col-md-6 mb-sm--50">
-                        <div class="featured-product">
-                            <div class="featured-product__inner info-right-bottom">
-                                <figure class="featured-product__image">
-                                    <img src="assets/img/products/product-14-500x575.jpg" alt="Featured Product">
-                                </figure>
-                                <div class="featured-product__info wow pbounceInDown" data-wow-delay=".6s" data-wow-duration=".8s">
-                                    <div class="featured-product__info-inner rotated-info">
-                                        <h4 class="featured-product__text">Special Offer <strong>39%</strong> Off</h4>
-                                        <h2 class="featured-product__name">Feedo Bag</h2>
-                                    </div>
-                                </div>
-                                <span class="featured-product__badge badge-top-left">53% off</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="featured-product">
-                            <div class="featured-product__inner info-center">
-                                <figure class="featured-product__image">
-                                    <img src="assets/img/products/product-15-500x466.jpg" alt="Featured Product">
-                                </figure>
-                                <div class="featured-product__info wow pbounceInLeft" data-wow-delay=".3s" data-wow-duration=".8s">
-                                    <div class="featured-product__info-inner">
-                                        <h4 class="featured-product__text">Mega Sale Offer</h4>
-                                        <h2 class="featured-product__name">Maxica Bag</h2>
-                                    </div>
-                                </div>
-                                <span class="featured-product__badge">53% off</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+
         <!-- Featured Product Area End -->
 
         <section class="method-area mb--11pt5">

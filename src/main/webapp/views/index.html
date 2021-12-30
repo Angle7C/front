@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="css/admin.css">
     <script src="js/jquery.js"></script>
     <script>
+        function back(){
+            location.href="../moban4184/index.html";
+        }
         //文档加载后执行
         $(document).ready(function() {
             $.ajax({
@@ -35,7 +38,7 @@
                     }
                 },
                 error: function (e) {
-                    alert("fail");
+
                 }
             })
         })
@@ -79,7 +82,7 @@ $(function(){
 });
 </script>
 <ul class="bread">
-  <li><a href="{:U('Index/info')}" target="right" class="icon-home">回到首页</a></li>
+  <li><a  onclick="back()" target="right" class="icon-home">回到首页</a></li>
  <!-- <li><a href="##" id="a_leader_txt">网站信息</a></li>-->
   <li><b>当前语言：</b><span style="color:red;">中文</php></span>
 </ul>
