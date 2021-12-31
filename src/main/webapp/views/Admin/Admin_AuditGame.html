@@ -82,7 +82,7 @@
             contentType:'application/json',
             async:false,
             success: function(data){
-
+                window.location.reload();
 
             },
             error: function (e) {
@@ -144,7 +144,7 @@
                         var strx="";
                         var i;
                         for(i=0;i<mydata.length;i++){
-                            str=str+ '<tr> <td >'+mydata[i].gameId+'</td><input type="hidden" value="'+mydata[i].gameId+'" id="gameId'+i+'"> <td>'+mydata[i].gamename+'</td> <td>'+mydata[i].gameprice+'</td>';
+                            str=str+ '<tr> <td >'+mydata[i].gameId+'</td><input type="hidden" value="'+mydata[i].gameId+'" id="gameId'+i+'"> <td>'+mydata[i].gameName+'</td> <td>'+mydata[i].gameValue+'</td>';
                             strx=' <td><button class="btnDelete" onclick="Aduit(1 ,'+i+')">√</button><button class="btnDelete" onclick="Aduit(2,'+i+')">×</button></td></tr>';
                             str=str+strx;
                         }
@@ -190,7 +190,7 @@
 
 
             <li class="settings hidden-phone">
-                <a href="Admin_Login.html" role="button">
+                <a href="/front/moban4184/index.html" role="button">
                     <i class="icon-share-alt"></i>
                 </a>
             </li>
