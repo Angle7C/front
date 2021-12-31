@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="renderer" content="webkit">
-    <title>个人信息</title>
+    <title>充值</title>
     <link rel="stylesheet" href="css/pintuer.css">
     <link rel="stylesheet" href="css/admin.css">
     <script src="js/jquery.js"></script>
@@ -45,7 +45,6 @@
     
     function upmoney() {
       var cmoney = $("#money").val();
-      alert(cmoney);
       $.ajax({
         url: 'http://localhost:8080/GameShop/charge.html',
         type: 'GET',
@@ -76,7 +75,7 @@
 </head>
 <body>
 <div class="panel admin-panel">
-  <div class="panel-head"><strong><span class="icon-pencil-square-o"></span> 我的信息</strong></div>
+  <div class="panel-head"><strong><span class="icon-pencil-square-o"></span> 充值</strong></div>
   <div class="body-content">
     <form method="post" class="form-x" action="">
 

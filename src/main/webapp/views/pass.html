@@ -153,7 +153,7 @@
       }
     }
     if( $(this).is('#newpass') ){
-      if( this.value!="newpass" ){
+      if( this.value=="" ){
         $parent.append('<span class="formtips onError"></span>');
       }else{
         $parent.append('<span class="formtips onSuccess"></span>');
