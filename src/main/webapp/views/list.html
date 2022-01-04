@@ -37,7 +37,7 @@
                       "          <td width=\"10%\"><img id=\""+"image"+result.data[i].first+"\"  src=\""+path+"\" alt=\"\" width=\"70\" height=\"50\" /></td>\n" +
                       "          <td><font color=\"#00CC99\">"+result.data[i].second.gameValue+"</font></td>\n" +
                       "          <td>"+result.data[i].second.gameType+"</td>\n" +
-                      "          <td><div class=\"button-group\"> <a href='http://localhost:8080/GameShop/download?gameId="+result.data[i].second.gameId+"'><div class=\"button border-green\" \"><span class=\"icon-save\">下载</span> </div></a> <div class=\"button border-main\" onclick=\"tuikuang("+result.data[i].first+")\"><span class=\"icon-reply\">退款</span> </div></div></td>"
+                      "          <td><div class=\"button-group\"> <a href='http://localhost:8080/GameShop/download?gameId="+result.data[i].second.gameId+"'><div class=\"button border-green\" \"><span class=\"icon-save\">下载</span> </div></a> <div class=\"button border-main\" onclick=\"tuikuang("+result.data[i].first+")\"><span class=\"icon-reply\">退款</span> </div><div class=\"button border-main\" onclick=\"pingfen("+result.data[i].first+")\"><span class=\"icon-reply\">评分</span> </div></div></td>"
 
                 +"</tr>"
 
@@ -111,6 +111,47 @@
               location.reload();
           }else{
             alert("超过退款时间")
+          }
+        },
+        error: function (e) {
+          alert("fail");
+        }
+      })
+    }
+
+    function pingfen(gameID) {
+
+      var str = -1;
+      do{
+
+        str = prompt("请输入0~5进行评分");
+        if(str<0||str>5){
+          alert("请按照要求输入");
+        }else if(str==null){
+          return 0;
+        }
+      }while (str<0||str>5)
+
+      $.ajax({
+        url: 'http://localhost:8080/GameShop/.html',
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json',
+        xhrFields:{
+          withCredentials:true
+        },
+        data:{
+          fenshu:str,
+          gameId:gameID
+        },
+        async: false,
+        crossDomain:true,
+        success: function (result) {
+          if(result.message){
+            alert("评分成功");
+            location.reload();
+          }else{
+            alert("评分失败")
           }
         },
         error: function (e) {
