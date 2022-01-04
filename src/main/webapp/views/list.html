@@ -134,7 +134,7 @@
 
       $.ajax({
         url: 'http://localhost:8080/GameShop/.html',
-        type: 'GET',
+        type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
         xhrFields:{
@@ -142,7 +142,7 @@
         },
         data:{
           first:gameID,
-          second:str
+          second:parseInt(str)
         },
         async: false,
         crossDomain:true,
