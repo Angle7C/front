@@ -143,8 +143,8 @@
                         var strx="";
                         var i;
                         for(i=0;i<mydata.length;i++){
-                            str=str+ '<tr> <td>'+mydata[i].gameId+'</td><input type="hidden" value="'+mydata[i].gameId+'" id="gameId'+i+'"> <td>'+mydata[i].gameName+'</td> <td>'+mydata[i].gameValue+'</td>';
-                            strx='<td><button onclick="deleteGame('+i+')" >删除</button></td></tr>'
+                            str=str+ '<tr> <td>'+mydata[i].gameId+'</td><input type="hidden" value="'+mydata[i].gameId+'" id="gameId'+i+'"> <td><input type="text" value="'+mydata[i].gameName+'" id="gameName'+i+'"></td><td><input type="text" value="'+mydata[i].gameValue+'" id="gameValue'+i+'"></td></td><td><input type="text" value="'+mydata[i].gameStore+'" id="gameStore'+i+'"></td>';
+                            strx='<td><button onclick="deleteGame('+i+')" >删除</button><button onclick="update('+i+')" >修改</button></td></tr>'
                             str=str+strx;
                         }
 
@@ -164,6 +164,42 @@
                 }
             }
         )
+    }
+    function update(i){
+        console.log(i);
+        var gameid=$("#"+"gameId"+i).val();
+        var gameName=$("#"+"gameName"+i).val();
+        var gameValue=$("#"+"gameValue"+i).val();
+        var gameStore=$("#"+"gameStore"+i).val();
+
+        console.log(gameValue)
+
+        $.ajax({
+            url: "http://localhost:8080/GameShop/updateGames.html",
+            dataType: "json",
+            data:JSON.stringify({
+                gameId:gameid,
+                gameName:gameName,
+                gameValue:gameValue,
+                message:null,
+                userId:null,
+                gameType:null,
+                gameStore:gameStore,
+                path:null
+            }),
+            type: "POST",
+            xhrFields: {
+                withCredentials: true
+            },
+            contentType:'application/json',
+            crossDomain: true,
+            success: function (result) {
+                if(result.message){
+                    location.href="Admin_GameInfo.html";
+                }
+            }
+        });
+
     }
 </script>
 
@@ -278,6 +314,9 @@
                             </th>
                             <th class="span3">
                                 <span class="line"></span>游戏价格
+                            </th>
+                            <th class="span3">
+                                <span class="line"></span>评分
                             </th>
                             <th class="span3">
                                 <span class="line"></span>操作
