@@ -37,7 +37,7 @@
                       "          <td width=\"10%\"><img id=\""+"image"+result.data[i].first+"\"  src=\""+path+"\" alt=\"\" width=\"70\" height=\"50\" /></td>\n" +
                       "          <td><font color=\"#00CC99\">"+result.data[i].second.gameValue+"</font></td>\n" +
                       "          <td>"+result.data[i].second.gameType+"</td>\n" +
-                      "          <td><div class=\"button-group\"> <a href='http://localhost:8080/GameShop/download?gameId="+result.data[i].second.gameId+"'><div class=\"button border-green\" \"><span class=\"icon-save\">下载</span> </div></a> <div class=\"button border-main\" onclick=\"tuikuang("+result.data[i].first+")\"><span class=\"icon-reply\">退款</span> </div><div class=\"button border-main\" onclick=\"pingfen("+result.data[i].first+")\"><span class=\"icon-reply\">评分</span> </div></div></td>"
+                      "          <td><div class=\"button-group\"> <a href='http://localhost:8080/GameShop/download?gameId="+result.data[i].second.gameId+"'><div class=\"button border-green\" \"><span class=\"icon-save\">下载</span> </div></a> <div class=\"button border-main\" onclick=\"tuikuang("+result.data[i].first+")\"><span class=\"icon-reply\">退款</span> </div><div class=\"button border-main\" onclick=\"pingfen("+result.data[i].second.gameId+")\"><span class=\"icon-reply\">评分</span> </div></div></td>"
 
                 +"</tr>"
 
@@ -133,17 +133,17 @@
       }while (str<0||str>5)
 
       $.ajax({
-        url: 'http://localhost:8080/GameShop/.html',
+        url: 'http://localhost:8080/GameShop/addscore.html',
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
         xhrFields:{
           withCredentials:true
         },
-        data:{
+        data:JSON.stringify({
           first:gameID,
           second:parseInt(str)
-        },
+        }),
         async: false,
         crossDomain:true,
         success: function (result) {

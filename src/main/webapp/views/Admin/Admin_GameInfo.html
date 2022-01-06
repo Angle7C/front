@@ -75,12 +75,12 @@
             },
             crossDomain: true,
             data: {
-                    gameId:gameid
-                },
+                gameId:gameid
+            },
             // contentType:'application/json',
             async:false,
             success: function(data){
-
+                window.location.reload();
 
             },
             error: function (e) {
@@ -143,8 +143,8 @@
                         var strx="";
                         var i;
                         for(i=0;i<mydata.length;i++){
-                            str=str+ '<tr> <td>'+mydata[i].gameId+'</td><input type="hidden" value="'+mydata[i].gameId+'" id="gameId'+i+'"> <td>'+mydata[i].gameName+'</td> <td>'+mydata[i].gameValue+'</td>';
-                            strx='<td><button onclick="deleteGame('+i+')" >删除</button></td></tr>'
+                            str=str+ '<tr> <td>'+mydata[i].gameId+'</td><input type="hidden" value="'+mydata[i].gameId+'" id="gameId'+i+'"> <td><input type="text" value="'+mydata[i].gameName+'" id="gameName'+i+'"></td><td><input type="text" value="'+mydata[i].gameValue+'" id="gameValue'+i+'"></td></td><td><input type="text" value="'+mydata[i].gameStore+'" id="gameStore'+i+'"></td>';
+                            strx='<td><button onclick="deleteGame('+i+')" >删除</button><button onclick="update('+i+')" >修改</button></td></tr>'
                             str=str+strx;
                         }
 
@@ -165,6 +165,42 @@
             }
         )
     }
+    function update(i){
+        console.log(i);
+        var gameid=$("#"+"gameId"+i).val();
+        var gameName=$("#"+"gameName"+i).val();
+        var gameValue=$("#"+"gameValue"+i).val();
+        var gameStore=$("#"+"gameStore"+i).val();
+
+        console.log(gameValue)
+
+        $.ajax({
+            url: "http://localhost:8080/GameShop/updateGames.html",
+            dataType: "json",
+            data:JSON.stringify({
+                gameId:gameid,
+                gameName:gameName,
+                gameValue:gameValue,
+                message:null,
+                userId:null,
+                gameType:null,
+                gameStore:gameStore,
+                path:null
+            }),
+            type: "POST",
+            xhrFields: {
+                withCredentials: true
+            },
+            contentType:'application/json',
+            crossDomain: true,
+            success: function (result) {
+                if(result.message){
+                    location.href="Admin_GameInfo.html";
+                }
+            }
+        });
+
+    }
 </script>
 
 <script>
@@ -182,7 +218,7 @@
     <div class="navbar-inner">
 
 
-        <a class="brand" href="index.html"><img src="../img/logo.png" /></a>
+        <a class="brand" ><img src="../img/logo.png" /></a>
 
         <ul class="nav pull-right">
 
@@ -190,7 +226,7 @@
 
 
             <li class="settings hidden-phone">
-                <a href="Admin_Login.html" role="button">
+                <a href="/front/moban4184/index.html" role="button">
                     <i class="icon-share-alt"></i>
                 </a>
             </li>
@@ -233,7 +269,7 @@
                     <div class="arrow"></div>
                     <div class="arrow_border"></div>
                 </div>
-                <i class="icon-th-large"></i>
+                <i class="icon-group"></i>
                 <span>Audit</span>
             </a>
         </li>
@@ -245,15 +281,7 @@
 <!-- main container -->
 <div class="content">
 
-    <!-- settings changer -->
-    <div class="skins-nav">
-        <a href="#" class="skin first_nav selected">
-            <span class="icon"></span><span class="text">Default</span>
-        </a>
-        <a href="#" class="skin second_nav" data-file="css/skins/dark.css">
-            <span class="icon"></span><span class="text">Dark skin</span>
-        </a>
-    </div>
+
 
     <div class="container-fluid">
         <div id="pad-wrapper">
@@ -286,6 +314,9 @@
                             </th>
                             <th class="span3">
                                 <span class="line"></span>游戏价格
+                            </th>
+                            <th class="span3">
+                                <span class="line"></span>评分
                             </th>
                             <th class="span3">
                                 <span class="line"></span>操作
