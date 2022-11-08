@@ -81,9 +81,9 @@
                 }),
             contentType:'application/json',
             async:false,
-            success: function(data){
+            success: function(result){
+                alert(result.message);
                 window.location.reload();
-
             },
             error: function (e) {
                 console.log(e);
@@ -98,7 +98,7 @@
     function mypage1(pageNum,pageSize) {
         $.ajax({
                 url: "http://localhost:8080/nopublishgames/"+pageNum+"/"+pageSize,
-                type: "G",
+                type: "GET",
                 xhrFields: {
                     withCredentials: true
                 },
