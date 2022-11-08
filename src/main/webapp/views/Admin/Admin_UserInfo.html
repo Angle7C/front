@@ -98,7 +98,7 @@
         var userid=$("#"+"userId"+i).val();
         $.ajax({
             url:"http://localhost:8080/user",
-            type:"Put",
+            type:"PUT",
             dataType:"JSON",
             xhrFields: {
                 withCredentials: true
@@ -129,46 +129,11 @@
     }
 </script>
 <script>
-    // var gPage;
-    // function mypage(role,size){
-    //     $.ajax({
-    //         url: "http://localhost:8080/user/page/"+role+"/"+size,
-    //         // dataType: "json",
-    //         // data:JSON.stringify({
-    //         //     first:role,
-    //         //     second:size
-    //         // }),
-    //         type: "GET",
-    //         xhrFields: {
-    //             withCredentials: true
-    //         },
-    //         contentType:'application/json',
-    //         crossDomain: true,
-    //         success: function (result) {
-    //             console.log(result.datas);
-    //             gPage=result.datas;
-    //             if(result.state==450){
-    //                 mypage1(role,gPage,0);
-    //             }
-    //         }
-    //     });
-    //
-    // }
     var pageNumS=0;
     var pages=0;
     function mypage1(pageNum,pageSize) {
         $.ajax({
                 url: "http://localhost:8080/user/page/"+pageNum+"/"+pageSize,
-                // dataType: "json",
-                // data: JSON.stringify(
-                //     {
-                //         first:role,
-                //         second: {
-                //             currentPage: page.currentPage + dx,
-                //             totalPages: page.totalPages ,
-                //             pageSize: page.pageSize
-                //         }
-                //     }),
                 type: "GET",
                 xhrFields: {
                     withCredentials: true
@@ -196,7 +161,7 @@
 
                         var str4='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS-1==0 ? 1 : pageNumS-1,2)">上一页</a>';
 
-                        var str5='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS+1>pages ? pageNumS+1 : pages,2)" >下一页</a>';
+                        var str5='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS+1<=pages ? pageNumS+1 : pages,2)" >下一页</a>';
 
                         var str3='<a class="wy" href="javascript:void(0)" onclick="mypage1(pages,2)">尾页</a>';
 
