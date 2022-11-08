@@ -13,7 +13,7 @@
     <script>
         $(document).ready(function () {
             $.ajax({
-                url: 'http://localhost:8080/GameShop/showbuycar.html',
+                url: 'http://localhost:8080/showbuycar.html',
                 type: 'POST',
                 dataType: 'json',
                 contentType: 'application/json',
@@ -50,7 +50,7 @@
         
         function dele(carID){
             $.ajax({
-                url: 'http://localhost:8080/GameShop/deletegamenumber.html',
+                url: 'http://localhost:8080/deletegamenumber.html',
                 type: 'GET',
                 dataType: 'json',
                 contentType: 'application/json',
@@ -79,7 +79,7 @@
 
         function Buy(carID) {
             $.ajax({
-                url: 'http://localhost:8080/GameShop/buyGame.html',
+                url: 'http://localhost:8080/buyGame.html',
                 type: 'GET',
                 dataType: 'json',
                 contentType: 'application/json',
@@ -119,7 +119,7 @@
                 var t=confirm("您确认要删除选中的内容吗？");
                 if (t==false) return false;
                 $.ajax({
-                    url: 'http://localhost:8080/GameShop/deletegamenumberlist.html',
+                    url: 'http://localhost:8080/deletegamenumberlist.html',
                     type: 'POST',
                     dataType: 'json',
                     contentType: 'application/json',
@@ -163,7 +163,7 @@
                 var t=confirm("您确认要删除选中的内容吗？");
                 if (t==false) return false;
                 $.ajax({
-                    url: 'http://localhost:8080/GameShop/deletegamenumberlist.html',
+                    url: 'http://localhost:8080/deletegamenumberlist.html',
                     type: 'POST',
                     dataType: 'json',
                     contentType: 'application/json',

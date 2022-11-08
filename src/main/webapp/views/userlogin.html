@@ -14,20 +14,14 @@
             $.ajax({
                 xhrFields:{withCredentials:true},
                 crossDomain: true,
-                url:'http://localhost:8080/GameShop/registerEmail.html',
+                url:'http://localhost:8080/sendCode/'+myemail,
                 type:'POST',
                 dataType:'json',
-                data:JSON.stringify(
-                    {
-                        email:myemail,
-
-                    }),
-
                 contentType:'application/json',
                 async:false,
                 success: function(data){
                     console.log(data.message);
-                    if(data.message) {
+                    if(data.state==450) {
                         alert("请从邮箱中接收验证码");
                     } else{
                         alert("邮箱已使用");
@@ -48,7 +42,7 @@
             var myemail=$("#r_email").val();
 
             $.ajax({
-                url:'http://localhost:8080/GameShop/register.html',
+                url:'http://localhost:8080/registe',
                 type:'POST',
                 xhrFields:{withCredentials:true},
                 crossDomain: true,
@@ -70,10 +64,10 @@
                 async:false,
                 success: function(data){
                     console.log(data.message);
-                    if(data.message) {
+                    if(data.state==450) {
                         alert("注册成功");
-                    } else if(data.message){
-                        alert(data.data);
+                    } else{
+                        alert(data.message);
                     }
                 },
                 error: function (e) {
@@ -87,7 +81,7 @@
             var pwd = $("#l_password").val();
             var email = $("#l_email").val();
             $.ajax({
-                url: 'http://localhost:8080/GameShop/login.html',
+                url: 'http://localhost:8080/login/'+email+'/'+pwd,
                 type: 'POST',
                 dataType: 'json',
                 data: JSON.stringify(
@@ -105,7 +99,7 @@
                 async: false,
                 crossDomain:true,
                 success: function (data) {
-                    if(data.message){
+                    if(data.state==450){
                         alert("登陆成功");
                         location.href="/front/moban4184/index.html"
                     }else{

@@ -25,7 +25,7 @@
         //文档加载后执行
         $(document).ready(function() {
             $.ajax({
-                url: "http://localhost:8080/GameShop/islogin.html",
+                url: "http://localhost:8080/islogin",
                 dataType: "json",
                 type: "POST",
                 xhrFields: {
@@ -91,7 +91,7 @@
 
         function myshow1(page){
             $.ajax({
-                url:"http://localhost:8080/GameShop/gametypepage.html",
+                url:"http://localhost:8080/gametypepage.html",
                 dataType:"json",
                 data:JSON.stringify(
                     {
@@ -170,7 +170,7 @@
         //注销
         function loginout(id) {
             $.ajax({
-                url: "http://localhost:8080/GameShop/logout.html",
+                url: "http://localhost:8080/logout",
                 dataType: "json",
                 data:JSON.stringify({
                     userId:id

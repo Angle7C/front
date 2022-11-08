@@ -13,13 +13,10 @@
   <script type="text/javascript">
     $(document).ready(function () {
       $.ajax({
-        url: 'http://localhost:8080/GameShop/islogin.html',
-        type: 'POST',
+        url: 'http://localhost:8080/islogin',
+        type: 'Get',
         dataType: 'json',
-
         contentType: 'application/json',
-
-
         xhrFields:{
           withCredentials:true
         },
@@ -31,7 +28,6 @@
             $("#userName").text(result.data.userName);
             $("#userEmail").text(result.data.email);
             $("#userMoney").text(result.data.money);
-
           }else{
             alert("未登錄");
             location.href("userlogin.html")
