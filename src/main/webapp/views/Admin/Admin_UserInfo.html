@@ -59,29 +59,29 @@
         $("#mya").attr("href","Admin_GameInfo.html?role="+role);
         $("#myu").attr("href","Admin_UserInfo.html?role="+role);
         $("#myg").attr("href","Admin_AuditGame.html?role="+role);
-        mypage(role,3);
+        mypage1(role,2);
     });
 </script>
 <script type="text/javascript">
     function deleteUser(i) {
-        // console.log(test);
         var userid=$("#"+"userId"+i).val();
+        console.log(userid);
         $.ajax({
-            url:"http://localhost:8080/GameShop/deleteuser.html",
-            type:"get",
-            // dataType:"JSON",
-            data:{
-                userId:userid
-            },
+            url:"http://localhost:8080/user",
+            type:"DELETE",
+            dataType:"JSON",
+            data:JSON.stringify({
+                userId: userid
+            }),
             xhrFields: {
                 withCredentials: true
             },
             crossDomain: true,
             contentType:'application/json',
             async:false,
-            success: function(data){
+            success: function(result){
+                console.log(result)
                 window.location.reload();
-
             },
             error: function (e) {
                 console.log(e);
@@ -97,8 +97,8 @@
         var newpwd = $("#"+"newPwd"+i).val();
         var userid=$("#"+"userId"+i).val();
         $.ajax({
-            url:"http://localhost:8080/GameShop/adminupdatauser.html",
-            type:"POST",
+            url:"http://localhost:8080/user",
+            type:"Put",
             dataType:"JSON",
             xhrFields: {
                 withCredentials: true
@@ -107,17 +107,13 @@
             data:JSON.stringify(
                 {
                     userId: userid,
-                    userName:null,
-                    role:0,
-                    money:1,
                     userPwd:newpwd,
-                    email:null
                 }),
             contentType:'application/json',
             async:false,
-            success: function(data){
-                console.log(data.message);
-                if(data.message) {
+            success: function(result){
+                console.log(result.message);
+                if(result.state==450) {
                     alert("修改成功");
                     window.location.reload();
                 } else if(data.message){
@@ -133,55 +129,57 @@
     }
 </script>
 <script>
-    var gPage;
-    function mypage(role,size){
+    // var gPage;
+    // function mypage(role,size){
+    //     $.ajax({
+    //         url: "http://localhost:8080/user/page/"+role+"/"+size,
+    //         // dataType: "json",
+    //         // data:JSON.stringify({
+    //         //     first:role,
+    //         //     second:size
+    //         // }),
+    //         type: "GET",
+    //         xhrFields: {
+    //             withCredentials: true
+    //         },
+    //         contentType:'application/json',
+    //         crossDomain: true,
+    //         success: function (result) {
+    //             console.log(result.datas);
+    //             gPage=result.datas;
+    //             if(result.state==450){
+    //                 mypage1(role,gPage,0);
+    //             }
+    //         }
+    //     });
+    //
+    // }
+    var pageNumS=0;
+    var pages=0;
+    function mypage1(pageNum,pageSize) {
         $.ajax({
-            url: "http://localhost:8080/GameShop/userpagesize.html",
-            dataType: "json",
-            data:JSON.stringify({
-                first:role,
-                second:size
-            }),
-            type: "POST",
-            xhrFields: {
-                withCredentials: true
-            },
-            contentType:'application/json',
-            crossDomain: true,
-            success: function (result) {
-                // console.log(result.data);
-                gPage=result.data;
-                if(result.message){
-                    mypage1(role,gPage,0);
-                }
-            }
-        });
-
-    }
-    function mypage1(role,page,dx) {
-        console.log(page);
-        $.ajax({
-                url: "http://localhost:8080/GameShop/userpage.html",
-                dataType: "json",
-                data: JSON.stringify(
-                    {
-                        first:role,
-                        second: {
-                            currentPage: page.currentPage + dx,
-                            totalPages: page.totalPages ,
-                            pageSize: page.pageSize
-                        }
-                    }),
-                type: "POST",
+                url: "http://localhost:8080/user/page/"+pageNum+"/"+pageSize,
+                // dataType: "json",
+                // data: JSON.stringify(
+                //     {
+                //         first:role,
+                //         second: {
+                //             currentPage: page.currentPage + dx,
+                //             totalPages: page.totalPages ,
+                //             pageSize: page.pageSize
+                //         }
+                //     }),
+                type: "GET",
                 xhrFields: {
                     withCredentials: true
                 },
                 contentType: 'application/json',
                 crossDomain: true,
                 success: function (result) {
-                    if(result.message){
-                        var mydata=result.data.array;
-                        gPage=result.data.page;
+                    if(result.state==450){
+                        pageNumS=result.data.pageNum;
+                        pages=result.data.pages;
+                        var mydata=result.data.list;
                         var str="";
                         var strx="";
                         var stry="";
@@ -193,15 +191,14 @@
                             str=str+strx+stry;
                         }
 
-
                         $("#UserInfoList").html(str);
-                        var str2='<a class="wy" href="javascript:void(0);" onclick ="mypage1(role,gPage,-gPage.currentPage+1)" >首页</a>';
+                        var str2='<a class="wy" href="javascript:void(0);" onclick ="mypage1(1,2)" >首页</a>';
 
-                        var str4='<a class="wy" href="javascript:void(0);" onclick="mypage1(role,gPage,gPage.currentPage-1==0?0:-1)">上一页</a>';
+                        var str4='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS-1==0 ? 1 : pageNumS-1,2)">上一页</a>';
 
-                        var str5='<a class="wy" href="javascript:void(0);" onclick="mypage1(role,gPage,gPage.currentPage>=gPage.totalPages?0:+1)" >下一页</a>';
+                        var str5='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS+1>pages ? pageNumS+1 : pages,2)" >下一页</a>';
 
-                        var str3='<a class="wy" href="javascript:void(0)" onclick="mypage1(role,gPage,-gPage.currentPage+gPage.totalPages)">尾页</a>';
+                        var str3='<a class="wy" href="javascript:void(0)" onclick="mypage1(pages,2)">尾页</a>';
 
                         $("#mypagetool").html(str2+str4+str5+str3);
                     }
