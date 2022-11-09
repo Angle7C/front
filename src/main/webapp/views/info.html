@@ -23,14 +23,14 @@
         async: false,
         crossDomain:true,
         success: function (result) {
-          if(result.message){
+          if(result.state==450){
             $("#userID").text(result.data.userId);
             $("#userName").text(result.data.userName);
             $("#userEmail").text(result.data.email);
             $("#userMoney").text(result.data.money);
           }else{
             alert("未登錄");
-            location.href("userlogin.html")
+            location.href="userlogin.html"
           }
         },
         error: function (e) {
