@@ -59,7 +59,7 @@
     function onLoadGame(gameID) {
 
       $.ajax({
-        url: 'http://localhost:8080/GameShop/download',
+        url: 'http://localhost:8080/download/'+gameID,
         type: 'GET',
         contentType: 'application/json',
         xhrFields:{
@@ -93,20 +93,17 @@
     function tuikuang(orderID) {
 
       $.ajax({
-        url: 'http://localhost:8080/GameShop/cancelindent.html',
-        type: 'GET',
+        url: 'http://localhost:8080/cancelindent/'+orderID,
+        type: 'DELETE',
         dataType: 'json',
         contentType: 'application/json',
         xhrFields:{
           withCredentials:true
         },
-        data:{
-          orderId:orderID
-        },
         async: false,
         crossDomain:true,
         success: function (result) {
-          if(result.message){
+          if(result.state==450){
               alert("退款成功");
               location.reload();
           }else{
@@ -133,21 +130,17 @@
       }while (str<0||str>5)
 
       $.ajax({
-        url: 'http://localhost:8080/GameShop/addscore.html',
+        url: 'http://localhost:8080/addscore/'+gameID+'/'+parseInt(str),
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
         xhrFields:{
           withCredentials:true
         },
-        data:JSON.stringify({
-          first:gameID,
-          second:parseInt(str)
-        }),
         async: false,
         crossDomain:true,
         success: function (result) {
-          if(result.message){
+          if(result.state==450){
             alert("评分成功");
             location.reload();
           }else{

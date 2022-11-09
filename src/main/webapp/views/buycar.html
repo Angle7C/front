@@ -117,19 +117,19 @@
                 var t=confirm("您确认要删除选中的内容吗？");
                 if (t==false) return false;
                 $.ajax({
-                    url: 'http://localhost:8080/deletegamenumberlist.html',
-                    type: 'POST',
+                    url: 'http://localhost:8080/deletegamenumberlist',
+                    type: 'Delete',
                     dataType: 'json',
                     contentType: 'application/json',
                     xhrFields:{
                         withCredentials:true
                     },
-                    data: JSON.stringify({list:Checkdata})
+                    data: JSON.stringify(Checkdata)
                     ,
                     async: false,
                     crossDomain:true,
                     success: function (result) {
-                        if(result.message){
+                        if(result.state==450){
                             alert("删除成功");
                             location.reload();
                         }else{
