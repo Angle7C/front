@@ -13,7 +13,7 @@
     <script>
         $(document).ready(function () {
             $.ajax({
-                url: 'http://localhost:8080/showbuycar.html',
+                url: 'http://localhost:8080/showbuycar',
                 type: 'POST',
                 dataType: 'json',
                 contentType: 'application/json',
@@ -32,14 +32,21 @@
                                 "          <td>"+result.data.second[i].gameName+"</td>\n" +
                                 "          <td>"+result.data.second[i].gameValue+"</td>\n" +
                                 "          <td>"+result.data.second[i].gameType+"</td>  \n" +
-                                "          <td><div class=\"button-group\"> <div class=\"button border-red\" onclick=\"Buy("+result.data.first[i].buyCarId+")\"><span class=\"icon-credit-card\"></span> 购买</div> </div><div class=\"button-group\"   onclick=\"dele("+result.data.first[i].buyCarId+")\"> <div class=\"button border-blue\"><span class=\"icon-trash-o\"></span> 删除</div> </div>\n" +
+                                "          <td><div class=\"button-group\"> " +
+                                "              <div class=\"button border-red\" onclick=\"Buy("+result.data.first[i].buyCarId+")\">" +
+                                "                  <span class=\"icon-credit-card\"></span> 购买</div>" +" </div>" +
+                                "              <div class=\"button-group\"   onclick=\"dele("+result.data.first[i].buyCarId+")\">" +
+                                "                <div class=\"button border-blue\">" +
+                                "                 <span class=\"icon-trash-o\"></span> 删除" +
+                                "                </div> " +
+                                "              </div>\n" +
                                 "          </td>\n" +
                                 "\n" +
                                 "        </tr>"
                         }
                         $("#data").html(str);
                     }else{
-                            alert("cuowu");
+                            alert("错误");
                     }
                 },
                 error: function (e) {
@@ -79,7 +86,7 @@
 
         function Buy(carID) {
             $.ajax({
-                url: 'http://localhost:8080/buyGame.html',
+                url: 'http://localhost:8080/GameShop/buyGame.html',
                 type: 'GET',
                 dataType: 'json',
                 contentType: 'application/json',
@@ -119,7 +126,7 @@
                 var t=confirm("您确认要删除选中的内容吗？");
                 if (t==false) return false;
                 $.ajax({
-                    url: 'http://localhost:8080/deletegamenumberlist.html',
+                    url: 'http://localhost:8080/GameShop/deletegamenumberlist.html',
                     type: 'POST',
                     dataType: 'json',
                     contentType: 'application/json',
@@ -163,7 +170,7 @@
                 var t=confirm("您确认要删除选中的内容吗？");
                 if (t==false) return false;
                 $.ajax({
-                    url: 'http://localhost:8080/deletegamenumberlist.html',
+                    url: 'http://localhost:8080/GameShop/deletegamenumberlist.html',
                     type: 'POST',
                     dataType: 'json',
                     contentType: 'application/json',

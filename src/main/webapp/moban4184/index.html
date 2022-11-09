@@ -57,7 +57,7 @@
 
     <script>
         $(document).ready(function (){
-            myshow(8);
+            myshow(2);
         })
 
         function myshow(size){
@@ -115,14 +115,12 @@
                     console.log(result.data);
                     if(result.data.message==true){
                         //有数据
-                        var mydata=result.data.data.array;
+                        var mydata=result.data.data;
                         var i=0;
                         var str="";
-                        for (i;i<mydata.length;i++){
-                            var index =0;
-                            var ind = mydata[i].path.lastIndexOf("/_");
+                        for (i;i<mydata.array.length;i++){
 
-                            path = "http://124.221.237.233/9000/image/"+mydata[i].gameId+"_1.jpg"
+                            path = "http://124.221.237.233:9000/image/"+mydata.pictures[i].path;
                             str=str+"<div class=\"col-lg-3 col-md-4 col-sm-6 mb--65 mb-md--50\">\n" +
                                 "                            <div class=\"payne-product\">\n" +
                                 "                                <div class=\"product__inner\">\n" +
@@ -138,10 +136,10 @@
                                 "                                    <div class=\"product__info\">\n" +
                                 "                                        <div class=\"product__info--left\">\n" +
                                 "                                            <h3 class=\"product__title\">\n" +
-                                '                                                <a href=\"product-details.html?gameId='+mydata[i].gameId+'">'+mydata[i].gameName+'</a>\n' +
+                                '                                                <a href=\"product-details.html?gameId='+mydata.array[i].gameId+'">'+mydata.array[i].gameName+'</a>\n' +
                                 "                                            </h3>\n" +
                                 "                                            <div class=\"product__price\">\n" +
-                                '                                                <span class=\"money\">'+mydata[i].gameValue+'</span>\n' +
+                                '                                                <span class=\"money\">'+mydata.array[i].gameValue+'</span>\n' +
                                 "                                                <span class=\"sign\">$</span>\n" +
                                 "                                            </div>\n" +
                                 "                                        </div>\n" +

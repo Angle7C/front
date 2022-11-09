@@ -13,7 +13,7 @@
   <script type="text/javascript">
     $(document).ready(function () {
       $.ajax({
-        url: 'http://localhost:8080/GameShop/islogin.html',
+        url: 'http://localhost:8080/islogin.html',
         type: 'POST',
         dataType: 'json',
 
@@ -46,7 +46,7 @@
     function upmoney() {
       var cmoney = $("#money").val();
       $.ajax({
-        url: 'http://localhost:8080/GameShop/charge.html',
+        url: 'http://localhost:8080/charge.html',
         type: 'GET',
         dataType: 'json',
         contentType: 'application/json',

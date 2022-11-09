@@ -13,7 +13,7 @@
   <script>
     $(document).ready(function () {
       $.ajax({
-        url: 'http://localhost:8080/GameShop/indentpage.html',
+        url: 'http://localhost:8080/indentpage.html',
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
@@ -59,7 +59,7 @@
     function onLoadGame(gameID) {
 
       $.ajax({
-        url: 'http://localhost:8080/GameShop/download',
+        url: 'http://localhost:8080/download',
         type: 'GET',
         contentType: 'application/json',
         xhrFields:{
@@ -93,7 +93,7 @@
     function tuikuang(orderID) {
 
       $.ajax({
-        url: 'http://localhost:8080/GameShop/cancelindent.html',
+        url: 'http://localhost:8080/cancelindent.html',
         type: 'GET',
         dataType: 'json',
         contentType: 'application/json',
@@ -133,7 +133,7 @@
       }while (str<0||str>5)
 
       $.ajax({
-        url: 'http://localhost:8080/GameShop/addscore.html',
+        url: 'http://localhost:8080/addscore.html',
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
