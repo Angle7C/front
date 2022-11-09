@@ -26,14 +26,14 @@
             $.ajax({
                 url: "http://localhost:8080/islogin",
                 dataType: "json",
-                type: "Get",
+                type: "GET",
                 xhrFields: {
                     withCredentials: true
                 },
                 contentType:'application/json',
                 crossDomain: true,
                 success: function (result) {
-                    if(result.message){
+                    if(result.state==450){
                         //说明已经登录
                         $("#logininfo").html("欢迎您,"+result.data.userName+'<a href="#" onclick="loginout('+result.data.userId+')">注销</a>') ;
                     }else{
@@ -106,11 +106,12 @@
                 contentType:'application/json',
                 crossDomain: true,
                 success: function (result) {
+
                     if (result.state==450){
                         alert("添加购物车成功！")
                     }
-                    else {
-                        alert("添加失败！");
+                    else{
+                        alert("已添加入购物车！");
                     }
                 }
 
