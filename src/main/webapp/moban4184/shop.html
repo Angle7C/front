@@ -28,6 +28,7 @@
         var pageNums=0;
         var pages=0;
 
+
         //获取每页4条数据
         $(document).ready(function() {
             mypage1(1,4);
@@ -76,7 +77,7 @@
             //console.log(page)
             $.ajax({
 
-                url:"http://localhost:8080/gametypepage/"+pageNum+"/"+pageSize,
+                url:"http://localhost:8080/gamepage/"+pageNum+"/"+pageSize,
                 dataType:"json",
                 type:"GET",
                 xhrFields:{
@@ -86,18 +87,18 @@
                 crossDomain:true,
                 success:function(result){
                     console.log(result.data);
-                    pageNums=result.data.pageNum;
-                    pages=result.data.pages;
+                    pageNums=result.data.first.pageNum;
+                    pages=result.data.first.pages;
                     //console.log(globalPage);
-                    if(result.data.message==true){
+                    if(result.state==450){
                         //取出数据
-                        var mydata=result.data.list;
+                        var mydata=result.data;
                         //console.log(mydata);
                         var str="";
                         var i=0;
-                        for(i;i<mydata.array.length;i++){
+                        for(i;i<mydata.first.list.length;i++){
 
-                            path = "http://124.221.237.233:9000/image/"+mydata.pictures[i].path;
+                            path = "http://124.221.237.233:9000/image/"+mydata.second[i].path;
                             str=str+'<div class="col-xl-4 col-sm-6 mb--50">\n' +
                                 '                                        <div class="payne-product">\n' +
                                 '                                            <div class="product__inner">\n' +
@@ -105,7 +106,7 @@
                                 '                                                    <figure class="product__image--holder">\n' +
                                 "                                                        <img src=\""+path+"\" alt=\"\" width=\"300\" height=\"175\"  >\n" +
                                 '                                                    </figure>\n' +
-                                '                                                    <a href="product-details.html?gameId='+mydata.array[i].gameId+'" class="product__overlay"></a>\n' +
+                                '                                                    <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'" class="product__overlay"></a>\n' +
                                 '                                                    <div class="product__action">\n' +
 
                                 '                                                    </div>\n' +
@@ -113,10 +114,10 @@
                                 '                                                <div class="product__info">\n' +
                                 '                                                    <div class="product__info--left">\n' +
                                 '                                                        <h3 class="product__title">\n' +
-                                '                                                            <a href="product-details.html?gameId='+mydata.array[i].gameId+'">'+mydata.array[i].gameName+'</a>\n' +
+                                '                                                            <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'">'+mydata.first.list[i].gameName+'</a>\n' +
                                 '                                                        </h3>\n' +
                                 '                                                        <div class="product__price">\n' +
-                                '                                                            <span class="money">'+mydata.array[i].gameValue+'</span>\n' +
+                                '                                                            <span class="money">'+mydata.first.list[i].gameValue+'</span>\n' +
                                 '                                                            <span class="sign">$</span>\n' +
                                 '                                                        </div>\n' +
                                 '                                                    </div>\n' +
@@ -135,7 +136,7 @@
                                 '                                        <div class="payne-product-list">\n' +
                                 '                                            <div class="product__inner">\n' +
                                 '                                                <figure class="product__image">\n' +
-                                '                                                    <a href="product-details.html?gameId='+mydata.array[i].gameId+'" class="d-block">\n' +
+                                '                                                    <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'" class="d-block">\n' +
                                 "                                                        <img src=\""+path+"\" alt=\"\" width=\"150\" height=\"300\"  >\n" +
                                 '                                                    </a>\n' +
                                 '                                                    <div class="product__thumbnail-action">\n' +
@@ -147,10 +148,10 @@
                                 '                                                </figure>\n' +
                                 '                                                <div class="product__info">\n' +
                                 '                                                    <h3 class="product__title">\n' +
-                                '                                                        <a href="product-details.html?gameId='+mydata.array[i].gameId+'">'+mydata.array[i].gameName+'</a>\n' +
+                                '                                                        <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'">'+mydata.first.list[i].gameName+'</a>\n' +
                                 '                                                    </h3>\n' +
                                 '                                                    <div class="product__price">\n' +
-                                '                                                        <span class="money">'+mydata.array[i].gameValue+'</span>\n' +
+                                '                                                        <span class="money">'+mydata.first.list[i].gameValue+'</span>\n' +
                                 '                                                        <span class="sign">$</span>\n' +
                                 '                                                    </div>\n' +
                                 '                                                    <span class="product__rating">\n' +
@@ -160,7 +161,7 @@
                                 '                                                        <i class="fa fa-star"></i>\n' +
                                 '                                                        <i class="fa fa-star"></i>\n' +
                                 '                                                    </span>\n' +
-                                '                                                    <p class="product__short-description">'+mydata.array[i].message+'</p>\n' +
+                                '                                                    <p class="product__short-description">'+mydata.first.list[i].message+'</p>\n' +
                                 '                                                    <div class="d-flex product__list-action">\n' +
                                 '                                                        <a href="cart.html" class="btn btn-size-sm">Add To Cart</a>\n' +
                                 '                                                        <a href="compare.html" class="action-btn">\n' +
@@ -193,72 +194,30 @@
 
     <script>
         //按类型获取游戏
-        function gametype(type){
+        function gametype(type,pageNum,pageSize){
 
             $.ajax({
-                url:"http://localhost:8080/gamepage",
-                dataType:"json",
-                data:JSON.stringify(
-                    {
-                        type:type,
-                        size:6,
-                        Name:"",
-                    }),
-                type:"post",
+                url:"http://localhost:8080/gametypepages/"+type+"/"+pageNum+"/"+pageSize,
+                type:"GET",
                 xhrFields:{
                     withCredentials:true
                 },
-                contentType:'application/json',
+                contentType:'text/plain',
                 crossDomain:true,
                 success:function(result){
-                    if(result.state==450){
-                        globalPage=result.data.data.page.currentPage;
-                        gametype1(type,result.data.data.page,0);
-                    }else{
-                        alert("页面大小有误");
-                    }
-                },
-                error:function(result){
-
-                }
-            });
-        }
-
-        function gametype1(type1,page,dx){
-            console.log(page)
-            $.ajax({
-                url:"http://localhost:8080/gametypepage",
-                dataType:"json",
-
-                 data:JSON.stringify(
-                    {
-                        type:type1,
-                        currentPage: page.currentPage+dx,
-                        totalPages: page.totalPages,
-                        pageSize: page.pageSize,
-                        Name:null
-                    }),
-                type:"POST",
-                xhrFields:{
-                    withCredentials:true
-                },
-                contentType:'application/json',
-                crossDomain:true,
-                success:function(result){
-                    globalPage=result.data.data.page.currentPage;
-                    globalSize=result.data.data.page.pageSize;
-                    globalCount=result.data.data.page.totalPages;
-                    globalPage=result.data.data.page;
-                    console.log(globalPage);
-                    if(result.data.message==true){
+                    console.log(result.data);
+                    pageNums=result.data.first.pageNum;
+                    pages=result.data.first.pages;
+                    //console.log(globalPage);
+                    if(result.state==450&&result.data.first.size!=0){
                         //取出数据
-                        var mydata=result.data.data;
+                        var mydata=result.data;
+                        //console.log(mydata);
                         var str="";
                         var i=0;
-                        console.log(mydata);
-                        for(i;i<mydata.array.length;i++){
+                        for(i;i<mydata.first.list.length;i++){
 
-                            path = "http://124.221.237.233:9000/image/"+mydata.pictures[i].path;
+                            path = "http://124.221.237.233:9000/image/"+mydata.second[i].path;
                             str=str+'<div class="col-xl-4 col-sm-6 mb--50">\n' +
                                 '                                        <div class="payne-product">\n' +
                                 '                                            <div class="product__inner">\n' +
@@ -266,7 +225,7 @@
                                 '                                                    <figure class="product__image--holder">\n' +
                                 "                                                        <img src=\""+path+"\" alt=\"\" width=\"300\" height=\"175\"  >\n" +
                                 '                                                    </figure>\n' +
-                                '                                                    <a href="product-details.html?gameId='+mydata.array[i].gameId+'" class="product__overlay"></a>\n' +
+                                '                                                    <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'" class="product__overlay"></a>\n' +
                                 '                                                    <div class="product__action">\n' +
 
                                 '                                                    </div>\n' +
@@ -274,10 +233,10 @@
                                 '                                                <div class="product__info">\n' +
                                 '                                                    <div class="product__info--left">\n' +
                                 '                                                        <h3 class="product__title">\n' +
-                                '                                                            <a href="product-details.html?gameId='+mydata.array[i].gameId+'">'+mydata.array[i].gameName+'</a>\n' +
+                                '                                                            <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'">'+mydata.first.list[i].gameName+'</a>\n' +
                                 '                                                        </h3>\n' +
                                 '                                                        <div class="product__price">\n' +
-                                '                                                            <span class="money">'+mydata.array[i].gameValue+'</span>\n' +
+                                '                                                            <span class="money">'+mydata.first.list[i].gameValue+'</span>\n' +
                                 '                                                            <span class="sign">$</span>\n' +
                                 '                                                        </div>\n' +
                                 '                                                    </div>\n' +
@@ -296,7 +255,7 @@
                                 '                                        <div class="payne-product-list">\n' +
                                 '                                            <div class="product__inner">\n' +
                                 '                                                <figure class="product__image">\n' +
-                                '                                                    <a href="product-details.html?gameId='+mydata.array[i].gameId+'" class="d-block">\n' +
+                                '                                                    <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'" class="d-block">\n' +
                                 "                                                        <img src=\""+path+"\" alt=\"\" width=\"150\" height=\"300\"  >\n" +
                                 '                                                    </a>\n' +
                                 '                                                    <div class="product__thumbnail-action">\n' +
@@ -308,10 +267,10 @@
                                 '                                                </figure>\n' +
                                 '                                                <div class="product__info">\n' +
                                 '                                                    <h3 class="product__title">\n' +
-                                '                                                        <a href="product-details.html?gameId='+mydata.array[i].gameId+'">'+mydata.array[i].gameName+'</a>\n' +
+                                '                                                        <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'">'+mydata.first.list[i].gameName+'</a>\n' +
                                 '                                                    </h3>\n' +
                                 '                                                    <div class="product__price">\n' +
-                                '                                                        <span class="money">'+mydata.array[i].gameValue+'</span>\n' +
+                                '                                                        <span class="money">'+mydata.first.list[i].gameValue+'</span>\n' +
                                 '                                                        <span class="sign">$</span>\n' +
                                 '                                                    </div>\n' +
                                 '                                                    <span class="product__rating">\n' +
@@ -321,7 +280,7 @@
                                 '                                                        <i class="fa fa-star"></i>\n' +
                                 '                                                        <i class="fa fa-star"></i>\n' +
                                 '                                                    </span>\n' +
-                                '                                                    <p class="product__short-description">'+mydata.array[i].message+'</p>\n' +
+                                '                                                    <p class="product__short-description">'+mydata.first.list[i].message+'</p>\n' +
                                 '                                                    <div class="d-flex product__list-action">\n' +
 
                                 '                                                    </div>\n' +
@@ -333,10 +292,10 @@
                         }
                         $("#gamelist").html(str);
 
-                        var str2='<li><a href="javascript:void(0);" onclick="gametype1('+type1+',globalPage,-globalPage.currentPage+1)" class="page-number" >首页</a></li>';
-                        var str3='<li><a href="javascript:void(0);" onclick="gametype1(type,globalPage,globalPage.currentPage-1==0?0:-1)" class="page-number" >上一页</a></li>';
-                        var str4='<li><a href="javascript:void(0);" onclick="gametype1('+type1+',globalPage,globalPage.currentPage+1==globalPage.totalPages+1?0:+1)" class="page-number" >下一页</a></li>';
-                        var str5='<li><a href="javascript:void(0);" onclick="gametype1(type,globalPage,-globalPage.currentPage+globalPage.totalPages)" class="page-number" >尾页</a></li>';
+                        var str2='<li><a href="javascript:void(0);" onclick="gametype(type,1,4)" class="page-number" >首页</a></li>';
+                        var str3='<li><a href="javascript:void(0);" onclick="gametype(type,pageNums-1==0?1:pageNums-1,4)" class="page-number" >上一页</a></li>';
+                        var str4='<li><a href="javascript:void(0);" onclick="gametype(type,pageNums+1<=pages?pageNums+1:pages,4)" class="page-number" >下一页</a></li>';
+                        var str5='<li><a href="javascript:void(0);" onclick="gametype(type,pages,4)" class="page-number" >尾页</a></li>';
                         $("#pagelist").html(str2+str3+str4+str5);
                     }else{
                         //没有数据
@@ -350,9 +309,10 @@
 
     <script>
         //搜索
-        function search(){
+        /*function search(){
             //alert(obj.value);
             var word=$(obj).val();
+
             $.ajax({
                 url:"http://localhost:8080/gamepage",
                 dataType:"json",
@@ -378,42 +338,147 @@
                 }
             })
 
-        }
-        function search1(word,page,dx){
-            console.log(page)
-            $.ajax({
-                url:"http://localhost:8080/gametypepage",
-                dataType:"json",
-                data:JSON.stringify(
-                    {
-                        type:"",
-                        currentPage: page.currentPage+dx,
-                        totalPages: page.totalPages,
-                        pageSize: page.pageSize,
-                        Name:word,
-                    }),
-                type:"POST",
-                xhrFields:{
-                    withCredentials:true
-                },
-                contentType:'application/json',
-                crossDomain:true,
+        }*/
+
+
+        function search1(pageNum,pageSize){
+            var word=$(obj).val();
+            if(word==null||word==""){
+                $.ajax({
+                    url:"http://localhost:8080/gamepage/"+pageNum+"/"+pageSize,
+                    dataType:"json",
+                    type:"GET",
+                    xhrFields:{
+                        withCredentials:true
+                    },
+                    contentType:'application/json',
+                    crossDomain:true,
+                    success:function(result){
+                        console.log(result.data);
+                        pageNums=result.data.first.pageNum;
+                        pages=result.data.first.pages;
+                        //console.log(globalPage);
+                        if(result.state==450&&result.data.first.size!=0){
+                            //取出数据
+                            var mydata=result.data;
+                            //console.log(mydata);
+                            var str="";
+                            var i=0;
+                            for(i;i<mydata.first.list.length;i++){
+
+                                path = "http://124.221.237.233:9000/image/"+mydata.second[i].path;
+                                str=str+'<div class="col-xl-4 col-sm-6 mb--50">\n' +
+                                    '                                        <div class="payne-product">\n' +
+                                    '                                            <div class="product__inner">\n' +
+                                    '                                                <div class="product__image">\n' +
+                                    '                                                    <figure class="product__image--holder">\n' +
+                                    "                                                        <img src=\""+path+"\" alt=\"\" width=\"300\" height=\"175\"  >\n" +
+                                    '                                                    </figure>\n' +
+                                    '                                                    <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'" class="product__overlay"></a>\n' +
+                                    '                                                    <div class="product__action">\n' +
+
+                                    '                                                    </div>\n' +
+                                    '                                                </div>\n' +
+                                    '                                                <div class="product__info">\n' +
+                                    '                                                    <div class="product__info--left">\n' +
+                                    '                                                        <h3 class="product__title">\n' +
+                                    '                                                            <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'">'+mydata.first.list[i].gameName+'</a>\n' +
+                                    '                                                        </h3>\n' +
+                                    '                                                        <div class="product__price">\n' +
+                                    '                                                            <span class="money">'+mydata.first.list[i].gameValue+'</span>\n' +
+                                    '                                                            <span class="sign">$</span>\n' +
+                                    '                                                        </div>\n' +
+                                    '                                                    </div>\n' +
+                                    '                                                    <div class="product__info--right">\n' +
+                                    '                                                        <span class="product__rating">\n' +
+                                    '                                                            <i class="fa fa-star"></i>\n' +
+                                    '                                                            <i class="fa fa-star"></i>\n' +
+                                    '                                                            <i class="fa fa-star"></i>\n' +
+                                    '                                                            <i class="fa fa-star"></i>\n' +
+                                    '                                                            <i class="fa fa-star"></i>\n' +
+                                    '                                                        </span>\n' +
+                                    '                                                    </div>\n' +
+                                    '                                                </div>\n' +
+                                    '                                            </div>\n' +
+                                    '                                        </div>\n' +
+                                    '                                        <div class="payne-product-list">\n' +
+                                    '                                            <div class="product__inner">\n' +
+                                    '                                                <figure class="product__image">\n' +
+                                    '                                                    <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'" class="d-block">\n' +
+                                    "                                                        <img src=\""+path+"\" alt=\"\" width=\"150\" height=\"300\"  >\n" +
+                                    '                                                    </a>\n' +
+                                    '                                                    <div class="product__thumbnail-action">\n' +
+                                    '                                                        <a data-toggle="modal" data-target="#productModal" class="action-btn quick-view">\n' +
+                                    '                                                            <i class="fa fa-eye"></i>\n' +
+                                    '                                                            <span class="sr-only">Quick View</span>\n' +
+                                    '                                                        </a>\n' +
+                                    '                                                    </div>\n' +
+                                    '                                                </figure>\n' +
+                                    '                                                <div class="product__info">\n' +
+                                    '                                                    <h3 class="product__title">\n' +
+                                    '                                                        <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'">'+mydata.first.list[i].gameName+'</a>\n' +
+                                    '                                                    </h3>\n' +
+                                    '                                                    <div class="product__price">\n' +
+                                    '                                                        <span class="money">'+mydata.first.list[i].gameValue+'</span>\n' +
+                                    '                                                        <span class="sign">$</span>\n' +
+                                    '                                                    </div>\n' +
+                                    '                                                    <span class="product__rating">\n' +
+                                    '                                                        <i class="fa fa-star"></i>\n' +
+                                    '                                                        <i class="fa fa-star"></i>\n' +
+                                    '                                                        <i class="fa fa-star"></i>\n' +
+                                    '                                                        <i class="fa fa-star"></i>\n' +
+                                    '                                                        <i class="fa fa-star"></i>\n' +
+                                    '                                                    </span>\n' +
+                                    '                                                    <p class="product__short-description">'+mydata.first.list[i].message+'</p>\n' +
+                                    '                                                    <div class="d-flex product__list-action">\n' +
+                                    '                                                        <a href="cart.html" class="btn btn-size-sm">Add To Cart</a>\n' +
+                                    '                                                        <a href="compare.html" class="action-btn">\n' +
+                                    '                                                            <i class="fa fa-repeat"></i>\n' +
+                                    '                                                            <span class="sr-only">Add To Compare</span>\n' +
+                                    '                                                        </a>\n' +
+                                    '                                                    </div>\n' +
+                                    '                                                </div>\n' +
+                                    '                                            </div>\n' +
+                                    '                                        </div>\n' +
+                                    '                                    </div>';
+
+                            }
+                            $("#gamelist").html(str);
+
+                            var str2='<li><a href="javascript:void(0);" onclick="mypage1(1,4)" class="page-number" >首页</a></li>';
+                            var str3='<li><a href="javascript:void(0);" onclick="mypage1(pageNums-1==0?1:pageNums-1,4)" class="page-number" >上一页</a></li>';
+                            var str4='<li><a href="javascript:void(0);" onclick="mypage1(pageNums+1<=pages?pageNums+1:pages,4)" class="page-number" >下一页</a></li>';
+                            var str5='<li><a href="javascript:void(0);" onclick="mypage1(pages,4)" class="page-number" >尾页</a></li>';
+                            $("#pagelist").html(str2+str3+str4+str5);
+                        }else{
+                            //没有数据
+                            $("#gamelist").html("暂无数据");
+                        }
+                    }
+                })
+            }else{
+                    $.ajax({
+                        url:"http://localhost:8080/gamewordpages/"+word+"/"+pageNum+"/"+pageSize,
+                        type:"GET",
+                        xhrFields:{
+                            withCredentials:true
+                        },
+                        contentType:'text/plain',
+                        crossDomain:true,
                 success:function(result){
-                    globalPage=result.data.data.page.currentPage;
-                    globalSize=result.data.data.page.pageSize;
-                    globalCount=result.data.data.page.totalPages;
-                    globalPage=result.data.data.page;
-                    console.log(globalPage);
-                    if(result.data.message==true){
+                    console.log(result.data);
+                    pageNums=result.data.first.pageNum;
+                    pages=result.data.first.pages;
+                    //console.log(globalPage);
+                    if(result.state==450&&result.data.first.size!=0){
                         //取出数据
-                        var mydata=result.data.data;
+                        var mydata=result.data;
+                        //console.log(mydata);
                         var str="";
                         var i=0;
-                        console.log(mydata);
-                        for(i;i<mydata.array.length;i++){
+                        for(i;i<mydata.first.list.length;i++){
 
-
-                            path = "http://124.221.237.233:9000/image/"+mydata.pictures[i].path;
+                            path = "http://124.221.237.233:9000/image/"+mydata.second[i].path;
                             str=str+'<div class="col-xl-4 col-sm-6 mb--50">\n' +
                                 '                                        <div class="payne-product">\n' +
                                 '                                            <div class="product__inner">\n' +
@@ -421,7 +486,7 @@
                                 '                                                    <figure class="product__image--holder">\n' +
                                 "                                                        <img src=\""+path+"\" alt=\"\" width=\"300\" height=\"175\"  >\n" +
                                 '                                                    </figure>\n' +
-                                '                                                    <a href="product-details.html?gameId='+mydata.array[i].gameId+'" class="product__overlay"></a>\n' +
+                                '                                                    <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'" class="product__overlay"></a>\n' +
                                 '                                                    <div class="product__action">\n' +
 
                                 '                                                    </div>\n' +
@@ -429,10 +494,10 @@
                                 '                                                <div class="product__info">\n' +
                                 '                                                    <div class="product__info--left">\n' +
                                 '                                                        <h3 class="product__title">\n' +
-                                '                                                            <a href="product-details.html?gameId='+mydata.array[i].gameId+'">'+mydata.array[i].gameName+'</a>\n' +
+                                '                                                            <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'">'+mydata.first.list[i].gameName+'</a>\n' +
                                 '                                                        </h3>\n' +
                                 '                                                        <div class="product__price">\n' +
-                                '                                                            <span class="money">'+mydata.array[i].gameValue+'</span>\n' +
+                                '                                                            <span class="money">'+mydata.first.list[i].gameValue+'</span>\n' +
                                 '                                                            <span class="sign">$</span>\n' +
                                 '                                                        </div>\n' +
                                 '                                                    </div>\n' +
@@ -451,7 +516,7 @@
                                 '                                        <div class="payne-product-list">\n' +
                                 '                                            <div class="product__inner">\n' +
                                 '                                                <figure class="product__image">\n' +
-                                '                                                    <a href="product-details.html?gameId='+mydata.array[i].gameId+'" class="d-block">\n' +
+                                '                                                    <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'" class="d-block">\n' +
                                 "                                                        <img src=\""+path+"\" alt=\"\" width=\"300\" height=\"175\"  >\n" +
                                 '                                                    </a>\n' +
                                 '                                                    <div class="product__thumbnail-action">\n' +
@@ -463,10 +528,10 @@
                                 '                                                </figure>\n' +
                                 '                                                <div class="product__info">\n' +
                                 '                                                    <h3 class="product__title">\n' +
-                                '                                                        <a href="product-details.html?gameId='+mydata.array[i].gameId+'">'+mydata.array[i].gameName+'</a>\n' +
+                                '                                                        <a href="product-details.html?gameId='+mydata.first.list[i].gameId+'">'+mydata.first.list[i].gameName+'</a>\n' +
                                 '                                                    </h3>\n' +
                                 '                                                    <div class="product__price">\n' +
-                                '                                                        <span class="money">'+mydata.array[i].gameValue+'</span>\n' +
+                                '                                                        <span class="money">'+mydata.first.list[i].gameValue+'</span>\n' +
                                 '                                                        <span class="sign">$</span>\n' +
                                 '                                                    </div>\n' +
                                 '                                                    <span class="product__rating">\n' +
@@ -476,7 +541,7 @@
                                 '                                                        <i class="fa fa-star"></i>\n' +
                                 '                                                        <i class="fa fa-star"></i>\n' +
                                 '                                                    </span>\n' +
-                                '                                                    <p class="product__short-description">'+mydata.array[i].message+'</p>\n' +
+                                '                                                    <p class="product__short-description">'+mydata.first.list[i].message+'</p>\n' +
                                 '                                                    <div class="d-flex product__list-action">\n' +
                                 '                                                        <a href="cart.html" class="btn btn-size-sm">Add To Cart</a>\n' +
                                 '                                                        <a href="compare.html" class="action-btn">\n' +
@@ -492,10 +557,10 @@
                         }
                         $("#gamelist").html(str);
 
-                        var str2='<li><a href="javascript:void(0);" onclick="search1('+word+',globalPage,-globalPage.currentPage+1)" class="page-number" >首页</a></li>';
-                        var str3='<li><a href="javascript:void(0);" onclick="search1('+word+',globalPage,globalPage.currentPage-1==0?0:-1)" class="page-number" >上一页</a></li>';
-                        var str4='<li><a href="javascript:void(0);" onclick="search1('+word+',globalPage,globalPage.currentPage+1==globalPage.totalPages+1?0:+1)" class="page-number" >下一页</a></li>';
-                        var str5='<li><a href="javascript:void(0);" onclick="search1('+word+',globalPage,-globalPage.currentPage+globalPage.totalPages)" class="page-number" >尾页</a></li>';
+                        var str2='<li><a href="javascript:void(0);" onclick="search1(word,1,4)" class="page-number" >首页</a></li>';
+                        var str3='<li><a href="javascript:void(0);" onclick="search1(word,pageNums-1==0?1:pageNums-1,4)" class="page-number" >上一页</a></li>';
+                        var str4='<li><a href="javascript:void(0);" onclick="search1(word,pageNums+1<=pages?pageNums+1:pages,4)" class="page-number" >下一页</a></li>';
+                        var str5='<li><a href="javascript:void(0);" onclick="search1(word,pages,4)" class="page-number" >尾页</a></li>';
                         $("#pagelist").html(str2+str3+str4+str5);
                     }else{
                         //没有数据
@@ -503,6 +568,7 @@
                     }
                 }
             })
+            }
         }
     </script>
 </head>
@@ -623,7 +689,7 @@
             min-height: 36px;
             line-height: 22px;
             height: auto;
-            outline: 0!important;" id="obj" onkeyup="search()">
+            outline: 0!important;" id="obj" onkeyup="search1(1,4)">
 
 
                                         </div>
@@ -666,31 +732,31 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="gametype('动作')">
+                                        <a href="#" onclick="gametype('动作',1,4)">
                                             <span class="category-title">动作游戏</span>
                                             <i class="fa fa-angle-double-right"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="gametype('冒险')">
+                                        <a href="#" onclick="gametype('冒险',1,4)">
                                             <span class="category-title">冒险游戏</span>
                                             <i class="fa fa-angle-double-right"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="gametype('休闲')">
+                                        <a href="#" onclick="gametype('休闲',1,4)">
                                             <span class="category-title">休闲游戏</span>
                                             <i class="fa fa-angle-double-right"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="gametype('音乐')">
+                                        <a href="#" onclick="gametype('音乐',1,4)">
                                             <span class="category-title">音乐游戏</span>
                                             <i class="fa fa-angle-double-right"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="gametype('策略')">
+                                        <a href="#" onclick="gametype('策略',1,4)">
                                             <span class="category-title">策略游戏</span>
                                             <i class="fa fa-angle-double-right"></i>
                                         </a>

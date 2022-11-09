@@ -56,22 +56,18 @@
     </script>
 
     <script>
+        var pageNums=0;
+        var pages=0;
         $(document).ready(function (){
-            myshow(2);
+            myshow1(1,4);
         })
 
-        function myshow(size){
+        /*function myshow(size){
 
             $.ajax({
                 url:"http://localhost:8080/gamepage",
                 dataType:"json",
-                data:JSON.stringify(
-                    {
-                        type:"",
-                        size:size,
-                        Name:"",
-                    }),
-                type:"POST",
+                type:"GET",
                 xhrFields:{
                     withCredentials:true
                 },
@@ -91,21 +87,12 @@
 
                 }
             });
-        }
+        }*/
 
-        function myshow1(page){
+        function myshow1(pageNum,pageSize){
             $.ajax({
-                url:"http://localhost:8080/gametypepage",
-                dataType:"json",
-                data:JSON.stringify(
-                    {
-                        type:"",
-                        currentPage:page.currentPage,
-                        pageSize:page.pageSize,
-                        totalPages:page.totalPages,
-                        Name:"",
-                    }),
-                type:"POST",
+                url:"http://localhost:8080/gamepage/"+pageNum+"/"+pageSize,
+                type:"GET",
                 xhrFields:{
                     withCredentials:true
                 },
@@ -113,14 +100,16 @@
                 contentType:'application/json',
                 success:function(result){
                     console.log(result.data);
-                    if(result.data.message==true){
+                    pageNums=result.data.first.pageNum;
+                    pages=result.data.first.pages;
+                    if(result.state==450){
                         //有数据
-                        var mydata=result.data.data;
+                        var mydata=result.data;
                         var i=0;
                         var str="";
-                        for (i;i<mydata.array.length;i++){
+                        for (i;i<mydata.first.list.length;i++){
 
-                            path = "http://124.221.237.233:9000/image/"+mydata.pictures[i].path;
+                            path = "http://124.221.237.233:9000/image/"+mydata.second[i].path;
                             str=str+"<div class=\"col-lg-3 col-md-4 col-sm-6 mb--65 mb-md--50\">\n" +
                                 "                            <div class=\"payne-product\">\n" +
                                 "                                <div class=\"product__inner\">\n" +
@@ -136,10 +125,10 @@
                                 "                                    <div class=\"product__info\">\n" +
                                 "                                        <div class=\"product__info--left\">\n" +
                                 "                                            <h3 class=\"product__title\">\n" +
-                                '                                                <a href=\"product-details.html?gameId='+mydata.array[i].gameId+'">'+mydata.array[i].gameName+'</a>\n' +
+                                '                                                <a href=\"product-details.html?gameId='+mydata.first.list[i].gameId+'">'+mydata.first.list[i].gameName+'</a>\n' +
                                 "                                            </h3>\n" +
                                 "                                            <div class=\"product__price\">\n" +
-                                '                                                <span class=\"money\">'+mydata.array[i].gameValue+'</span>\n' +
+                                '                                                <span class=\"money\">'+mydata.first.list[i].gameValue+'</span>\n' +
                                 "                                                <span class=\"sign\">$</span>\n" +
                                 "                                            </div>\n" +
                                 "                                        </div>\n" +
