@@ -13,8 +13,8 @@
   <script type="text/javascript">
     $(document).ready(function () {
       $.ajax({
-        url: 'http://localhost:8080/GameShop/islogin.html',
-        type: 'POST',
+        url: 'http://localhost:8080/islogin',
+        type: 'GET',
         dataType: 'json',
 
         contentType: 'application/json',
@@ -26,7 +26,7 @@
         async: false,
         crossDomain:true,
         success: function (result) {
-          if(result.message){
+          if(result.state==450){
             $("#userID").text(result.data.userId);
             $("#userName").text(result.data.userName);
             $("#userEmail").text(result.data.email);
@@ -46,18 +46,17 @@
     function upmoney() {
       var cmoney = $("#money").val();
       $.ajax({
-        url: 'http://localhost:8080/GameShop/charge.html',
-        type: 'GET',
+        url: 'http://localhost:8080/charge/'+cmoney,
+        type: 'Post',
         dataType: 'json',
         contentType: 'application/json',
         xhrFields:{
           withCredentials:true
         },
-        data:{money:cmoney},
         async: false,
         crossDomain:true,
         success: function (result) {
-          if(result.message){
+          if(result.state=450){
             alert("充值成功");
             location.reload();
           }else{
