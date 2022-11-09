@@ -59,7 +59,7 @@
         $("#mya").attr("href","Admin_GameInfo.html?role="+role);
         $("#myu").attr("href","Admin_UserInfo.html?role="+role);
         $("#myg").attr("href","Admin_AuditGame.html?role="+role);
-        mypage1(role,2);
+        mypage1(role,4);
     });
 </script>
 <script type="text/javascript">
@@ -80,7 +80,7 @@
             contentType:'application/json',
             async:false,
             success: function(result){
-                console.log(result)
+                alert("删除成功")
                 window.location.reload();
             },
             error: function (e) {
@@ -94,7 +94,7 @@
     function change(i) {
 
 
-        var newpwd = $("#"+"newPwd"+i).val();
+        var newrole = $("#"+"newPwd"+i).val();
         var userid=$("#"+"userId"+i).val();
         $.ajax({
             url:"http://localhost:8080/user",
@@ -107,7 +107,7 @@
             data:JSON.stringify(
                 {
                     userId: userid,
-                    userPwd:newpwd,
+                    userPwd:newrole,
                 }),
             contentType:'application/json',
             async:false,
@@ -151,19 +151,24 @@
                         var i;
                         for(i=0;i<mydata.length;i++){
                             str=str+ '<tr> <td >'+mydata[i].userId+'</td><input type="hidden" value="'+mydata[i].userId+'" id="userId'+i+'"> <td id="mname">'+mydata[i].userName+'</td> <td>'+mydata[i].userPwd+'</td>';
-                            strx='<td > <input type="text"  placeholder="修改密码 " id="newPwd'+i+'"  ><button onclick="change('+i+')" >确认</button> </td>';
+                            if(mydata[i].role==1){
+                                strx='<td > <select id="newPwd'+i+'"=><option value="admin">管理员</option><option value="user">用户</option></select><button onclick="change('+i+')" >确认</button> </td>';
+                            }else{
+                                strx='<td > <select id="newPwd'+i+'"=><option value="user">用户</option><option value="admin">管理员</option></select><button onclick="change('+i+')" >确认</button> </td>';
+                            }
+
                             stry='<td><button class="btnDelete" onclick="deleteUser('+i+')" >删除</button></td></tr>'
                             str=str+strx+stry;
                         }
 
                         $("#UserInfoList").html(str);
-                        var str2='<a class="wy" href="javascript:void(0);" onclick ="mypage1(1,2)" >首页</a>';
+                        var str2='<a class="wy" href="javascript:void(0);" onclick ="mypage1(1,4)" >首页</a>';
 
-                        var str4='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS-1==0 ? 1 : pageNumS-1,2)">上一页</a>';
+                        var str4='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS-1==0 ? 1 : pageNumS-1,4)">上一页</a>';
 
-                        var str5='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS+1<=pages ? pageNumS+1 : pages,2)" >下一页</a>';
+                        var str5='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS+1<=pages ? pageNumS+1 : pages,4)" >下一页</a>';
 
-                        var str3='<a class="wy" href="javascript:void(0)" onclick="mypage1(pages,2)">尾页</a>';
+                        var str3='<a class="wy" href="javascript:void(0)" onclick="mypage1(pages,4)">尾页</a>';
 
                         $("#mypagetool").html(str2+str4+str5+str3);
                     }
@@ -289,7 +294,7 @@
                                 <span class="line"></span>密码
                             </th>
                             <th class="span3">
-                                <span class="line"></span>操作
+                                <span class="line"></span>权限
                             </th>
                             <th class="span3">
                                 <span class="line"></span>状态
