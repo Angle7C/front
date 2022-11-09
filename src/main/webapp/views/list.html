@@ -23,21 +23,24 @@
         async: false,
         crossDomain:true,
         success: function (result) {
-          if(result.message&&result.data!=""){
+          if(result.state==450){
             var str = '';
-            for(var i=0;i<result.data.length ;i++){
-              var index = result.data[i].second.path.lastIndexOf("GameShop");
-              var ind = result.data[i].second.path.lastIndexOf("\\");
+            var gameIdList=result.data.gameList;
+            var orderList=result.data.orderList;
+            var pictureList=result.data.pictureList;
+            for(var i=0;i<gameIdList.length ;i++){
 
-              path = "http://localhost:8080/"+(result.data[i].second.path).substring(index,ind)+"\\1.png";
+              path = "http://124.221.237.233:9000/image/"+pictureList[i].path;
 
               str+="<tr>"+
-                      "          <td style=\"text-align:left; padding-left:20px;\">"+result.data[i].second.gameId+"</td>\n" +
-                      "          <td>"+result.data[i].second.gameName+"</td>\n" +
-                      "          <td width=\"10%\"><img id=\""+"image"+result.data[i].first+"\"  src=\""+path+"\" alt=\"\" width=\"70\" height=\"50\" /></td>\n" +
-                      "          <td><font color=\"#00CC99\">"+result.data[i].second.gameValue+"</font></td>\n" +
-                      "          <td>"+result.data[i].second.gameType+"</td>\n" +
-                      "          <td><div class=\"button-group\"> <a href='http://localhost:8080/GameShop/download?gameId="+result.data[i].second.gameId+"'><div class=\"button border-green\" \"><span class=\"icon-save\">下载</span> </div></a> <div class=\"button border-main\" onclick=\"tuikuang("+result.data[i].first+")\"><span class=\"icon-reply\">退款</span> </div><div class=\"button border-main\" onclick=\"pingfen("+result.data[i].second.gameId+")\"><span class=\"icon-reply\">评分</span> </div></div></td>"
+                      "          <td style=\"text-align:left; padding-left:20px;\">"+gameIdList[i].gameId+"</td>\n" +
+                      "          <td>"+gameIdList[i].gameName+"</td>\n" +
+                      "          <td width=\"10%\"><img id=\""+"image"+orderList[i]+"\" src=\""+path+"\" alt=\"\" width=\"70\" height=\"50\" /></td>\n" +
+                      "          <td><font color=\"#00CC99\">"+gameIdList[i].gameValue+"</font></td>\n" +
+                      "          <td>"+gameIdList[i].gameType+"</td>\n" +
+                      "          <td><div class=\"button-group\">" +
+                      "              <a href='http://localhost:8080/download/"+pictureList[i].gameId+"'>" +
+                      "              <div class=\"button border-green\" \"><span class=\"icon-save\">下载</span> </div></a> <div class=\"button border-main\" onclick=\"tuikuang("+orderList[i]+")\"><span class=\"icon-reply\">退款</span> </div><div class=\"button border-main\" onclick=\"pingfen("+gameIdList[i].gameId+")\"><span class=\"icon-reply\">评分</span> </div></div></td>"
 
                 +"</tr>"
 
@@ -72,12 +75,6 @@
         crossDomain:true,
         success: function (result) {
           open(result);
-          // if(result.message){
-          //   alert("开始下载");
-          //   location.reload();
-          // }else{
-          //   alert("下载失败")
-          // }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
           // 状态码

@@ -26,14 +26,14 @@
             $.ajax({
                 url: "http://localhost:8080/islogin",
                 dataType: "json",
-                type: "GET",
+                type: "Get",
                 xhrFields: {
                     withCredentials: true
                 },
                 contentType:'application/json',
                 crossDomain: true,
                 success: function (result) {
-                    if(result.state==450){
+                    if(result.message){
                         //说明已经登录
                         $("#logininfo").html("欢迎您,"+result.data.userName+'<a href="#" onclick="loginout('+result.data.userId+')">注销</a>') ;
                     }else{
@@ -61,14 +61,13 @@
             $.ajax({
                 url:"http://localhost:8080/findgame/"+gameid,
                 dataType:"json",
-                type:"GET",
+                type:"get",
                 xhrFields:{
                     withCredentials:true
                 },
                 crossDomain:true,
                 contentType:'application/json',
                 success:function(result){
-                    console.log(result.data);
                     if(result.state==450){
                         //有对应的游戏
                         $("#gamename").html(result.data.first.gameName);
@@ -100,7 +99,7 @@
             $.ajax({
                 url: "http://localhost:8080/addgamenumber/"+gameid,
                 dataType: "json",
-                type: "GET",
+                type: "Post",
                 xhrFields: {
                     withCredentials: true
                 },
