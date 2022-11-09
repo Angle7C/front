@@ -59,7 +59,7 @@
         $("#mya").attr("href","Admin_GameInfo.html?role="+role);
         $("#myu").attr("href","Admin_UserInfo.html?role="+role);
         $("#myg").attr("href","Admin_AuditGame.html?role="+role);
-        mypage(role,4);
+        mypage1(role,6);
     });
 </script>
 <script type="text/javascript">
@@ -67,17 +67,17 @@
         // console.log(test);
         var gameid=$("#"+"gameId"+i).val();
         $.ajax({
-            url:"http://localhost:8080/GameShop/deletegame.html",
-            type:"get",
+            url:"http://localhost:8080/games",
+            type:"DELETE",
             dataType:"JSON",
             xhrFields: {
                 withCredentials: true
             },
             crossDomain: true,
-            data: {
+            data:JSON.stringify({
                 gameId:gameid
-            },
-            // contentType:'application/json',
+            }),
+            contentType:'application/json',
             async:false,
             success: function(data){
                 window.location.reload();
@@ -91,54 +91,22 @@
     }
 </script>
 <script>
-    var gPage;
-
-    function mypage(role,size){
+    var pageNumS=0;
+    var pages=0;
+    function mypage1(pageNum,pageSize) {
         $.ajax({
-            url: "http://localhost:8080/GameShop/gamepagesize.html",
-            dataType: "json",
-            data:{
-
-                size:size,
-            },
-            type: "get",
-            xhrFields: {
-                withCredentials: true
-            },
-            contentType:'application/json',
-            crossDomain: true,
-            success: function (result) {
-                // console.log(result.data);
-                gPage=result.data;
-                if(result.message){
-                    mypage1(role,gPage,0);
-                }
-            }
-        });
-
-    }
-    function mypage1(role,page,dx) {
-        console.log(page);
-        $.ajax({
-                url: "http://localhost:8080/GameShop/agamepagesize.html",
-                dataType: "json",
-                data: JSON.stringify(
-                    {
-                        currentPage: page.currentPage + dx,
-                        totalPages: page.totalPages ,
-                        pageSize: page.pageSize
-                    }),
-                type: "POST",
+                url: "http://localhost:8080/games/"+pageNum+"/"+pageSize,
+                type: "GET",
                 xhrFields: {
                     withCredentials: true
                 },
                 contentType: 'application/json',
                 crossDomain: true,
                 success: function (result) {
-                    if(result.message){
-                        var mydata=result.data.array;
-
-                        gPage=result.data.page;
+                    if(result.state==450){
+                        pageNumS=result.data.pageNum;
+                        pages=result.data.pages;
+                        var mydata=result.data.list;
                         var str="";
                         var strx="";
                         var i;
@@ -150,13 +118,13 @@
 
 
                         $("#GameInfoList").html(str);
-                        var str2='<a class="wy" href="javascript:void(0);" onclick ="mypage1(role,gPage,-gPage.currentPage+1)" >首页</a>';
+                        var str2='<a class="wy" href="javascript:void(0);" onclick ="mypage1(1,6)" >首页</a>';
 
-                        var str4='<a class="wy" href="javascript:void(0);" onclick="mypage1(role,gPage, gPage.currentPage==1?0:-1)">上一页</a>';
+                        var str4='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS-1==0 ? 1 : pageNumS-1,6)">上一页</a>';
 
-                        var str5='<a class="wy" href="javascript:void(0);" onclick="mypage1(role,gPage, gPage.currentPage>=gPage.totalPages?0:1)" >下一页</a>';
+                        var str5='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS+1<=pages ? pageNumS+1 : pages,6)" >下一页</a>';
 
-                        var str3='<a class="wy" href="javascript:void(0)" onclick="mypage1(role,gPage, -gPage.currentPage+gPage.totalPages)">尾页</a>';
+                        var str3='<a class="wy" href="javascript:void(0)" onclick="mypage1(pages,6)">尾页</a>';
 
                         $("#mypagetool").html(str2+str4+str5+str3);
                     }
@@ -175,28 +143,31 @@
         console.log(gameValue)
 
         $.ajax({
-            url: "http://localhost:8080/GameShop/updateGames.html",
+            url: "http://localhost:8080/games",
             dataType: "json",
             data:JSON.stringify({
                 gameId:gameid,
                 gameName:gameName,
                 gameValue:gameValue,
-                message:null,
-                userId:null,
-                gameType:null,
                 gameStore:gameStore,
-                path:null
             }),
-            type: "POST",
+            type: "PUT",
             xhrFields: {
                 withCredentials: true
             },
             contentType:'application/json',
             crossDomain: true,
             success: function (result) {
-                if(result.message){
-                    location.href="Admin_GameInfo.html";
+                if(result.state==450){
+                    alert("修改成功");
+                    window.location.reload();
+                }else if(data.message){
+                    alert("修改失败");
                 }
+            },
+            error: function (e) {
+                console.log(e);
+                alert("error");
             }
         });
 

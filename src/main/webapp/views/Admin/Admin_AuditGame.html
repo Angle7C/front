@@ -59,7 +59,7 @@
         $("#mya").attr("href","Admin_GameInfo.html?role="+role);
         $("#myu").attr("href","Admin_UserInfo.html?role="+role);
         $("#myg").attr("href","Admin_AuditGame.html?role="+role);
-        mypage(role,11);
+        mypage1(role,8);
     });
 </script>
 <script type="text/javascript">
@@ -67,7 +67,7 @@
         // console.log(test);
         var gameid=$("#"+"gameId"+i).val();
         $.ajax({
-            url:"http://localhost:8080/GameShop/cancelgameup.html",
+            url:"http://localhost:8080/audit",
             type:"POST",
             dataType:"JSON",
             xhrFields: {
@@ -81,9 +81,9 @@
                 }),
             contentType:'application/json',
             async:false,
-            success: function(data){
+            success: function(result){
+                alert(result.message);
                 window.location.reload();
-
             },
             error: function (e) {
                 console.log(e);
@@ -93,53 +93,22 @@
     }
 </script>
 <script>
-    var gPage;
-
-    function mypage(role,size){
+    var pageNumS=0;
+    var pages=0;
+    function mypage1(pageNum,pageSize) {
         $.ajax({
-            url: "http://localhost:8080/GameShop/zerogamepagesize.html",
-            dataType: "json",
-            data:{
-                size:size
-            },
-            type: "GET",
-            xhrFields: {
-                withCredentials: true
-            },
-            crossDomain: true,
-            success: function (result) {
-                // console.log(result.data);
-                gPage=result.data;
-                if(result.message){
-                    mypage1(role,gPage,0);
-                }
-            }
-        });
-
-    }
-    function mypage1(role,page,dx) {
-        console.log(page);
-        $.ajax({
-                url: "http://localhost:8080/GameShop/zerogamepage.html",
-                dataType: "json",
-                data: JSON.stringify(
-                    {
-                        currentPage: page.currentPage + dx,
-                        totalPages: page.totalPages ,
-                        pageSize: page.pageSize
-
-                    }),
-                type: "post",
+                url: "http://localhost:8080/nopublishgames/"+pageNum+"/"+pageSize,
+                type: "GET",
                 xhrFields: {
                     withCredentials: true
                 },
                 contentType: 'application/json',
                 crossDomain: true,
                 success: function (result) {
-                    if(result.message){
-                        var mydata=result.data.array;
-
-                        gPage=result.data.page;
+                    if(result.state==450){
+                        pageNumS=result.data.pageNum;
+                        pages=result.data.pages;
+                        var mydata=result.data.list;
                         var str="";
                         var strx="";
                         var i;
@@ -150,13 +119,13 @@
                         }
 
                         $("#AuditList").html(str);
-                        var str2='<a class="wy" href="javascript:void(0);" onclick ="mypage1(role,gPage,0)" >首页</a>';
+                        var str2='<a class="wy" href="javascript:void(0);" onclick ="mypage1(1,8)" >首页</a>';
 
-                        var str4='<a class="wy" href="javascript:void(0);" onclick="mypage1(role,gPage,gPage.currentPage-1==0?0:-1)">上一页</a>';
+                        var str4='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS-1==0 ? 1 : pageNumS-1,8)">上一页</a>';
 
-                        var str5='<a class="wy" href="javascript:void(0);" onclick="mypage1(role,gPage,gPage.currentPage>=gPage.totalPages?0:+1)" >下一页</a>';
+                        var str5='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS+1<=pages ? pageNumS+1 : pages,8)" >下一页</a>';
 
-                        var str3='<a class="wy" href="javascript:void(0)" onclick="mypage1(role,gPage,-gPage.currentPage+gPage.totalPages)">尾页</a>';
+                        var str3='<a class="wy" href="javascript:void(0)" onclick="mypage1(pages,8)">尾页</a>';
 
                         $("#mypagetool").html(str2+str4+str5+str3);
                     }

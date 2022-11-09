@@ -38,16 +38,16 @@
         var myname = $("#myname").val();
         var mypwd = $("#mypwd").val();
         $.ajax({
-            url: "http://localhost:8080/GameShop/login.html",
-            dataType:'json',
-            data:JSON.stringify({
-                userId:0,
-                userName: null,
-                userPwd: mypwd,
-                role:0,
-                email:myname,
-                money:0
-            }),
+            url: "http://localhost:8080/login/"+myname+"/"+mypwd,
+            // dataType:'json',
+            // data:JSON.stringify({
+            //     userId:0,
+            //     userName: null,
+            //     userPwd: mypwd,
+            //     role:0,
+            //     email:myname,
+            //     money:0
+            // }),
             type: "POST",
             xhrFields: {                               //保存session在跨域访问中不会丢失！！！
                 withCredentials: true
@@ -55,8 +55,9 @@
             contentType:'application/json',
             crossDomain: true,
             success: function (result) {
-                if (result.message) {
-                    // console.log(result.data);
+                console.log(result)
+                if (result.state==450) {
+                     console.log(result.data);
                     if(result.data.role==1){
                         // alert(result.data);
                         location.href = "Admin_UserInfo.html?role="+result.data.role;
