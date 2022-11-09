@@ -41,7 +41,7 @@
                         $("#logininfo").html("欢迎您,"+result.data.userName+'<a href="#" onclick="loginout('+result.data.userId+')">&nbsp&nbsp注销</a>') ;
                     }else{
                         //还未登录
-                        $("#logininfo").html('<a href="/front/views/userlogin.html" class="toolbar-btn">\n' + '<span>Login</span>\n' + '</a>')
+                        $("#logininfo").html('<a href="/front/views/userlogin.html" class="toolbar-btn">\n' + '<span>登录</span>\n' + '</a>')
                     }
                 },
                 error: function (e) {
@@ -175,7 +175,8 @@
                 contentType:'application/json',
                 crossDomain: true,
                 success: function (result) {
-                    alert(result.data);
+                    console.log(result);
+                    alert(result.message);
                     location.reload();
                 }
             })
@@ -207,6 +208,7 @@
                             <a href="http://localhost:8088/front/views/Admin/Admin_Login.html" class="logo">
                                 <figure class="logo--normal">
                                     <img src="assets/img/logo/logo.png" alt="Logo">
+                                    <span>管理员登录</span>
                                 </figure>
                                 <figure class="logo--transparency">
                                     <img src="assets/img/logo/logo.png" alt="Logo">
