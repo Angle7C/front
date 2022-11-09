@@ -26,14 +26,14 @@
             $.ajax({
                 url: "http://localhost:8080/islogin",
                 dataType: "json",
-                type: "POST",
+                type: "GET",
                 xhrFields: {
                     withCredentials: true
                 },
                 contentType:'application/json',
                 crossDomain: true,
                 success: function (result) {
-                    if(result.message){
+                    if(result.state==450){
                         //说明已经登录
                         $("#logininfo").html("欢迎您,"+result.data.userName+'<a href="#" onclick="loginout('+result.data.userId+')">注销</a>') ;
                     }else{
@@ -59,28 +59,23 @@
         $(document).ready(function(){
             var gameid=parseInt(getUrlParam("gameId"));
             $.ajax({
-                url:"http://localhost:8080/GameShop/findgame.html",
+                url:"http://localhost:8080/findgame/"+gameid,
                 dataType:"json",
-                data:{
-                    gameId:gameid
-                },
-                type:"get",
+                type:"GET",
                 xhrFields:{
                     withCredentials:true
                 },
                 crossDomain:true,
                 contentType:'application/json',
                 success:function(result){
-                    if(result.message){
+                    console.log(result.data);
+                    if(result.state==450){
                         //有对应的游戏
-                        $("#gamename").html(result.message.gameName);
-                        $("#gamestore").html(result.message.gameStore)
-                        $("#gamevalue").html(result.message.gameValue);
-                        $("#gamemessage").html(result.message.message);
-
-                        var index = result.message.path.lastIndexOf("GameShop");
-                        var ind = result.message.path.lastIndexOf("\\");
-                        path = "http://localhost:8080/"+(result.message.path).substring(index,ind)+"\\1.png";
+                        $("#gamename").html(result.data.first.gameName);
+                        $("#gamestore").html(result.data.first.gameStore)
+                        $("#gamevalue").html(result.data.first.gameValue);
+                        $("#gamemessage").html(result.data.first.message);
+                        path = "http://124.221.237.233:9000/image/"+result.data.second.path;
                         $("#tupian").html("<figure class=\"product-gallery__image zoom\">\n" +
                             "                                                        <img src=\""+path+"\" alt=\"\"   >\n" +
                             "                                                        <span class=\"product-badge sale\">Sale</span>\n" +
@@ -103,19 +98,16 @@
             var gameid = parseInt(getUrlParam("gameId"));
 
             $.ajax({
-                url: "http://localhost:8080/GameShop/addgamenumber.html",
+                url: "http://localhost:8080/addgamenumber/"+gameid,
                 dataType: "json",
-                data:{
-                    gameId:gameid
-                },
-                type: "get",
+                type: "GET",
                 xhrFields: {
                     withCredentials: true
                 },
                 contentType:'application/json',
                 crossDomain: true,
                 success: function (result) {
-                    if (result.message){
+                    if (result.state==450){
                         alert("添加购物车成功！")
                     }
                     else {
