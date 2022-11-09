@@ -74,6 +74,7 @@
         async: false,
         crossDomain:true,
         success: function (result) {
+          console.log(result);
           open(result);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
