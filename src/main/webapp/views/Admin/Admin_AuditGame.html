@@ -161,7 +161,8 @@
                         var strx="";
                         var i;
                         for(i=0;i<mydata.length;i++){
-                            str=str+ '<tr> <td >'+mydata[i].gameId+'</td><input type="hidden" value="'+mydata[i].gameId+'" id="gameId'+i+'"> <td>'+mydata[i].gameName+'</td> <td>'+mydata[i].gameValue+'</td>';
+                            str=str+ '<tr> <td >'+mydata[i].gameId+'</td><input type="hidden" value="'+mydata[i].gameId+'" id="gameId'+i+'"> <td>'+mydata[i].gameName+'</td> <td>'+mydata[i].gameValue+ '</td>' +
+                                '<td><a href="http://localhost:8080/download/'+mydata[i].gameId+'"><button>下载</button></a></td>';
                             strx=' <td><button class="btnDelete" onclick="Aduit(1 ,'+i+')">√</button><button class="btnDelete" onclick="Aduit(2,'+i+')">×</button></td></tr>';
                             str=str+strx;
                         }
@@ -297,6 +298,9 @@
                             </th>
                             <th class="span3">
                                 <span class="line"></span>游戏价格
+                            </th>
+                            <th class="span3">
+                                <span class="line"></span>下载
                             </th>
                             <th class="span3">
                                 <span class="line"></span>操作
