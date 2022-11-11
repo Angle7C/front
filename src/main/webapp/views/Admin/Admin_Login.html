@@ -35,19 +35,10 @@
 <script>
     function  mylogin() {
         //获取用户输入的登录名字和密码
-        var myname = $("#myname").val();
+        var email = $("#myname").val();
         var mypwd = $("#mypwd").val();
         $.ajax({
-            url: "http://localhost:8080/login/"+myname+"/"+mypwd,
-            // dataType:'json',
-            // data:JSON.stringify({
-            //     userId:0,
-            //     userName: null,
-            //     userPwd: mypwd,
-            //     role:0,
-            //     email:myname,
-            //     money:0
-            // }),
+            url: "http://localhost:8080/login/"+email+"/"+mypwd,
             type: "POST",
             xhrFields: {                               //保存session在跨域访问中不会丢失！！！
                 withCredentials: true
@@ -77,10 +68,7 @@
 
 <body>
     <div class="header">
-        <a href="../userlogin.html">
             <img src="../img/logo.png" class="logo" />
-            <span>返回登录界面</span>
-        </a>
     </div>
     <div class="row-fluid login-wrapper">
         <div class="box">

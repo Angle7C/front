@@ -53,13 +53,61 @@
     }
 </script>
 <script>
+    function logout(){
+        $.ajax({
+            url: "http://localhost:8080/logout",
+            type: "POST",
+            xhrFields: {
+                withCredentials: true
+            },
+            contentType:'application/json',
+            crossDomain: true,
+            success: function (result) {
+                //result.message
+                if(result.state==450){
+                    //说明已经登出
+                    alert("退出成功");
+                    window.location.replace("/front/views/Admin/Admin_Login.html");
+                }else{
+                    //登出失败
+                    alert("退出失败");
+                }
+            },
+        })
+    }
+</script>
+<script>
     var role;
     $(document).ready(function () {
         role=parseInt(getUrlParam("role"));
         $("#mya").attr("href","Admin_GameInfo.html?role="+role);
         $("#myu").attr("href","Admin_UserInfo.html?role="+role);
         $("#myg").attr("href","Admin_AuditGame.html?role="+role);
-        mypage1(role,4);
+        $.ajax({
+            url: "http://localhost:8080/islogin",
+            dataType: "json",
+            type: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
+            contentType:'application/json',
+            crossDomain: true,
+            success: function (result) {
+                //result.message
+                if(result.state==450){
+                    //说明已经登录
+                    console.log(result.data);
+                    mypage1(role,4);
+                }else{
+                    //还未登录
+                    alert("未登录");
+                    window.location.href="/front/views/Admin/Admin_Login.html";
+                }
+            },
+            error: function (e) {
+                alert("fail");
+            }
+        })
     });
 </script>
 <script type="text/javascript">
@@ -202,7 +250,7 @@
 
 
             <li class="settings hidden-phone">
-                <a href="/front/moban4184/index.html" role="button">
+                <a role="button" onclick="logout()">
                     <i class="icon-share-alt"></i>
                 </a>
             </li>
@@ -297,7 +345,7 @@
                                 <span class="line"></span>权限
                             </th>
                             <th class="span3">
-                                <span class="line"></span>状态
+                                <span class="line"></span>操作
                             </th>
 
                         </tr>

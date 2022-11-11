@@ -59,8 +59,56 @@
         $("#mya").attr("href","Admin_GameInfo.html?role="+role);
         $("#myu").attr("href","Admin_UserInfo.html?role="+role);
         $("#myg").attr("href","Admin_AuditGame.html?role="+role);
-        mypage1(role,8);
+        $.ajax({
+            url: "http://localhost:8080/islogin",
+            dataType: "json",
+            type: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
+            contentType:'application/json',
+            crossDomain: true,
+            success: function (result) {
+                //result.message
+                if(result.state==450){
+                    //说明已经登录
+                    console.log(result.data);
+                    mypage1(role,6);
+                }else{
+                    //还未登录
+                    alert("未登录");
+                    window.location.href="/front/views/Admin/Admin_Login.html";
+                }
+            },
+            error: function (e) {
+                alert("fail");
+            }
+        })
     });
+</script>
+<script>
+    function logout(){
+        $.ajax({
+            url: "http://localhost:8080/logout",
+            type: "POST",
+            xhrFields: {
+                withCredentials: true
+            },
+            contentType:'application/json',
+            crossDomain: true,
+            success: function (result) {
+                //result.message
+                if(result.state==450){
+                    //说明已经登出
+                    alert("退出成功");
+                    window.location.replace("/front/views/Admin/Admin_Login.html");
+                }else{
+                    //登出失败
+                    alert("退出失败");
+                }
+            },
+        })
+    }
 </script>
 <script type="text/javascript">
     function Aduit(flag,i) {
@@ -119,13 +167,13 @@
                         }
 
                         $("#AuditList").html(str);
-                        var str2='<a class="wy" href="javascript:void(0);" onclick ="mypage1(1,8)" >首页</a>';
+                        var str2='<a class="wy" href="javascript:void(0);" onclick ="mypage1(1,6)" >首页</a>';
 
-                        var str4='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS-1==0 ? 1 : pageNumS-1,8)">上一页</a>';
+                        var str4='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS-1==0 ? 1 : pageNumS-1,6)">上一页</a>';
 
-                        var str5='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS+1<=pages ? pageNumS+1 : pages,8)" >下一页</a>';
+                        var str5='<a class="wy" href="javascript:void(0);" onclick="mypage1(pageNumS+1<=pages ? pageNumS+1 : pages,6)" >下一页</a>';
 
-                        var str3='<a class="wy" href="javascript:void(0)" onclick="mypage1(pages,8)">尾页</a>';
+                        var str3='<a class="wy" href="javascript:void(0)" onclick="mypage1(pages,6)">尾页</a>';
 
                         $("#mypagetool").html(str2+str4+str5+str3);
                     }
@@ -159,7 +207,7 @@
 
 
             <li class="settings hidden-phone">
-                <a href="/front/moban4184/index.html" role="button">
+                <a role="button" onclick="logout()">
                     <i class="icon-share-alt"></i>
                 </a>
             </li>
