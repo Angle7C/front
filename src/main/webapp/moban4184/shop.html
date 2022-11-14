@@ -31,7 +31,7 @@
 
         //获取每页4条数据
         $(document).ready(function() {
-            mypage1(1,4);
+            mypage1(1,3);
         })
 
 
@@ -177,10 +177,10 @@
                         }
                         $("#gamelist").html(str);
 
-                        var str2='<li><a href="javascript:void(0);" onclick="mypage1(1,4)" class="page-number" >首页</a></li>';
-                        var str3='<li><a href="javascript:void(0);" onclick="mypage1(pageNums-1==0?1:pageNums-1,4)" class="page-number" >上一页</a></li>';
-                        var str4='<li><a href="javascript:void(0);" onclick="mypage1(pageNums+1<=pages?pageNums+1:pages,4)" class="page-number" >下一页</a></li>';
-                        var str5='<li><a href="javascript:void(0);" onclick="mypage1(pages,4)" class="page-number" >尾页</a></li>';
+                        var str2='<li><a href="javascript:void(0);" onclick="mypage1(1,3)" class="page-number" >首页</a></li>';
+                        var str3='<li><a href="javascript:void(0);" onclick="mypage1(pageNums-1==0?1:pageNums-1,3)" class="page-number" >上一页</a></li>';
+                        var str4='<li><a href="javascript:void(0);" onclick="mypage1(pageNums+1<=pages?pageNums+1:pages,3)" class="page-number" >下一页</a></li>';
+                        var str5='<li><a href="javascript:void(0);" onclick="mypage1(pages,3)" class="page-number" >尾页</a></li>';
                         $("#pagelist").html(str2+str3+str4+str5);
                     }else{
                         //没有数据
