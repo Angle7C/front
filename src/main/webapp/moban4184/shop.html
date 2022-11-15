@@ -205,7 +205,6 @@
                 contentType:'text/plain',
                 crossDomain:true,
                 success:function(result){
-                    console.log(result.data);
                     pageNums=result.data.first.pageNum;
                     pages=result.data.first.pages;
                     //console.log(globalPage);
@@ -291,11 +290,10 @@
 
                         }
                         $("#gamelist").html(str);
-
-                        var str2='<li><a href="javascript:void(0);" onclick="gametype(type,1,4)" class="page-number" >首页</a></li>';
-                        var str3='<li><a href="javascript:void(0);" onclick="gametype(type,pageNums-1==0?1:pageNums-1,4)" class="page-number" >上一页</a></li>';
-                        var str4='<li><a href="javascript:void(0);" onclick="gametype(type,pageNums+1<=pages?pageNums+1:pages,4)" class="page-number" >下一页</a></li>';
-                        var str5='<li><a href="javascript:void(0);" onclick="gametype(type,pages,4)" class="page-number" >尾页</a></li>';
+                        var str2='<li><a href="javascript:void(0);" onclick="gametype(&quot;'+type+'&quot;,1,3)" class="page-number" >首页</a></li>';
+                        var str3='<li><a href="javascript:void(0);" onclick="gametype(&quot;'+type+'&quot;,pageNums-1==0?1:pageNums-1,3)" class="page-number" >上一页</a></li>';
+                        var str4='<li><a href="javascript:void(0);" onclick="gametype(&quot;'+type+'&quot;,pageNums+1<=pages?pageNums+1:pages,3)" class="page-number" >下一页</a></li>';
+                        var str5='<li><a href="javascript:void(0);" onclick="gametype(&quot;'+type+'&quot;,pages,3)" class="page-number" >尾页</a></li>';
                         $("#pagelist").html(str2+str3+str4+str5);
                     }else{
                         //没有数据
@@ -732,31 +730,31 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="gametype('动作',1,4)">
+                                        <a href="#" onclick="gametype('动作',1,3)">
                                             <span class="category-title">动作游戏</span>
                                             <i class="fa fa-angle-double-right"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="gametype('冒险',1,4)">
+                                        <a href="#" onclick="gametype('冒险',1,3)">
                                             <span class="category-title">冒险游戏</span>
                                             <i class="fa fa-angle-double-right"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="gametype('休闲',1,4)">
+                                        <a href="#" onclick="gametype('休闲',1,3)">
                                             <span class="category-title">休闲游戏</span>
                                             <i class="fa fa-angle-double-right"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="gametype('音乐',1,4)">
+                                        <a href="#" onclick="gametype('音乐',1,3)">
                                             <span class="category-title">音乐游戏</span>
                                             <i class="fa fa-angle-double-right"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="gametype('策略',1,4)">
+                                        <a href="#" onclick="gametype('策略',1,3)">
                                             <span class="category-title">策略游戏</span>
                                             <i class="fa fa-angle-double-right"></i>
                                         </a>

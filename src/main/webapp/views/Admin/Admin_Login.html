@@ -52,7 +52,7 @@
                     if(result.data.role==1){
                         // alert(result.data);
                         alert("登录成功")
-                     location.href = "Admin_UserInfo.html?role="+result.data.role;
+                     location.href = "Admin_UserInfo.html?role="+result.data.role+"&email="+result.data.email;
                 }  else {
                         alert("登陆失败");
                 }

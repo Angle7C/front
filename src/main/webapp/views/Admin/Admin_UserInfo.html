@@ -197,8 +197,10 @@
                         var strx="";
                         var stry="";
                         var i;
+                        var userid=$("#"+"userId"+i).val();
                         for(i=0;i<mydata.length;i++){
                             str=str+ '<tr> <td >'+mydata[i].userId+'</td><input type="hidden" value="'+mydata[i].userId+'" id="userId'+i+'"> <td id="mname">'+mydata[i].userName+'</td> <td>'+mydata[i].userPwd+'</td>';
+                            // if(userid==mydata[i].userId)
                             if(mydata[i].role==1){
                                 strx='<td > <select id="newPwd'+i+'"=><option value="admin">管理员</option><option value="user">用户</option></select><button onclick="change('+i+')" >确认</button> </td>';
                             }else{
